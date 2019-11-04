@@ -241,6 +241,12 @@ class SmenaViewController: UIViewController {
                 account.id = Variables.sharedVariables.idAccount
                 StorageManager.saveAccount(account)
                 Variables.sharedVariables.scoreAccount = currentScore + score
+                
+                let rashod = Rashod()
+                rashod.idAccount = Variables.sharedVariables.idAccount
+                rashod.summRashod = score
+                rashod.nameRashod = "Пополнение счета"
+                StorageManager.saveRashod(rashod)
                 self.scoreAccountLabel.text = "На счету: \(Variables.sharedVariables.scoreAccount) ₽"
             } else {
               self.addInformationAlert(title: "Уведомление", message: "Укажите сумму пополнения")

@@ -12,8 +12,8 @@
         <scene sceneID="u01-CL-E8O">
             <objects>
                 <collectionViewController modalPresentationStyle="fullScreen" id="X9u-He-ILh" customClass="AccountCollectionController" customModule="TaxiNotes" customModuleProvider="target" sceneMemberID="viewController">
-                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" dataMode="prototypes" id="xd9-LN-ESG">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="477"/>
+                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="xd9-LN-ESG">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="524"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
                         <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="20" minimumInteritemSpacing="0.0" id="6bk-8j-Rml">
@@ -423,25 +423,31 @@
                                 <rect key="frame" x="0.0" y="44" width="320" height="475"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <view key="tableFooterView" contentMode="scaleToFill" id="tXG-kQ-XZd">
-                                    <rect key="frame" x="0.0" y="99.5" width="320" height="44"/>
+                                    <rect key="frame" x="0.0" y="136" width="320" height="44"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 </view>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="CB3-QU-o8s">
-                                        <rect key="frame" x="0.0" y="28" width="320" height="43.5"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="rashodCell" rowHeight="80" id="d5d-e0-zkY" customClass="RashodViewCell" customModule="TaxiNotes" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="28" width="320" height="80"/>
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="CB3-QU-o8s" id="9QL-x3-ymz">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="d5d-e0-zkY" id="Ztw-l6-CtV">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="80"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Бензин" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2ML-Zz-tKy">
-                                                    <rect key="frame" x="8" y="10" width="68.5" height="23.5"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Бензин" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HEZ-bQ-HUr">
+                                                    <rect key="frame" x="8" y="28.5" width="68.5" height="23.5"/>
                                                     <fontDescription key="fontDescription" name="ArialRoundedMTBold" family="Arial Rounded MT Bold" pointSize="20"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="500 ₽" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cpB-WL-hp0">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="04.11.2019" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2ML-Zz-tKy">
+                                                    <rect key="frame" x="220.5" y="50" width="91.5" height="20"/>
+                                                    <fontDescription key="fontDescription" name="ArialRoundedMTBold" family="Arial Rounded MT Bold" pointSize="17"/>
+                                                    <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="500 ₽" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="g3D-TR-SbL">
                                                     <rect key="frame" x="259.5" y="10" width="52.5" height="23.5"/>
                                                     <fontDescription key="fontDescription" name="ArialRoundedMTBold" family="Arial Rounded MT Bold" pointSize="20"/>
                                                     <nil key="textColor"/>
@@ -449,12 +455,22 @@
                                                 </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="2ML-Zz-tKy" firstAttribute="leading" secondItem="9QL-x3-ymz" secondAttribute="leading" constant="8" id="6u6-yL-gsU"/>
-                                                <constraint firstItem="2ML-Zz-tKy" firstAttribute="centerY" secondItem="9QL-x3-ymz" secondAttribute="centerY" id="EJG-oB-e1S"/>
-                                                <constraint firstItem="cpB-WL-hp0" firstAttribute="centerY" secondItem="9QL-x3-ymz" secondAttribute="centerY" id="r30-k3-wBJ"/>
-                                                <constraint firstAttribute="trailing" secondItem="cpB-WL-hp0" secondAttribute="trailing" constant="8" id="rir-Ta-f3a"/>
+                                                <constraint firstItem="g3D-TR-SbL" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="HEZ-bQ-HUr" secondAttribute="trailing" constant="8" id="BQP-Xx-iaJ"/>
+                                                <constraint firstAttribute="trailing" secondItem="2ML-Zz-tKy" secondAttribute="trailing" constant="8" id="VQg-pa-T3J"/>
+                                                <constraint firstAttribute="bottom" secondItem="2ML-Zz-tKy" secondAttribute="bottom" constant="10" id="YPm-6f-qvX"/>
+                                                <constraint firstItem="2ML-Zz-tKy" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="HEZ-bQ-HUr" secondAttribute="trailing" constant="8" id="aaQ-HB-VIW"/>
+                                                <constraint firstItem="g3D-TR-SbL" firstAttribute="top" secondItem="Ztw-l6-CtV" secondAttribute="top" constant="10" id="hsP-RQ-5i6"/>
+                                                <constraint firstAttribute="trailing" secondItem="g3D-TR-SbL" secondAttribute="trailing" constant="8" id="k7S-hl-bvK"/>
+                                                <constraint firstItem="2ML-Zz-tKy" firstAttribute="top" relation="greaterThanOrEqual" secondItem="g3D-TR-SbL" secondAttribute="bottom" constant="1" id="vQL-WS-7E6"/>
+                                                <constraint firstItem="HEZ-bQ-HUr" firstAttribute="leading" secondItem="Ztw-l6-CtV" secondAttribute="leading" constant="8" id="y4x-7N-DWf"/>
+                                                <constraint firstItem="HEZ-bQ-HUr" firstAttribute="centerY" secondItem="Ztw-l6-CtV" secondAttribute="centerY" id="z32-CD-N4p"/>
                                             </constraints>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="dateRashodLabel" destination="2ML-Zz-tKy" id="F8x-NX-4qC"/>
+                                            <outlet property="nameRashodLabel" destination="HEZ-bQ-HUr" id="qSx-pm-DZD"/>
+                                            <outlet property="summRashodLabel" destination="g3D-TR-SbL" id="ILf-aJ-TtU"/>
+                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                                 <connections>
@@ -481,8 +497,14 @@
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="Добавить" image="cart.fill.badge.plus" catalog="system" id="3g6-wn-7Ja">
                             <color key="tintColor" red="0.99953407049999998" green="0.98835557699999999" blue="0.47265523669999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <connections>
+                                <action selector="addRashodBtnAction:" destination="RKb-u7-4bL" id="WuS-jA-VJu"/>
+                            </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="myTableViewRashod" destination="kaX-fK-Dh7" id="vYz-Lv-QCL"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="XRM-Pv-gpn" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

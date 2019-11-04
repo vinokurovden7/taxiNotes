@@ -26,6 +26,7 @@ class StorageManager {
             realm.delete(realm.objects(Smena.self).filter("idAccount == %@",id))
             realm.delete(realm.objects(Rashod.self).filter("idAccount == %@",id))
             realm.delete(realm.objects(Settings.self).filter("idAccount == %@",id))
+            realm.delete(realm.objects(Rashod.self).filter("idAccount == %@",id))
         }
     }
     
@@ -65,6 +66,19 @@ class StorageManager {
     static func deleteSettings(id: String){
         try! realm.write {
             realm.delete(realm.objects(Settings.self).filter("id ==[c] %@",id))
+        }
+    }
+    
+    //Работа с расходами
+    static func saveRashod(_ rashod: Rashod){
+        try! realm.write {
+            realm.add(rashod, update: true)
+        }
+    }
+    
+    static func deleteRashod(id: String){
+        try! realm.write {
+            realm.delete(realm.objects(Rashod.self).filter("id ==[c] %@",id))
         }
     }
     
