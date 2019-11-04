@@ -13,11 +13,19 @@ private var arraySmena: Results<Smena>!
 private var filteredArraySmena: Results<Smena>!
 private var arrayZakaz: Results<Zakaz>!
 private var filteredArrayZakaz: Results<Zakaz>!
+private var settingsArray: Results<Settings>!
 
 class SmenaViewController: UIViewController {
 
+    private var arrayBarButtons: [UIBarButtonItem] = []
+    
     //Buttons
     @IBOutlet weak var startStopSmenaBtn: UIBarButtonItem!
+    @IBOutlet weak var logountBtn: UIBarButtonItem!
+    @IBOutlet weak var beznalBtn: UIButton!
+    @IBOutlet weak var zakazBtn: UIButton!
+    @IBOutlet weak var percentBtn: UIButton!
+    @IBOutlet weak var wheelBtn: UIButton!
     
     //TextFields
     @IBOutlet weak var summaTextField: UITextField!
@@ -33,10 +41,18 @@ class SmenaViewController: UIViewController {
     @IBOutlet weak var beznalZakazSumm: UILabel!
     @IBOutlet weak var scoreAccountLabel: UILabel!
     @IBOutlet weak var smenaPeriodLabel: UILabel!
+    @IBOutlet weak var beznalLabel: UILabel!
+    @IBOutlet weak var captionBtnZakaz: UILabel!
+    @IBOutlet weak var percentZakazLabel: UILabel!
+    @IBOutlet weak var wheelLabel: UILabel!
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        arrayBarButtons.append(startStopSmenaBtn)
+        arrayBarButtons.append(logountBtn)
+        Variables.sharedVariables.changeThemeViewController(viewController: self, arrayBarButtons: arrayBarButtons)
         arraySmena = realm.objects(Smena.self)
         arrayZakaz = realm.objects(Zakaz.self)
         scoreAccountLabel.text = "На счету: \(Variables.sharedVariables.scoreAccount) ₽"
@@ -44,6 +60,9 @@ class SmenaViewController: UIViewController {
         navigationItem.title = Variables.sharedVariables.currentAccountName
         
         filteredArraySmena = arraySmena.filter("endDateSmena == nil and idAccount == %@",Variables.sharedVariables.idAccount)
+        settingsArray = realm.objects(Settings.self).filter("idAccount == %@",Variables.sharedVariables.idAccount)
+        
+        showHideButtons()
         
         //Проверка на наличие незаконченной смены
         if filteredArraySmena.count > 0 {
@@ -57,6 +76,17 @@ class SmenaViewController: UIViewController {
            Variables.sharedVariables.startedSmena = false
            startStopSmenaBtn.image = UIImage(systemName: "play.fill")
         }
+        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        showHideButtons()
+    }
+    
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+
+        Variables.sharedVariables.changeThemeViewController(viewController: self, arrayBarButtons: arrayBarButtons)
     }
 
     //Кнопка поездки с колес
@@ -136,6 +166,40 @@ class SmenaViewController: UIViewController {
         Variables.sharedVariables.startedSmena = !Variables.sharedVariables.startedSmena
     }
     
+    func showHideButtons(){
+        if settingsArray.first!.enabledButtonBeznal {
+            beznalBtn.isHidden = false
+            beznalLabel.isHidden = false
+        } else {
+            beznalBtn.isHidden = true
+            beznalLabel.isHidden = true
+        }
+        
+        if settingsArray.first!.enabledButtonWheel {
+            wheelBtn.isHidden = false
+            wheelLabel.isHidden = false
+        } else {
+            wheelBtn.isHidden = true
+            wheelLabel.isHidden = true
+        }
+        
+        if settingsArray.first!.enabledButtonZakaz {
+            captionBtnZakaz.isHidden = false
+            zakazBtn.isHidden = false
+        } else {
+            captionBtnZakaz.isHidden = true
+            zakazBtn.isHidden = true
+        }
+        
+        if settingsArray.first!.enabledButtonPercentZakaz {
+            percentBtn.isHidden = false
+            percentZakazLabel.isHidden = false
+        } else {
+            percentBtn.isHidden = true
+            percentZakazLabel.isHidden = true
+        }
+    }
+    
     //Функция поездки с колес
     private func wheel(summa: Double){
         summaTextField.text = ""
@@ -163,6 +227,20 @@ class SmenaViewController: UIViewController {
         
         filteredArraySmena = arraySmena.filter("endDateSmena == nil and idAccount == %@",Variables.sharedVariables.idAccount)
         if filteredArraySmena.count > 0 {
+            
+            let currentScore = Variables.sharedVariables.scoreAccount
+            let settingsScore = settingsArray.first!.percentZakaz
+            let itog = String(format: "%.2f", currentScore - (summa/100 * Double(settingsScore)))
+            Variables.sharedVariables.scoreAccount = Double(itog)!
+            
+            let account = Accounts()
+            account.nameAccount = Variables.sharedVariables.currentAccountName
+            account.scoreAccount = Double(itog)!
+            account.id = Variables.sharedVariables.idAccount
+            StorageManager.saveAccount(account)
+            
+            scoreAccountLabel.text = "На счету: \(Variables.sharedVariables.scoreAccount) ₽"
+            
             let zakaz = Zakaz()
             zakaz.dateZakaz = Date()
             zakaz.idAccount = Variables.sharedVariables.idAccount
@@ -182,6 +260,19 @@ class SmenaViewController: UIViewController {
         
         filteredArraySmena = arraySmena.filter("endDateSmena == nil and idAccount == %@",Variables.sharedVariables.idAccount)
         if filteredArraySmena.count > 0 {
+            
+            let currentScore = Variables.sharedVariables.scoreAccount
+            let settingsScore = settingsArray.first!.summZakaz
+            Variables.sharedVariables.scoreAccount = currentScore - settingsScore
+            
+            let account = Accounts()
+            account.nameAccount = Variables.sharedVariables.currentAccountName
+            account.scoreAccount = currentScore - settingsScore
+            account.id = Variables.sharedVariables.idAccount
+            StorageManager.saveAccount(account)
+            
+            scoreAccountLabel.text = "На счету: \(Variables.sharedVariables.scoreAccount) ₽"
+            
             let zakaz = Zakaz()
             zakaz.dateZakaz = Date()
             zakaz.idAccount = Variables.sharedVariables.idAccount
@@ -190,6 +281,7 @@ class SmenaViewController: UIViewController {
             zakaz.typeZakaz = 1
             
             StorageManager.saveZakaz(zakaz)
+            
             updateStatistic()
         }
         

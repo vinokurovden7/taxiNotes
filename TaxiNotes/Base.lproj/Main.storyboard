@@ -15,8 +15,8 @@
                     <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="xd9-LN-ESG">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="524"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
-                        <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="20" minimumInteritemSpacing="0.0" id="6bk-8j-Rml">
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="20" minimumInteritemSpacing="9000" id="6bk-8j-Rml">
                             <size key="itemSize" width="310" height="50"/>
                             <size key="headerReferenceSize" width="0.0" height="0.0"/>
                             <size key="footerReferenceSize" width="0.0" height="0.0"/>
@@ -54,6 +54,7 @@
                                             </constraints>
                                         </imageView>
                                     </subviews>
+                                    <color key="backgroundColor" red="0.99981981519999996" green="0.98039871450000005" blue="0.54592013360000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <constraints>
                                         <constraint firstItem="2t3-Kq-LSy" firstAttribute="centerX" secondItem="wbi-eO-oTG" secondAttribute="centerX" id="JEf-xo-YMh"/>
                                         <constraint firstItem="2t3-Kq-LSy" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="9FW-yM-DQt" secondAttribute="trailing" constant="8" id="Lwz-Io-MLk"/>
@@ -65,7 +66,7 @@
                                         <constraint firstItem="2t3-Kq-LSy" firstAttribute="centerY" secondItem="wbi-eO-oTG" secondAttribute="centerY" id="j2D-yC-22w"/>
                                     </constraints>
                                 </collectionViewCellContentView>
-                                <color key="backgroundColor" red="0.99953407049999998" green="0.98835557699999999" blue="0.47265523669999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="backgroundColor" red="0.99981981519999996" green="0.98039871450000005" blue="0.54592013360000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <size key="customSize" width="310" height="50"/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
@@ -93,6 +94,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="addAccountBtn" destination="jbZ-7F-K7v" id="yUv-4q-epy"/>
                         <outlet property="myCollectionView" destination="xd9-LN-ESG" id="LgS-jT-Rbe"/>
                         <segue destination="CLX-0G-JkN" kind="presentation" identifier="mainScreen" modalPresentationStyle="fullScreen" modalTransitionStyle="flipHorizontal" id="d9q-id-GUC"/>
                     </connections>
@@ -122,6 +124,10 @@
                             <color key="tintColor" red="0.99953407049999998" green="0.98835557699999999" blue="0.47265523669999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="changePeriodBtnItem" destination="jBP-7Q-4DA" id="5J1-JK-vWa"/>
+                        <outlet property="logoutBtn" destination="taj-h3-FpS" id="OJ4-5O-1SE"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ocI-IR-mn5" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -134,7 +140,181 @@
                     <view key="view" contentMode="scaleToFill" id="RjT-xx-IAI">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="11" translatesAutoresizingMaskIntoConstraints="NO" id="hIu-e4-bLh">
+                                <rect key="frame" x="16" y="52" width="288" height="174"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Настройка тарифов" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uPD-7i-yr2">
+                                        <rect key="frame" x="0.0" y="0.0" width="227.5" height="28"/>
+                                        <fontDescription key="fontDescription" name="ArialRoundedMTBold" family="Arial Rounded MT Bold" pointSize="24"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="djD-f7-sIz">
+                                        <rect key="frame" x="0.0" y="39" width="203.5" height="62"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Сумма списания с заказа" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="PNV-Te-1Hz">
+                                                <rect key="frame" x="0.0" y="0.0" width="203.5" height="20"/>
+                                                <fontDescription key="fontDescription" name="ArialRoundedMTBold" family="Arial Rounded MT Bold" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Сумма списания, ₽" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ITt-37-kJg">
+                                                <rect key="frame" x="0.0" y="28" width="152.5" height="34"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="150" id="60a-Wc-nFh"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" name="ArialRoundedMTBold" family="Arial Rounded MT Bold" pointSize="14"/>
+                                                <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
+                                            </textField>
+                                        </subviews>
+                                    </stackView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="Lcx-J3-Afc">
+                                        <rect key="frame" x="0.0" y="112" width="219" height="62"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Процент списания с заказа" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="Lg0-vG-ENs">
+                                                <rect key="frame" x="0.0" y="0.0" width="219" height="20"/>
+                                                <fontDescription key="fontDescription" name="ArialRoundedMTBold" family="Arial Rounded MT Bold" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Процент списания" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Pwf-Hy-xVr">
+                                                <rect key="frame" x="0.0" y="28" width="150" height="34"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="150" id="eQe-0j-GEw"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" name="ArialRoundedMTBold" family="Arial Rounded MT Bold" pointSize="14"/>
+                                                <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                                            </textField>
+                                        </subviews>
+                                    </stackView>
+                                </subviews>
+                            </stackView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Настройка оформления" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="B4e-cB-v0o">
+                                <rect key="frame" x="16" y="236" width="272" height="28"/>
+                                <fontDescription key="fontDescription" name="ArialRoundedMTBold" family="Arial Rounded MT Bold" pointSize="24"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Отображение элементов" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="7ic-Bj-st9">
+                                <rect key="frame" x="16" y="272" width="288" height="20"/>
+                                <fontDescription key="fontDescription" name="ArialRoundedMTBold" family="Arial Rounded MT Bold" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="uJk-2B-Qxd">
+                                <rect key="frame" x="16" y="300" width="288" height="148"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="102" translatesAutoresizingMaskIntoConstraints="NO" id="eKW-p5-uQI">
+                                        <rect key="frame" x="0.0" y="0.0" width="288" height="31"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Кнопка &quot;Безнал&quot;" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="ODD-at-prs">
+                                                <rect key="frame" x="0.0" y="0.0" width="137" height="31"/>
+                                                <fontDescription key="fontDescription" name="ArialRoundedMTBold" family="Arial Rounded MT Bold" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LDH-gr-bC2">
+                                                <rect key="frame" x="239" y="0.0" width="51" height="31"/>
+                                                <connections>
+                                                    <action selector="beznalSwitchAction:" destination="zT4-Cn-VsX" eventType="valueChanged" id="tcc-8j-adG"/>
+                                                </connections>
+                                            </switch>
+                                        </subviews>
+                                    </stackView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="102" translatesAutoresizingMaskIntoConstraints="NO" id="WpQ-5u-xHc">
+                                        <rect key="frame" x="0.0" y="39" width="288" height="31"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Кнопка &quot;Заказ&quot;" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="OnN-1f-NVm">
+                                                <rect key="frame" x="0.0" y="0.0" width="137" height="31"/>
+                                                <fontDescription key="fontDescription" name="ArialRoundedMTBold" family="Arial Rounded MT Bold" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="PxK-Xq-A3X">
+                                                <rect key="frame" x="239" y="0.0" width="51" height="31"/>
+                                                <connections>
+                                                    <action selector="zakazSwitchAction:" destination="zT4-Cn-VsX" eventType="valueChanged" id="tq9-A3-Ch2"/>
+                                                </connections>
+                                            </switch>
+                                        </subviews>
+                                    </stackView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="102" translatesAutoresizingMaskIntoConstraints="NO" id="Uxx-ug-oYf">
+                                        <rect key="frame" x="0.0" y="78" width="288" height="31"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="749" text="Кнопка &quot;Заказ, %&quot;" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="7p8-Gy-FaC">
+                                                <rect key="frame" x="0.0" y="0.0" width="137" height="31"/>
+                                                <fontDescription key="fontDescription" name="ArialRoundedMTBold" family="Arial Rounded MT Bold" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="SCT-n1-K3o">
+                                                <rect key="frame" x="239" y="0.0" width="51" height="31"/>
+                                                <connections>
+                                                    <action selector="zakazPercentSwitchAction:" destination="zT4-Cn-VsX" eventType="valueChanged" id="qU9-2j-nil"/>
+                                                </connections>
+                                            </switch>
+                                        </subviews>
+                                    </stackView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="102" translatesAutoresizingMaskIntoConstraints="NO" id="mYZ-5c-Iqr">
+                                        <rect key="frame" x="0.0" y="117" width="288" height="31"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="749" text="Кнопка &quot;С колёс&quot;" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="jfX-IT-GCI">
+                                                <rect key="frame" x="0.0" y="0.0" width="137" height="31"/>
+                                                <fontDescription key="fontDescription" name="ArialRoundedMTBold" family="Arial Rounded MT Bold" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JtW-GF-NAF">
+                                                <rect key="frame" x="239" y="0.0" width="51" height="31"/>
+                                                <connections>
+                                                    <action selector="wheelSwitchAction:" destination="zT4-Cn-VsX" eventType="valueChanged" id="OMm-Ag-0Ow"/>
+                                                </connections>
+                                            </switch>
+                                        </subviews>
+                                    </stackView>
+                                </subviews>
+                            </stackView>
+                            <segmentedControl hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="zP2-qc-ebh">
+                                <rect key="frame" x="16" y="481" width="288" height="32"/>
+                                <segments>
+                                    <segment title="Авто"/>
+                                    <segment title="Светлая"/>
+                                    <segment title="Темная"/>
+                                </segments>
+                                <connections>
+                                    <action selector="themeChangeAction:" destination="zT4-Cn-VsX" eventType="valueChanged" id="BBt-ek-uMO"/>
+                                </connections>
+                            </segmentedControl>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Тема" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="lDn-x4-wdS">
+                                <rect key="frame" x="16" y="451" width="288" height="20"/>
+                                <fontDescription key="fontDescription" name="ArialRoundedMTBold" family="Arial Rounded MT Bold" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="uJk-2B-Qxd" firstAttribute="top" secondItem="7ic-Bj-st9" secondAttribute="bottom" constant="8" id="1wE-e6-uQV"/>
+                            <constraint firstItem="7ic-Bj-st9" firstAttribute="leading" secondItem="rWR-vu-sO5" secondAttribute="leading" constant="16" id="Cxa-nr-eLg"/>
+                            <constraint firstItem="zP2-qc-ebh" firstAttribute="top" secondItem="lDn-x4-wdS" secondAttribute="bottom" constant="10" id="DXi-zM-bv7"/>
+                            <constraint firstItem="hIu-e4-bLh" firstAttribute="top" secondItem="rWR-vu-sO5" secondAttribute="top" constant="8" id="Dfy-4D-LyS"/>
+                            <constraint firstItem="lDn-x4-wdS" firstAttribute="leading" secondItem="rWR-vu-sO5" secondAttribute="leading" constant="16" id="FtK-gv-Bjd"/>
+                            <constraint firstItem="7ic-Bj-st9" firstAttribute="top" secondItem="B4e-cB-v0o" secondAttribute="bottom" constant="8" id="IQo-13-HuT"/>
+                            <constraint firstItem="rWR-vu-sO5" firstAttribute="trailing" secondItem="7ic-Bj-st9" secondAttribute="trailing" constant="16" id="MqB-bZ-ote"/>
+                            <constraint firstItem="rWR-vu-sO5" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="B4e-cB-v0o" secondAttribute="trailing" constant="16" id="OsH-Kb-34N"/>
+                            <constraint firstItem="rWR-vu-sO5" firstAttribute="trailing" secondItem="lDn-x4-wdS" secondAttribute="trailing" constant="16" id="Pxz-kM-13q"/>
+                            <constraint firstItem="hIu-e4-bLh" firstAttribute="leading" secondItem="rWR-vu-sO5" secondAttribute="leading" constant="16" id="Q4s-MM-kvy"/>
+                            <constraint firstItem="B4e-cB-v0o" firstAttribute="top" secondItem="hIu-e4-bLh" secondAttribute="bottom" constant="10" id="RiP-yh-faj"/>
+                            <constraint firstItem="rWR-vu-sO5" firstAttribute="trailing" secondItem="hIu-e4-bLh" secondAttribute="trailing" constant="16" id="VGS-O1-YFD"/>
+                            <constraint firstItem="rWR-vu-sO5" firstAttribute="trailing" secondItem="uJk-2B-Qxd" secondAttribute="trailing" constant="16" id="X6g-Ng-rsW"/>
+                            <constraint firstItem="hIu-e4-bLh" firstAttribute="centerX" secondItem="rWR-vu-sO5" secondAttribute="centerX" id="aSz-n6-nP6"/>
+                            <constraint firstItem="zP2-qc-ebh" firstAttribute="leading" secondItem="rWR-vu-sO5" secondAttribute="leading" constant="16" id="awS-Fa-5vY"/>
+                            <constraint firstItem="rWR-vu-sO5" firstAttribute="trailing" secondItem="zP2-qc-ebh" secondAttribute="trailing" constant="16" id="pJD-30-gPa"/>
+                            <constraint firstItem="B4e-cB-v0o" firstAttribute="leading" secondItem="rWR-vu-sO5" secondAttribute="leading" constant="16" id="qf6-ro-IdH"/>
+                            <constraint firstItem="uJk-2B-Qxd" firstAttribute="leading" secondItem="rWR-vu-sO5" secondAttribute="leading" constant="16" id="svA-2Q-hcB"/>
+                            <constraint firstItem="lDn-x4-wdS" firstAttribute="top" secondItem="uJk-2B-Qxd" secondAttribute="bottom" constant="3" id="wI0-GS-fmM"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="rWR-vu-sO5"/>
                     </view>
                     <navigationItem key="navigationItem" title="Настройки" id="MIB-l3-MTf">
@@ -144,10 +324,17 @@
                                 <segue destination="aa6-Pj-DT7" kind="presentation" modalPresentationStyle="fullScreen" modalTransitionStyle="flipHorizontal" id="y0g-A5-ALG"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" title="Сохранить" image="square.and.arrow.down.fill" catalog="system" id="Bku-P8-d2X">
-                            <color key="tintColor" red="0.99953407049999998" green="0.98835557699999999" blue="0.47265523669999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="beznalSwitch" destination="LDH-gr-bC2" id="Y3u-5k-iCb"/>
+                        <outlet property="logoutBtn" destination="ufy-iW-kyf" id="aZj-jq-vj0"/>
+                        <outlet property="percentSpisan" destination="Pwf-Hy-xVr" id="Iee-Ss-Qo7"/>
+                        <outlet property="summSpisan" destination="ITt-37-kJg" id="reP-HV-aOv"/>
+                        <outlet property="themeSwitch" destination="zP2-qc-ebh" id="fa3-Bn-8Dj"/>
+                        <outlet property="wheelSwitch" destination="JtW-GF-NAF" id="rn8-A7-kr8"/>
+                        <outlet property="zakazPercentSwitch" destination="SCT-n1-K3o" id="JcI-gf-2gc"/>
+                        <outlet property="zakazSwitch" destination="PxK-Xq-A3X" id="Fxg-xG-wAN"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5WA-94-Mwu" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -162,7 +349,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Смена" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="MCi-WT-psd">
-                                <rect key="frame" x="8" y="64" width="61.5" height="31"/>
+                                <rect key="frame" x="16" y="64" width="61.5" height="31"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="31" id="0P5-jo-epG"/>
                                 </constraints>
@@ -171,7 +358,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="На счету: 0.0 ₽" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="Dpr-yc-2tk">
-                                <rect key="frame" x="8" y="95" width="140.5" height="31"/>
+                                <rect key="frame" x="16" y="95" width="140.5" height="31"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="31" id="Kyg-Lk-3RY"/>
                                 </constraints>
@@ -180,58 +367,97 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="поле ввода стоимости поездки" textAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="XOb-8f-Ovb">
-                                <rect key="frame" x="8" y="144.5" width="304" height="34"/>
+                                <rect key="frame" x="16" y="144.5" width="288" height="34"/>
                                 <fontDescription key="fontDescription" name="ArialRoundedMTBold" family="Arial Rounded MT Bold" pointSize="20"/>
                                 <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                             </textField>
-                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="d6W-KB-cn5">
-                                <rect key="frame" x="8" y="193.5" width="304" height="63"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="twQ-Ys-Ves">
+                                <rect key="frame" x="8" y="193.5" width="304" height="83"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2kc-UN-6MB">
-                                        <rect key="frame" x="0.0" y="5" width="68.5" height="53.5"/>
-                                        <color key="tintColor" systemColor="systemRedColor" red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <state key="normal" image="creditcard.fill" catalog="system">
-                                            <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="55" scale="default"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="beznalBtnAction:" destination="agE-sd-eqq" eventType="touchUpInside" id="een-AI-YY4"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vqN-RX-cNg">
-                                        <rect key="frame" x="78.5" y="3" width="68.5" height="57.5"/>
-                                        <color key="tintColor" systemColor="systemTealColor" red="0.35294117650000001" green="0.7843137255" blue="0.98039215690000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <state key="normal" image="person.crop.square.fill" catalog="system">
-                                            <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="55" scale="default"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="zakazBtnAction:" destination="agE-sd-eqq" eventType="touchUpInside" id="9ye-2X-QW2"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QR8-sn-dFZ">
-                                        <rect key="frame" x="157" y="2" width="68.5" height="59.5"/>
-                                        <color key="tintColor" systemColor="linkColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <state key="normal" image="percent" catalog="system">
-                                            <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="55" scale="default"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="percentBtnAction:" destination="agE-sd-eqq" eventType="touchUpInside" id="yoZ-Vb-3QP"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mbI-Z6-45g">
-                                        <rect key="frame" x="235.5" y="0.0" width="68.5" height="63"/>
-                                        <color key="tintColor" red="1" green="0.83234566450000003" blue="0.47320586440000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <state key="normal" image="smallcircle.circle.fill" catalog="system">
-                                            <color key="titleShadowColor" cocoaTouchSystemColor="darkTextColor"/>
-                                            <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="55" scale="default"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="wheelBtnAction:" destination="agE-sd-eqq" eventType="touchUpInside" id="9fA-E5-tjs"/>
-                                        </connections>
-                                    </button>
+                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="d6W-KB-cn5">
+                                        <rect key="frame" x="0.0" y="0.0" width="304" height="63"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2kc-UN-6MB">
+                                                <rect key="frame" x="0.0" y="5" width="68.5" height="53.5"/>
+                                                <color key="tintColor" systemColor="systemRedColor" red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <state key="normal" image="creditcard.fill" catalog="system">
+                                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="55" scale="default"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="beznalBtnAction:" destination="agE-sd-eqq" eventType="touchUpInside" id="een-AI-YY4"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vqN-RX-cNg">
+                                                <rect key="frame" x="78.5" y="3" width="68.5" height="57.5"/>
+                                                <color key="tintColor" systemColor="systemTealColor" red="0.35294117650000001" green="0.7843137255" blue="0.98039215690000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <state key="normal" image="person.crop.square.fill" catalog="system">
+                                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="55" scale="default"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="zakazBtnAction:" destination="agE-sd-eqq" eventType="touchUpInside" id="9ye-2X-QW2"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QR8-sn-dFZ">
+                                                <rect key="frame" x="157" y="2" width="68.5" height="59.5"/>
+                                                <color key="tintColor" systemColor="linkColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <state key="normal" image="percent" catalog="system">
+                                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="55" scale="default"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="percentBtnAction:" destination="agE-sd-eqq" eventType="touchUpInside" id="yoZ-Vb-3QP"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mbI-Z6-45g">
+                                                <rect key="frame" x="235.5" y="0.0" width="68.5" height="63"/>
+                                                <color key="tintColor" red="1" green="0.83234566450000003" blue="0.47320586440000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <state key="normal" image="smallcircle.circle.fill" catalog="system">
+                                                    <color key="titleShadowColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="55" scale="default"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="wheelBtnAction:" destination="agE-sd-eqq" eventType="touchUpInside" id="9fA-E5-tjs"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                    </stackView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" alignment="center" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="5Vx-f9-CXW">
+                                        <rect key="frame" x="0.0" y="63" width="304" height="20"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Безнал" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="x6l-wi-DGq">
+                                                <rect key="frame" x="0.0" y="0.0" width="68.5" height="20"/>
+                                                <fontDescription key="fontDescription" name="ArialRoundedMTBold" family="Arial Rounded MT Bold" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Заказ" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="cPq-MW-9vC">
+                                                <rect key="frame" x="80.5" y="0.0" width="64.5" height="20"/>
+                                                <fontDescription key="fontDescription" name="ArialRoundedMTBold" family="Arial Rounded MT Bold" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Заказ %" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="87W-EM-HIn">
+                                                <rect key="frame" x="157" y="0.0" width="68.5" height="20"/>
+                                                <fontDescription key="fontDescription" name="ArialRoundedMTBold" family="Arial Rounded MT Bold" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="С колёс" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="fwc-hJ-PNc">
+                                                <rect key="frame" x="237.5" y="0.0" width="66.5" height="20"/>
+                                                <fontDescription key="fontDescription" name="ArialRoundedMTBold" family="Arial Rounded MT Bold" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                    </stackView>
                                 </subviews>
+                                <constraints>
+                                    <constraint firstItem="x6l-wi-DGq" firstAttribute="centerX" secondItem="2kc-UN-6MB" secondAttribute="centerX" id="2DX-cn-sfG"/>
+                                    <constraint firstItem="87W-EM-HIn" firstAttribute="centerX" secondItem="QR8-sn-dFZ" secondAttribute="centerX" id="DU2-9X-Fpa"/>
+                                    <constraint firstItem="cPq-MW-9vC" firstAttribute="centerX" secondItem="vqN-RX-cNg" secondAttribute="centerX" id="goz-lG-hr5"/>
+                                </constraints>
                             </stackView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OU7-2F-gj6">
-                                <rect key="frame" x="156.5" y="96.5" width="28" height="28"/>
+                                <rect key="frame" x="164.5" y="96.5" width="28" height="28"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="28" id="9gL-6P-5vb"/>
                                     <constraint firstAttribute="height" constant="28" id="sTJ-oP-CDE"/>
@@ -245,49 +471,20 @@
                                     <action selector="addMoneyScoreBtnAction:" destination="agE-sd-eqq" eventType="touchUpInside" id="Xop-b7-S0y"/>
                                 </connections>
                             </button>
-                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" alignment="center" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="5Vx-f9-CXW">
-                                <rect key="frame" x="5" y="256.5" width="310" height="20"/>
-                                <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Безнал" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="x6l-wi-DGq">
-                                        <rect key="frame" x="0.0" y="0.0" width="68.5" height="20"/>
-                                        <fontDescription key="fontDescription" name="ArialRoundedMTBold" family="Arial Rounded MT Bold" pointSize="17"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Заказ" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cPq-MW-9vC">
-                                        <rect key="frame" x="80.5" y="0.0" width="68.5" height="20"/>
-                                        <fontDescription key="fontDescription" name="ArialRoundedMTBold" family="Arial Rounded MT Bold" pointSize="17"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Заказ %" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="87W-EM-HIn">
-                                        <rect key="frame" x="161" y="0.0" width="68.5" height="20"/>
-                                        <fontDescription key="fontDescription" name="ArialRoundedMTBold" family="Arial Rounded MT Bold" pointSize="17"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="С колёс" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fwc-hJ-PNc">
-                                        <rect key="frame" x="241.5" y="0.0" width="68.5" height="20"/>
-                                        <fontDescription key="fontDescription" name="ArialRoundedMTBold" family="Arial Rounded MT Bold" pointSize="17"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                </subviews>
-                            </stackView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="bFq-nT-lJm">
-                                <rect key="frame" x="8" y="301.5" width="304" height="139"/>
+                                <rect key="frame" x="16" y="301.5" width="288" height="139"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" alignment="center" spacing="37" translatesAutoresizingMaskIntoConstraints="NO" id="i2t-ky-iTG">
-                                        <rect key="frame" x="0.0" y="0.0" width="304" height="23.5"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="288" height="23.5"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Итого (0):" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FXn-AK-N3S">
-                                                <rect key="frame" x="0.0" y="0.0" width="160" height="23.5"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="151.5" height="23.5"/>
                                                 <fontDescription key="fontDescription" name="ArialRoundedMTBold" family="Arial Rounded MT Bold" pointSize="20"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0.0 ₽" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7gA-SH-lhc">
-                                                <rect key="frame" x="197" y="0.0" width="107" height="23.5"/>
+                                                <rect key="frame" x="188.5" y="0.0" width="99.5" height="23.5"/>
                                                 <fontDescription key="fontDescription" name="ArialRoundedMTBold" family="Arial Rounded MT Bold" pointSize="20"/>
                                                 <color key="textColor" systemColor="systemBlueColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
@@ -295,16 +492,16 @@
                                         </subviews>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" alignment="center" spacing="37" translatesAutoresizingMaskIntoConstraints="NO" id="RFr-Wy-SVb">
-                                        <rect key="frame" x="0.0" y="38.5" width="304" height="23.5"/>
+                                        <rect key="frame" x="0.0" y="38.5" width="288" height="23.5"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="С колёс (0):" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dzB-x5-cRj">
-                                                <rect key="frame" x="0.0" y="0.0" width="174" height="23.5"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="164.5" height="23.5"/>
                                                 <fontDescription key="fontDescription" name="ArialRoundedMTBold" family="Arial Rounded MT Bold" pointSize="20"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0.0 ₽" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tPM-uj-Mih">
-                                                <rect key="frame" x="211" y="0.0" width="93" height="23.5"/>
+                                                <rect key="frame" x="201.5" y="0.0" width="86.5" height="23.5"/>
                                                 <fontDescription key="fontDescription" name="ArialRoundedMTBold" family="Arial Rounded MT Bold" pointSize="20"/>
                                                 <color key="textColor" systemColor="systemBlueColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
@@ -312,16 +509,16 @@
                                         </subviews>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" alignment="center" spacing="37" translatesAutoresizingMaskIntoConstraints="NO" id="83X-s4-qj1">
-                                        <rect key="frame" x="0.0" y="77" width="304" height="23.5"/>
+                                        <rect key="frame" x="0.0" y="77" width="288" height="23.5"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="С заказов (0):" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0vB-hm-S6P">
-                                                <rect key="frame" x="0.0" y="0.0" width="186.5" height="23.5"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="176.5" height="23.5"/>
                                                 <fontDescription key="fontDescription" name="ArialRoundedMTBold" family="Arial Rounded MT Bold" pointSize="20"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0.0 ₽" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AIc-wE-7rb">
-                                                <rect key="frame" x="223.5" y="0.0" width="80.5" height="23.5"/>
+                                                <rect key="frame" x="213.5" y="0.0" width="74.5" height="23.5"/>
                                                 <fontDescription key="fontDescription" name="ArialRoundedMTBold" family="Arial Rounded MT Bold" pointSize="20"/>
                                                 <color key="textColor" systemColor="systemBlueColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
@@ -329,16 +526,16 @@
                                         </subviews>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" alignment="center" spacing="37" translatesAutoresizingMaskIntoConstraints="NO" id="d8d-sr-GDU">
-                                        <rect key="frame" x="0.0" y="115.5" width="304" height="23.5"/>
+                                        <rect key="frame" x="0.0" y="115.5" width="288" height="23.5"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="С безнала (0):" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="T3L-uY-Vvl">
-                                                <rect key="frame" x="0.0" y="0.0" width="187.5" height="23.5"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="177.5" height="23.5"/>
                                                 <fontDescription key="fontDescription" name="ArialRoundedMTBold" family="Arial Rounded MT Bold" pointSize="20"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0.0 ₽" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="W75-Lw-zLN">
-                                                <rect key="frame" x="224.5" y="0.0" width="79.5" height="23.5"/>
+                                                <rect key="frame" x="214.5" y="0.0" width="73.5" height="23.5"/>
                                                 <fontDescription key="fontDescription" name="ArialRoundedMTBold" family="Arial Rounded MT Bold" pointSize="20"/>
                                                 <color key="textColor" systemColor="systemBlueColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
@@ -351,30 +548,23 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="o1T-2d-TwR" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="MCi-WT-psd" secondAttribute="trailing" constant="8" id="01s-OQ-h2x"/>
-                            <constraint firstItem="XOb-8f-Ovb" firstAttribute="leading" secondItem="o1T-2d-TwR" secondAttribute="leading" constant="8" id="0ex-PS-t5Y"/>
-                            <constraint firstItem="d6W-KB-cn5" firstAttribute="top" secondItem="XOb-8f-Ovb" secondAttribute="bottom" constant="15" id="391-Yo-rHu"/>
-                            <constraint firstItem="d6W-KB-cn5" firstAttribute="leading" secondItem="o1T-2d-TwR" secondAttribute="leading" constant="8" id="7Xd-6v-n5G"/>
+                            <constraint firstItem="XOb-8f-Ovb" firstAttribute="leading" secondItem="o1T-2d-TwR" secondAttribute="leading" constant="16" id="0ex-PS-t5Y"/>
+                            <constraint firstItem="twQ-Ys-Ves" firstAttribute="top" secondItem="XOb-8f-Ovb" secondAttribute="bottom" constant="15" id="4Zs-lA-eYX"/>
                             <constraint firstItem="OU7-2F-gj6" firstAttribute="centerY" secondItem="Dpr-yc-2tk" secondAttribute="centerY" id="AB3-3c-1x8"/>
-                            <constraint firstItem="bFq-nT-lJm" firstAttribute="top" secondItem="5Vx-f9-CXW" secondAttribute="bottom" constant="25" id="DUv-mq-gvV"/>
                             <constraint firstItem="Dpr-yc-2tk" firstAttribute="top" secondItem="MCi-WT-psd" secondAttribute="bottom" id="Eit-gB-jJV"/>
                             <constraint firstItem="XOb-8f-Ovb" firstAttribute="top" secondItem="OU7-2F-gj6" secondAttribute="bottom" constant="20" id="EtP-7a-7qf"/>
-                            <constraint firstItem="o1T-2d-TwR" firstAttribute="trailing" secondItem="bFq-nT-lJm" secondAttribute="trailing" constant="8" id="I0s-6m-Y4U"/>
-                            <constraint firstItem="o1T-2d-TwR" firstAttribute="trailing" secondItem="d6W-KB-cn5" secondAttribute="trailing" constant="8" id="IQu-re-oTb"/>
-                            <constraint firstItem="Dpr-yc-2tk" firstAttribute="leading" secondItem="o1T-2d-TwR" secondAttribute="leading" constant="8" id="Kut-BY-jmT"/>
-                            <constraint firstItem="5Vx-f9-CXW" firstAttribute="centerX" secondItem="o1T-2d-TwR" secondAttribute="centerX" id="LfS-Mi-oNt"/>
-                            <constraint firstItem="MCi-WT-psd" firstAttribute="leading" secondItem="o1T-2d-TwR" secondAttribute="leading" constant="8" id="POK-4f-01L"/>
+                            <constraint firstItem="o1T-2d-TwR" firstAttribute="trailing" secondItem="bFq-nT-lJm" secondAttribute="trailing" constant="16" id="I0s-6m-Y4U"/>
+                            <constraint firstItem="Dpr-yc-2tk" firstAttribute="leading" secondItem="o1T-2d-TwR" secondAttribute="leading" constant="16" id="Kut-BY-jmT"/>
+                            <constraint firstItem="MCi-WT-psd" firstAttribute="leading" secondItem="o1T-2d-TwR" secondAttribute="leading" constant="16" id="POK-4f-01L"/>
+                            <constraint firstItem="twQ-Ys-Ves" firstAttribute="centerX" secondItem="o1T-2d-TwR" secondAttribute="centerX" id="PU7-oi-uaV"/>
                             <constraint firstItem="MCi-WT-psd" firstAttribute="top" secondItem="o1T-2d-TwR" secondAttribute="top" constant="20" id="TCu-oG-oSP"/>
                             <constraint firstItem="OU7-2F-gj6" firstAttribute="leading" secondItem="Dpr-yc-2tk" secondAttribute="trailing" constant="8" id="VNp-eG-FQx"/>
-                            <constraint firstItem="fwc-hJ-PNc" firstAttribute="width" secondItem="mbI-Z6-45g" secondAttribute="width" id="X0H-RD-QTe"/>
-                            <constraint firstItem="cPq-MW-9vC" firstAttribute="width" secondItem="vqN-RX-cNg" secondAttribute="width" id="aIH-m3-Jm0"/>
-                            <constraint firstItem="bFq-nT-lJm" firstAttribute="leading" secondItem="o1T-2d-TwR" secondAttribute="leading" constant="8" id="cPD-X9-Pdp"/>
-                            <constraint firstItem="d6W-KB-cn5" firstAttribute="centerX" secondItem="o1T-2d-TwR" secondAttribute="centerX" id="dlr-7h-PyO"/>
-                            <constraint firstItem="5Vx-f9-CXW" firstAttribute="top" secondItem="d6W-KB-cn5" secondAttribute="bottom" id="lf6-7i-0Hx"/>
-                            <constraint firstItem="x6l-wi-DGq" firstAttribute="width" secondItem="2kc-UN-6MB" secondAttribute="width" id="rCn-3O-IO5"/>
+                            <constraint firstItem="bFq-nT-lJm" firstAttribute="top" secondItem="twQ-Ys-Ves" secondAttribute="bottom" constant="25" id="bar-fp-3dN"/>
+                            <constraint firstItem="bFq-nT-lJm" firstAttribute="leading" secondItem="o1T-2d-TwR" secondAttribute="leading" constant="16" id="cPD-X9-Pdp"/>
+                            <constraint firstItem="d6W-KB-cn5" firstAttribute="top" secondItem="XOb-8f-Ovb" secondAttribute="bottom" constant="15" id="h6U-fR-P57"/>
                             <constraint firstItem="o1T-2d-TwR" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="OU7-2F-gj6" secondAttribute="trailing" constant="8" id="rZO-DP-hCg"/>
-                            <constraint firstItem="87W-EM-HIn" firstAttribute="width" secondItem="QR8-sn-dFZ" secondAttribute="width" id="tEG-8Y-ha2"/>
-                            <constraint firstItem="o1T-2d-TwR" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="5Vx-f9-CXW" secondAttribute="trailing" id="tHH-lu-QMD"/>
-                            <constraint firstItem="o1T-2d-TwR" firstAttribute="trailing" secondItem="XOb-8f-Ovb" secondAttribute="trailing" constant="8" id="zCr-W8-wad"/>
+                            <constraint firstItem="d6W-KB-cn5" firstAttribute="width" secondItem="XOb-8f-Ovb" secondAttribute="width" multiplier="1.05556" id="syk-d7-Xyc"/>
+                            <constraint firstItem="o1T-2d-TwR" firstAttribute="trailing" secondItem="XOb-8f-Ovb" secondAttribute="trailing" constant="16" id="zCr-W8-wad"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="o1T-2d-TwR"/>
                     </view>
@@ -393,17 +583,26 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="beznalBtn" destination="2kc-UN-6MB" id="wVK-hk-fwH"/>
+                        <outlet property="beznalLabel" destination="x6l-wi-DGq" id="DUo-ok-1Sc"/>
                         <outlet property="beznalZakazLabel" destination="T3L-uY-Vvl" id="Vvh-9u-OJe"/>
                         <outlet property="beznalZakazSumm" destination="W75-Lw-zLN" id="o1Q-Yo-4ws"/>
+                        <outlet property="captionBtnZakaz" destination="cPq-MW-9vC" id="zhw-vw-0oX"/>
+                        <outlet property="logountBtn" destination="bHT-VK-0Vy" id="ec5-pW-cmC"/>
+                        <outlet property="percentBtn" destination="QR8-sn-dFZ" id="i7C-av-EKY"/>
+                        <outlet property="percentZakazLabel" destination="87W-EM-HIn" id="HEz-KE-aGp"/>
                         <outlet property="scoreAccountLabel" destination="Dpr-yc-2tk" id="Ejf-Kx-PWc"/>
                         <outlet property="smenaPeriodLabel" destination="MCi-WT-psd" id="s4R-zY-hQ8"/>
                         <outlet property="startStopSmenaBtn" destination="aZO-Y1-Ati" id="Ab3-Su-QmC"/>
                         <outlet property="summaTextField" destination="XOb-8f-Ovb" id="jud-1V-ibS"/>
                         <outlet property="totalZakazLabel" destination="FXn-AK-N3S" id="8YL-10-phe"/>
                         <outlet property="totalZakazSumm" destination="7gA-SH-lhc" id="J41-4y-iUR"/>
+                        <outlet property="wheelBtn" destination="mbI-Z6-45g" id="ZKD-z8-qFz"/>
+                        <outlet property="wheelLabel" destination="fwc-hJ-PNc" id="xBN-Qe-VOM"/>
                         <outlet property="wheelZakazLabel" destination="dzB-x5-cRj" id="o5S-Jq-tqa"/>
                         <outlet property="wheelZakazSumm" destination="tPM-uj-Mih" id="ZLv-e5-rc4"/>
-                        <outlet property="zakazLabel" destination="0vB-hm-S6P" id="hNX-F2-hgU"/>
+                        <outlet property="zakazBtn" destination="vqN-RX-cNg" id="xyt-AE-bwA"/>
+                        <outlet property="zakazLabel" destination="0vB-hm-S6P" id="hrc-P4-5vx"/>
                         <outlet property="zakazSumm" destination="AIc-wE-7rb" id="IKB-Ws-xjR"/>
                     </connections>
                 </viewController>
@@ -436,19 +635,19 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Бензин" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HEZ-bQ-HUr">
-                                                    <rect key="frame" x="8" y="28.5" width="68.5" height="23.5"/>
+                                                    <rect key="frame" x="16" y="28.5" width="68.5" height="23.5"/>
                                                     <fontDescription key="fontDescription" name="ArialRoundedMTBold" family="Arial Rounded MT Bold" pointSize="20"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="04.11.2019" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2ML-Zz-tKy">
-                                                    <rect key="frame" x="220.5" y="50" width="91.5" height="20"/>
+                                                    <rect key="frame" x="212.5" y="50" width="91.5" height="20"/>
                                                     <fontDescription key="fontDescription" name="ArialRoundedMTBold" family="Arial Rounded MT Bold" pointSize="17"/>
                                                     <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="500 ₽" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="g3D-TR-SbL">
-                                                    <rect key="frame" x="259.5" y="10" width="52.5" height="23.5"/>
+                                                    <rect key="frame" x="251.5" y="10" width="52.5" height="23.5"/>
                                                     <fontDescription key="fontDescription" name="ArialRoundedMTBold" family="Arial Rounded MT Bold" pointSize="20"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -456,13 +655,13 @@
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="g3D-TR-SbL" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="HEZ-bQ-HUr" secondAttribute="trailing" constant="8" id="BQP-Xx-iaJ"/>
-                                                <constraint firstAttribute="trailing" secondItem="2ML-Zz-tKy" secondAttribute="trailing" constant="8" id="VQg-pa-T3J"/>
+                                                <constraint firstAttribute="trailing" secondItem="2ML-Zz-tKy" secondAttribute="trailing" constant="16" id="VQg-pa-T3J"/>
                                                 <constraint firstAttribute="bottom" secondItem="2ML-Zz-tKy" secondAttribute="bottom" constant="10" id="YPm-6f-qvX"/>
                                                 <constraint firstItem="2ML-Zz-tKy" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="HEZ-bQ-HUr" secondAttribute="trailing" constant="8" id="aaQ-HB-VIW"/>
                                                 <constraint firstItem="g3D-TR-SbL" firstAttribute="top" secondItem="Ztw-l6-CtV" secondAttribute="top" constant="10" id="hsP-RQ-5i6"/>
-                                                <constraint firstAttribute="trailing" secondItem="g3D-TR-SbL" secondAttribute="trailing" constant="8" id="k7S-hl-bvK"/>
+                                                <constraint firstAttribute="trailing" secondItem="g3D-TR-SbL" secondAttribute="trailing" constant="16" id="k7S-hl-bvK"/>
                                                 <constraint firstItem="2ML-Zz-tKy" firstAttribute="top" relation="greaterThanOrEqual" secondItem="g3D-TR-SbL" secondAttribute="bottom" constant="1" id="vQL-WS-7E6"/>
-                                                <constraint firstItem="HEZ-bQ-HUr" firstAttribute="leading" secondItem="Ztw-l6-CtV" secondAttribute="leading" constant="8" id="y4x-7N-DWf"/>
+                                                <constraint firstItem="HEZ-bQ-HUr" firstAttribute="leading" secondItem="Ztw-l6-CtV" secondAttribute="leading" constant="16" id="y4x-7N-DWf"/>
                                                 <constraint firstItem="HEZ-bQ-HUr" firstAttribute="centerY" secondItem="Ztw-l6-CtV" secondAttribute="centerY" id="z32-CD-N4p"/>
                                             </constraints>
                                         </tableViewCellContentView>
@@ -503,6 +702,8 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="addRashodBtnItem" destination="3g6-wn-7Ja" id="O2P-hj-nDI"/>
+                        <outlet property="logoutBtn" destination="WNu-XI-uqD" id="diw-j9-SfZ"/>
                         <outlet property="myTableViewRashod" destination="kaX-fK-Dh7" id="vYz-Lv-QCL"/>
                     </connections>
                 </viewController>
@@ -537,8 +738,8 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" modalTransitionStyle="flipHorizontal" id="aa6-Pj-DT7" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" barStyle="black" translucent="NO" largeTitles="YES" id="EI3-3d-gcA">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="91"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translucent="NO" id="EI3-3d-gcA">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <textAttributes key="titleTextAttributes">
                             <color key="textColor" red="0.99953407049999998" green="0.98835557699999999" blue="0.47265523669999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -674,9 +875,8 @@
         <image name="play.fill" catalog="system" width="58" height="64"/>
         <image name="plus.circle.fill" catalog="system" width="64" height="60"/>
         <image name="smallcircle.circle.fill" catalog="system" width="64" height="60"/>
-        <image name="square.and.arrow.down.fill" catalog="system" width="60" height="64"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="3nl-pi-oPe"/>
+        <segue reference="y0g-A5-ALG"/>
     </inferredMetricsTieBreakers>
 </document>

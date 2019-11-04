@@ -14,13 +14,31 @@ private var accountArray: Results<Accounts>!
 private var filteredArray: Results<Accounts>!
 private var arraySmena: Results<Smena>!
 
+
 class AccountCollectionController: UICollectionViewController{
     @IBOutlet var myCollectionView: UICollectionView!
+    @IBOutlet weak var addAccountBtn: UIBarButtonItem!
+    
+    private var yellowColor = UIColor(displayP3Red: 255/255, green: 250/255, blue: 139/255, alpha: 255/255)
+    private var arrayBarButtons: [UIBarButtonItem] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        arrayBarButtons.append(addAccountBtn)
         accountArray = realm.objects(Accounts.self).sorted(byKeyPath: "nameAccount")
-        
+        Variables.sharedVariables.changeThemeCollectionViewControlle(viewController: self, arrayBarButtons: arrayBarButtons)
+    }
+    
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+
+        myCollectionView.reloadData()
+        Variables.sharedVariables.changeThemeCollectionViewControlle(viewController: self, arrayBarButtons: arrayBarButtons)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        myCollectionView.reloadData()
+        Variables.sharedVariables.changeThemeCollectionViewControlle(viewController: self, arrayBarButtons: arrayBarButtons)
     }
     
     //Нажатие на ячейку
@@ -45,6 +63,7 @@ class AccountCollectionController: UICollectionViewController{
         alert.addTextField(configurationHandler: { textField1 in
             textField1.placeholder = "Название"
             textField1.textAlignment = .center
+            textField1.borderStyle = UITextField.BorderStyle.roundedRect
             textField1.keyboardType = .default
             textField1.clearButtonMode = .whileEditing
             textField1.autocapitalizationType = .sentences
@@ -58,7 +77,8 @@ class AccountCollectionController: UICollectionViewController{
         alert.addTextField(configurationHandler: { textField2 in
             textField2.placeholder = "Балланс"
             textField2.textAlignment = .center
-            textField2.keyboardType = .numberPad
+            textField2.borderStyle = UITextField.BorderStyle.roundedRect
+            textField2.keyboardType = .decimalPad
             textField2.clearButtonMode = .whileEditing
             if indexPath != nil {
                 textField2.text = String(accountArray[indexPath!.row].scoreAccount)
@@ -71,7 +91,7 @@ class AccountCollectionController: UICollectionViewController{
         alert.addAction(UIAlertAction(title: buttonTitle, style: .default, handler: { action in
             
             //Если первое поле ввода (Наименование учетной записи) не пустое
-            let score: String = (alert.textFields?[1].text!)!
+            let score: String = ((alert.textFields?[1].text!)?.replacingOccurrences(of: ",", with: "."))!
             if !(alert.textFields?[0].text?.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)! {
                 filteredArray = accountArray.filter("nameAccount ==[c] %@",alert.textFields?[0].text ?? "")
                 if filteredArray.count > 0 && !editMode {
@@ -153,6 +173,23 @@ extension AccountCollectionController {
             cell.startSmenaIndicatior.isHidden = false
         } else {
             cell.startSmenaIndicatior.isHidden = true
+        }
+        
+        switch traitCollection.userInterfaceStyle {
+            case .light, .unspecified:
+                cell.contentView.backgroundColor = .black
+                cell.nameAccountLabel.textColor = yellowColor
+                cell.startSmenaIndicatior.tintColor = yellowColor
+                cell.scoreAccountLabel.textColor = .white
+            break
+            case .dark:
+                cell.contentView.backgroundColor = yellowColor
+                cell.nameAccountLabel.textColor = .black
+                cell.startSmenaIndicatior.tintColor = .black
+                cell.scoreAccountLabel.textColor = .gray
+                break
+        @unknown default:
+            fatalError()
         }
         return cell
     }

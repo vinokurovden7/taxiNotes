@@ -1,0 +1,111 @@
+
+/* Class = "UILabel"; text = "С заказов (0):"; ObjectID = "0vB-hm-S6P"; */
+"0vB-hm-S6P.text" = "С заказов (0):";
+
+/* Class = "UILabel"; text = "04.11.2019"; ObjectID = "2ML-Zz-tKy"; */
+"2ML-Zz-tKy.text" = "04.11.2019";
+
+/* Class = "UITabBarItem"; title = "Настройки"; ObjectID = "2le-2H-GEg"; */
+"2le-2H-GEg.title" = "Настройки";
+
+/* Class = "UILabel"; text = "Твоё"; ObjectID = "2t3-Kq-LSy"; */
+"2t3-Kq-LSy.text" = "Твоё";
+
+/* Class = "UIBarButtonItem"; title = "Добавить"; ObjectID = "3g6-wn-7Ja"; */
+"3g6-wn-7Ja.title" = "Добавить";
+
+/* Class = "UILabel"; text = "Балланс: 200₽"; ObjectID = "5UO-Il-eZG"; */
+"5UO-Il-eZG.text" = "Балланс: 200₽";
+
+/* Class = "UILabel"; text = "0.0 ₽"; ObjectID = "7gA-SH-lhc"; */
+"7gA-SH-lhc.text" = "0.0 ₽";
+
+/* Class = "UILabel"; text = "Заказ %"; ObjectID = "87W-EM-HIn"; */
+"87W-EM-HIn.text" = "Заказ %";
+
+/* Class = "UINavigationItem"; title = "Учетные записи"; ObjectID = "9N7-DI-l3e"; */
+"9N7-DI-l3e.title" = "Учетные записи";
+
+/* Class = "UILabel"; text = "0.0 ₽"; ObjectID = "AIc-wE-7rb"; */
+"AIc-wE-7rb.text" = "0.0 ₽";
+
+/* Class = "UIBarButtonItem"; title = "Сохранить"; ObjectID = "Bku-P8-d2X"; */
+"Bku-P8-d2X.title" = "Сохранить";
+
+/* Class = "UINavigationItem"; title = "Отчет"; ObjectID = "DfC-rE-CUY"; */
+"DfC-rE-CUY.title" = "Отчет";
+
+/* Class = "UILabel"; text = "На счету: 0.0 ₽"; ObjectID = "Dpr-yc-2tk"; */
+"Dpr-yc-2tk.text" = "На счету: 0.0 ₽";
+
+/* Class = "UITabBarItem"; title = "Отчет"; ObjectID = "EBF-8F-56Q"; */
+"EBF-8F-56Q.title" = "Отчет";
+
+/* Class = "UILabel"; text = "Итого (0):"; ObjectID = "FXn-AK-N3S"; */
+"FXn-AK-N3S.text" = "Итого (0):";
+
+/* Class = "UILabel"; text = "Бензин"; ObjectID = "HEZ-bQ-HUr"; */
+"HEZ-bQ-HUr.text" = "Бензин";
+
+/* Class = "UILabel"; text = "Смена"; ObjectID = "MCi-WT-psd"; */
+"MCi-WT-psd.text" = "Смена";
+
+/* Class = "UINavigationItem"; title = "Настройки"; ObjectID = "MIB-l3-MTf"; */
+"MIB-l3-MTf.title" = "Настройки";
+
+/* Class = "UINavigationItem"; title = "Смена"; ObjectID = "PAq-lF-AWx"; */
+"PAq-lF-AWx.title" = "Смена";
+
+/* Class = "UINavigationItem"; title = "Расходы"; ObjectID = "PON-Z6-W8k"; */
+"PON-Z6-W8k.title" = "Расходы";
+
+/* Class = "UITabBarItem"; title = "Смена"; ObjectID = "PgI-Y6-ZcU"; */
+"PgI-Y6-ZcU.title" = "Смена";
+
+/* Class = "UILabel"; text = "С безнала (0):"; ObjectID = "T3L-uY-Vvl"; */
+"T3L-uY-Vvl.text" = "С безнала (0):";
+
+/* Class = "UILabel"; text = "0.0 ₽"; ObjectID = "W75-Lw-zLN"; */
+"W75-Lw-zLN.text" = "0.0 ₽";
+
+/* Class = "UIBarButtonItem"; title = "Выйти"; ObjectID = "WNu-XI-uqD"; */
+"WNu-XI-uqD.title" = "Выйти";
+
+/* Class = "UITextField"; placeholder = "поле ввода стоимости поездки"; ObjectID = "XOb-8f-Ovb"; */
+"XOb-8f-Ovb.placeholder" = "поле ввода стоимости поездки";
+
+/* Class = "UIBarButtonItem"; title = "Начать/Закончить смену"; ObjectID = "aZO-Y1-Ati"; */
+"aZO-Y1-Ati.title" = "Начать/Закончить смену";
+
+/* Class = "UIBarButtonItem"; title = "Выйти"; ObjectID = "bHT-VK-0Vy"; */
+"bHT-VK-0Vy.title" = "Выйти";
+
+/* Class = "UILabel"; text = "Заказ"; ObjectID = "cPq-MW-9vC"; */
+"cPq-MW-9vC.text" = "Заказ";
+
+/* Class = "UILabel"; text = "С колёс (0):"; ObjectID = "dzB-x5-cRj"; */
+"dzB-x5-cRj.text" = "С колёс (0):";
+
+/* Class = "UILabel"; text = "С колёс"; ObjectID = "fwc-hJ-PNc"; */
+"fwc-hJ-PNc.text" = "С колёс";
+
+/* Class = "UILabel"; text = "500 ₽"; ObjectID = "g3D-TR-SbL"; */
+"g3D-TR-SbL.text" = "500 ₽";
+
+/* Class = "UIBarButtonItem"; title = "Задать период"; ObjectID = "jBP-7Q-4DA"; */
+"jBP-7Q-4DA.title" = "Задать период";
+
+/* Class = "UILabel"; text = "0.0 ₽"; ObjectID = "tPM-uj-Mih"; */
+"tPM-uj-Mih.text" = "0.0 ₽";
+
+/* Class = "UIBarButtonItem"; title = "Выйти"; ObjectID = "taj-h3-FpS"; */
+"taj-h3-FpS.title" = "Выйти";
+
+/* Class = "UITabBarItem"; title = "Расходы"; ObjectID = "uFF-RK-A3H"; */
+"uFF-RK-A3H.title" = "Расходы";
+
+/* Class = "UIBarButtonItem"; title = "Выйти"; ObjectID = "ufy-iW-kyf"; */
+"ufy-iW-kyf.title" = "Выйти";
+
+/* Class = "UILabel"; text = "Безнал"; ObjectID = "x6l-wi-DGq"; */
+"x6l-wi-DGq.text" = "Безнал";

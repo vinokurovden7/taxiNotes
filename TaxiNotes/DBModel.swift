@@ -61,12 +61,14 @@ class Rashod: Object {
 //Настройки
 class Settings: Object {
     @objc dynamic var id = NSUUID().uuidString
+    @objc dynamic var summZakaz = 0.0
     @objc dynamic var percentZakaz = 0
     @objc dynamic var idAccount = ""
     @objc dynamic var enabledButtonBeznal = true
     @objc dynamic var enabledButtonZakaz = true
     @objc dynamic var enabledButtonPercentZakaz = true
     @objc dynamic var enabledButtonWheel = true
+    @objc dynamic var themeApplication = 0 //0 - Автоматически 1 - Светлая 2 - Тёмная
     
     override static func primaryKey() -> String? {
         return "id"

@@ -11,23 +11,40 @@ import RealmSwift
 import SwipeCellKit
 
 private var arrayRashod: Results<Rashod>!
+private var globalAlert: UIAlertController?
 
 class RashodViewController: UIViewController {
 
+    @IBOutlet weak var addRashodBtnItem: UIBarButtonItem!
+    @IBOutlet weak var logoutBtn: UIBarButtonItem!
     @IBOutlet weak var myTableViewRashod: UITableView!
+    
+    var datePicker:UIDatePicker = UIDatePicker()
+    private var arrayBarButtons: [UIBarButtonItem] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        arrayBarButtons.append(addRashodBtnItem)
+        arrayBarButtons.append(logoutBtn)
+        Variables.sharedVariables.changeThemeViewController(viewController: self, arrayBarButtons: arrayBarButtons)
+        //Настройка компонента DatePicker
+        datePicker.datePickerMode = .dateAndTime
+        //datePicker.date = NSDate() as Date
+        datePicker.addTarget(self, action: #selector(RashodViewController.dateChanged(datePicker:)), for: .valueChanged)
         
         arrayRashod = realm.objects(Rashod.self).filter("idAccount == %@",Variables.sharedVariables.idAccount).sorted(byKeyPath: "dateRashod")
         navigationItem.title = Variables.sharedVariables.currentAccountName
         
     }
     
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+
+        Variables.sharedVariables.changeThemeViewController(viewController: self, arrayBarButtons: arrayBarButtons)
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         self.myTableViewRashod.reloadData()
-
     }
 
     @IBAction func addRashodBtnAction(_ sender: UIBarButtonItem) {
@@ -40,11 +57,12 @@ class RashodViewController: UIViewController {
         let alertTitle = editMode == false ? "Добавление записи" : "Редактирование записи"
         let alert = UIAlertController(title: alertTitle, message: nil, preferredStyle: .alert)
         
-        //Настройка строки для ввода наименования учетной записи
+        //Настройка строки для ввода наименования расхода
         alert.addTextField(configurationHandler: { textField1 in
             textField1.placeholder = "Название расхода"
             textField1.textAlignment = .center
             textField1.keyboardType = .default
+            textField1.borderStyle = UITextField.BorderStyle.roundedRect
             textField1.clearButtonMode = .whileEditing
             textField1.autocapitalizationType = .sentences
             if indexPath != nil{
@@ -53,11 +71,12 @@ class RashodViewController: UIViewController {
             textField1.font = UIFont.boldSystemFont(ofSize: 17.0)
         })
         
-        //Настройка строки для ввода счета учетной записи
+        //Настройка строки для ввода суммы расхода
         alert.addTextField(configurationHandler: { textField2 in
             textField2.placeholder = "Сумма"
             textField2.textAlignment = .center
-            textField2.keyboardType = .numberPad
+            textField2.borderStyle = UITextField.BorderStyle.roundedRect
+            textField2.keyboardType = .decimalPad
             textField2.clearButtonMode = .whileEditing
             if indexPath != nil {
                 textField2.text = String(arrayRashod[indexPath!.row].summRashod)
@@ -65,19 +84,44 @@ class RashodViewController: UIViewController {
             textField2.font = UIFont.boldSystemFont(ofSize: 17.0)
         })
         
+        if editMode {
+            //Настройка строки для редактирования даты записи расхода
+            alert.addTextField(configurationHandler: { textField3 in
+                textField3.placeholder = "Дата"
+                textField3.textAlignment = .center
+                textField3.borderStyle = UITextField.BorderStyle.roundedRect
+                textField3.font = UIFont.boldSystemFont(ofSize: 17.0)
+                textField3.inputView = self.datePicker
+                textField3.clearButtonMode = .whileEditing
+                if indexPath != nil {
+                    let dateFormatter = DateFormatter()
+                    dateFormatter.dateFormat = "dd.MM.yyyy hh:mm"
+                    textField3.text = dateFormatter.string(from: arrayRashod[indexPath!.row].dateRashod)
+                    self.datePicker.setDate(arrayRashod[indexPath!.row].dateRashod, animated: true)
+                }
+            })
+        }
+        
         //Обработчик кнопки добавления записи
         let buttonTitle = editMode == false ? "Добавить запись" : "Сохранить изменения"
         alert.addAction(UIAlertAction(title: buttonTitle, style: .default, handler: { action in
             
             //Если первое поле ввода (Наименование учетной записи) не пустое
-            let score: String = (alert.textFields?[1].text!)!
-            if !(alert.textFields?[0].text?.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)! ||  !(alert.textFields?[1].text?.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)!{
+            let score: String = ((alert.textFields?[1].text!)?.replacingOccurrences(of: ",", with: "."))!
+            if !(alert.textFields?[0].text?.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)! {
                 
                 let rashod = Rashod()
                 rashod.nameRashod = (alert.textFields?[0].text)!
                 rashod.summRashod = Double(score) ?? 0.0
                 rashod.idAccount = Variables.sharedVariables.idAccount
-                if editMode { rashod.id = arrayRashod[(indexPath?.row)!].id}
+                if editMode {
+                    rashod.id = arrayRashod[(indexPath?.row)!].id
+                    if !(alert.textFields?[2].text?.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)! {
+                        rashod.dateRashod = self.datePicker.date
+                    } else {
+                        rashod.dateRashod = arrayRashod[(indexPath?.row)!].dateRashod
+                    }
+                }
                 StorageManager.saveRashod(rashod)
                 self.myTableViewRashod.reloadData()
                 
@@ -88,8 +132,18 @@ class RashodViewController: UIViewController {
         }))
         
         alert.addAction(UIAlertAction(title: "Отмена", style: .destructive, handler: nil))
-        
+        globalAlert = alert
         self.present(alert, animated: true)
+    }
+    
+    //Обработчик события изменения даты в DatePicker
+    @objc func dateChanged(datePicker: UIDatePicker){
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "dd.MM.yyyy hh:mm"
+        //Если в режиме редактирования второе поле (конечная дата)
+        if ((globalAlert?.textFields![2].isEditing)!){
+            globalAlert?.textFields![2].text = dateFormatter.string(from: datePicker.date)
+        }
     }
     
     //Создание уведомления
@@ -129,27 +183,42 @@ class RashodViewController: UIViewController {
         
         if orientation == .right {
         
-            let seeDogAction = SwipeAction(style: .destructive, title: "Редатировать", handler: {(action, indexPath) -> Void in
-                
+            let editRashod = SwipeAction(style: .destructive, title: "Редатировать", handler: {(action, indexPath) -> Void in
+                self.alertAddRashod(editMode: true, indexPath: indexPath)
             })
-            seeDogAction.hidesWhenSelected = true
-            seeDogAction.backgroundColor = UIColor.init(red: 10/255, green: 91/255, blue: 255/255, alpha: 255/255)
-            seeDogAction.image = UIImage(systemName: "square.and.pencil")
-            seeDogAction.textColor = UIColor.white
-            seeDogAction.font = UIFont.boldSystemFont(ofSize: 10.0)
+            editRashod.hidesWhenSelected = true
+            editRashod.backgroundColor = UIColor.init(red: 10/255, green: 91/255, blue: 255/255, alpha: 255/255)
+            editRashod.image = UIImage(systemName: "square.and.pencil")
+            editRashod.textColor = UIColor.white
+            editRashod.font = UIFont.boldSystemFont(ofSize: 10.0)
 
-            let goPlanAction = SwipeAction(style: .destructive, title: "Удалить", handler: {(action, indexPath) -> Void in
-                
+            let deleteRashod = SwipeAction(style: .destructive, title: "Удалить", handler: {(action, indexPath) -> Void in
+                self.addAlertOk(title: "Подтверждение удаления", message: "Вы действительно хотите удалить запись '\(arrayRashod[indexPath.row].nameRashod)'?", isRemove: true, indexPath: indexPath, editMode: false)
             })
-            goPlanAction.hidesWhenSelected = true
-            goPlanAction.backgroundColor = UIColor.init(red: 252/255, green: 30/255, blue: 28/255, alpha: 255/255)
-            goPlanAction.textColor = UIColor.white
-            goPlanAction.font = UIFont.boldSystemFont(ofSize: 10.0)
-            goPlanAction.image = UIImage(systemName: "trash")
+            deleteRashod.hidesWhenSelected = true
+            deleteRashod.backgroundColor = UIColor.init(red: 252/255, green: 30/255, blue: 28/255, alpha: 255/255)
+            deleteRashod.textColor = UIColor.white
+            deleteRashod.font = UIFont.boldSystemFont(ofSize: 10.0)
+            deleteRashod.image = UIImage(systemName: "trash")
             
-            return [goPlanAction, seeDogAction]
+            return [deleteRashod, editRashod]
         } else {
-            return nil
+            let cloneRashod = SwipeAction(style: .destructive, title: "Создать копию", handler: {(action, indexPath) -> Void in
+                let rashod = Rashod()
+                rashod.nameRashod = arrayRashod[indexPath.row].nameRashod
+                rashod.summRashod = arrayRashod[indexPath.row].summRashod
+                rashod.idAccount = arrayRashod[indexPath.row].idAccount
+                rashod.dateRashod = arrayRashod[indexPath.row].dateRashod
+                StorageManager.saveRashod(rashod)
+                self.myTableViewRashod.reloadData()
+            })
+            cloneRashod.hidesWhenSelected = true
+            cloneRashod.backgroundColor = UIColor.init(red: 71/255, green: 186/255, blue: 251/255, alpha: 255/255)
+            cloneRashod.image = UIImage(systemName: "doc.on.doc")
+            cloneRashod.textColor = UIColor.white
+            cloneRashod.font = UIFont.boldSystemFont(ofSize: 10.0)
+            
+            return [cloneRashod]
         }
     }
 }
@@ -175,5 +244,31 @@ extension RashodViewController: UITableViewDelegate, UITableViewDataSource, Swip
         return cell
     }
     
+    func tableView(_ tableView: UITableView, contextMenuConfigurationForRowAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
+       let configuration = UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { actions -> UIMenu? in
+            
+            let deleteAction = UIAction(title: "Удалить", image: UIImage(systemName: "trash"), identifier: nil, attributes: .destructive) { action in
+               self.addAlertOk(title: "Подтверждение удаления", message: "Вы действительно хотите удалить запись '\(arrayRashod[indexPath.row].nameRashod)'?", isRemove: true, indexPath: indexPath, editMode: false)
+            }
+            
+            let editAction = UIAction(title: "Редактировать", image: UIImage(systemName: "square.and.pencil"), identifier: nil) { action in
+                self.alertAddRashod(editMode: true, indexPath: indexPath)
+            }
+        
+            let cloneRashod = UIAction(title: "Создать копию", image: UIImage(systemName: "doc.on.doc"), identifier: nil) { action in
+                let rashod = Rashod()
+                rashod.nameRashod = arrayRashod[indexPath.row].nameRashod
+                rashod.summRashod = arrayRashod[indexPath.row].summRashod
+                rashod.idAccount = arrayRashod[indexPath.row].idAccount
+                rashod.dateRashod = arrayRashod[indexPath.row].dateRashod
+                StorageManager.saveRashod(rashod)
+                self.myTableViewRashod.reloadData()
+            }
+        
+            let moreActions = UIMenu(__title: "Еще...", image: UIImage(systemName: "ellipsis"), identifier: nil, children:[cloneRashod])
+            return UIMenu(__title: "", image: nil, identifier: nil, children:[editAction,deleteAction, moreActions])
+        }
+        return configuration
+    }
     
 }
