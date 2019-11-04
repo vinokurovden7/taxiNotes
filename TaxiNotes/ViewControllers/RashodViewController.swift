@@ -8,6 +8,7 @@
 
 import UIKit
 import RealmSwift
+import SwipeCellKit
 
 private var arrayRashod: Results<Rashod>!
 
@@ -18,6 +19,7 @@ class RashodViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
         arrayRashod = realm.objects(Rashod.self).filter("idAccount == %@",Variables.sharedVariables.idAccount).sorted(byKeyPath: "dateRashod")
         navigationItem.title = Variables.sharedVariables.currentAccountName
         
@@ -25,6 +27,7 @@ class RashodViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         self.myTableViewRashod.reloadData()
+
     }
 
     @IBAction func addRashodBtnAction(_ sender: UIBarButtonItem) {
@@ -113,9 +116,45 @@ class RashodViewController: UIViewController {
         
         self.present(editRadiusAlert, animated: true, completion: nil)
     }
+  
+    
+    func tableView(_ tableView: UITableView, editActionsOptionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> SwipeOptions {
+        var options = SwipeOptions()
+        options.expansionStyle = .none
+        options.transitionStyle = .border
+        return options
+    }
+    
+    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> [SwipeAction]? {
+        
+        if orientation == .right {
+        
+            let seeDogAction = SwipeAction(style: .destructive, title: "Редатировать", handler: {(action, indexPath) -> Void in
+                
+            })
+            seeDogAction.hidesWhenSelected = true
+            seeDogAction.backgroundColor = UIColor.init(red: 10/255, green: 91/255, blue: 255/255, alpha: 255/255)
+            seeDogAction.image = UIImage(systemName: "square.and.pencil")
+            seeDogAction.textColor = UIColor.white
+            seeDogAction.font = UIFont.boldSystemFont(ofSize: 10.0)
+
+            let goPlanAction = SwipeAction(style: .destructive, title: "Удалить", handler: {(action, indexPath) -> Void in
+                
+            })
+            goPlanAction.hidesWhenSelected = true
+            goPlanAction.backgroundColor = UIColor.init(red: 252/255, green: 30/255, blue: 28/255, alpha: 255/255)
+            goPlanAction.textColor = UIColor.white
+            goPlanAction.font = UIFont.boldSystemFont(ofSize: 10.0)
+            goPlanAction.image = UIImage(systemName: "trash")
+            
+            return [goPlanAction, seeDogAction]
+        } else {
+            return nil
+        }
+    }
 }
 
-extension RashodViewController: UITableViewDelegate, UITableViewDataSource {
+extension RashodViewController: UITableViewDelegate, UITableViewDataSource, SwipeTableViewCellDelegate {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return arrayRashod.count
@@ -123,6 +162,8 @@ extension RashodViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "rashodCell") as! RashodViewCell
+        
+        cell.delegate = self
         
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "dd.MM.yyyy hh:mm"

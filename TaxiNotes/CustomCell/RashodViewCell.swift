@@ -7,8 +7,9 @@
 //
 
 import UIKit
+import SwipeCellKit
 
-class RashodViewCell: UITableViewCell {
+class RashodViewCell: SwipeTableViewCell {
     @IBOutlet weak var nameRashodLabel: UILabel!
     @IBOutlet weak var summRashodLabel: UILabel!
     @IBOutlet weak var dateRashodLabel: UILabel!

@@ -158,10 +158,13 @@ extension AccountCollectionController {
     }
     
     override func collectionView(_ collectionView: UICollectionView, contextMenuConfigurationForItemAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
+        
         let configuration = UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { actions -> UIMenu? in
+            
             let deleteAction = UIAction(title: "Удалить", image: UIImage(systemName: "trash"), identifier: nil, attributes: .destructive) { action in
                 self.addAlertOk(title: "Подтверждение удаления", message: "Вы действительно хотите удалить учетную запись '\(accountArray[indexPath.row].nameAccount)'?", isRemove: true, indexPath: indexPath, editMode: false)
             }
+            
             let editAction = UIAction(title: "Редактировать", image: UIImage(systemName: "square.and.pencil"), identifier: nil) { action in
                 self.alertAddAccount(editMode: true, indexPath: indexPath)
             }
