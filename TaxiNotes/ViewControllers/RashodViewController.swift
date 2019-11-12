@@ -135,8 +135,10 @@ class RashodViewController: UIViewController {
                     rashod.id = arrayRashod[(indexPath?.row)!].id
                     if !(alert.textFields?[2].text?.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)! {
                         rashod.dateRashod = self.datePicker.date
+                        rashod.clearDateRashod = Variables.sharedVariables.reomveTimeFrom(date: self.datePicker.date)
                     } else {
                         rashod.dateRashod = arrayRashod[(indexPath?.row)!].dateRashod
+                        rashod.clearDateRashod = Variables.sharedVariables.reomveTimeFrom(date: arrayRashod[(indexPath?.row)!].dateRashod)
                     }
                 }
                 StorageManager.saveRashod(rashod)
@@ -227,6 +229,7 @@ class RashodViewController: UIViewController {
                 rashod.summRashod = arrayRashod[indexPath.row].summRashod
                 rashod.idAccount = arrayRashod[indexPath.row].idAccount
                 rashod.dateRashod = arrayRashod[indexPath.row].dateRashod
+                rashod.clearDateRashod = Variables.sharedVariables.reomveTimeFrom(date: arrayRashod[indexPath.row].dateRashod)
                 StorageManager.saveRashod(rashod)
                 self.myTableViewRashod.reloadData()
             })
@@ -304,6 +307,7 @@ extension RashodViewController: UITableViewDelegate, UITableViewDataSource, Swip
                 rashod.summRashod = arrayRashod[indexPath.row].summRashod
                 rashod.idAccount = arrayRashod[indexPath.row].idAccount
                 rashod.dateRashod = arrayRashod[indexPath.row].dateRashod
+                rashod.clearDateRashod = Variables.sharedVariables.reomveTimeFrom(date: arrayRashod[indexPath.row].dateRashod)
                 StorageManager.saveRashod(rashod)
                 self.myTableViewRashod.reloadData()
             }

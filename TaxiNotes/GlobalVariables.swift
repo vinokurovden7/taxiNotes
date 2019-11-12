@@ -82,4 +82,10 @@ class Variables {
         }
     }
     
+    func reomveTimeFrom(date: Date) -> Date {
+        let components = Calendar.current.dateComponents([.year, .month, .day], from: date)
+        let date = Calendar.current.date(from: components)
+        return date!
+    }
+    
 }

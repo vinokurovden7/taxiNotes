@@ -23,7 +23,7 @@ class AccountCollectionController: UICollectionViewController{
     private var arrayBarButtons: [UIBarButtonItem] = []
     
     override func viewDidLoad() {
-        super.viewDidLoad()
+        super.viewDidLoad()        
         arrayBarButtons.append(addAccountBtn)
         accountArray = realm.objects(Accounts.self).sorted(byKeyPath: "nameAccount")
         Variables.sharedVariables.changeThemeCollectionViewControlle(viewController: self, arrayBarButtons: arrayBarButtons)

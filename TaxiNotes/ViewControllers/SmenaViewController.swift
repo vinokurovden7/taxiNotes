@@ -124,9 +124,11 @@ class SmenaViewController: UIViewController {
             startStopSmenaBtn.image = UIImage(systemName: "stop.fill")
             let smena = Smena()
             smena.idAccount = Variables.sharedVariables.idAccount
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "dd.MM.yyyy hh:mm"
+            smena.startDateSmena = dateFormatter.date(from: dateFormatter.string(from: Date()))!
             smena.endDateSmena = nil
             StorageManager.saveSmena(smena)
-            let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "dd.MM.yyyy"
             let todaysDate = dateFormatter.string(from: Date())
             smenaPeriodLabel.text = "Смена \(todaysDate) - "
@@ -151,14 +153,15 @@ class SmenaViewController: UIViewController {
                 let smena = Smena()
                 smena.idAccount = Variables.sharedVariables.idAccount
                 smena.startDateSmena = filteredArraySmena.first!.startDateSmena
-                smena.endDateSmena = Date()
+                let dateFormatter = DateFormatter()
+                dateFormatter.dateFormat = "dd.MM.yyyy hh:mm"
+                smena.endDateSmena = dateFormatter.date(from: dateFormatter.string(from: Date()))!
                 smena.id = filteredArraySmena.first!.id
                 let idSmena = filteredArraySmena.first!.id
                 StorageManager.saveSmena(smena)
                 
                 filteredArraySmena = arraySmena.filter("id == %@",idSmena)
                 
-                let dateFormatter = DateFormatter()
                 dateFormatter.dateFormat = "dd.MM.yyyy"
                 smenaPeriodLabel.text = "Смена \(dateFormatter.string(from:filteredArraySmena.first!.startDateSmena)) - \(dateFormatter.string(from: filteredArraySmena.first!.endDateSmena!))"
             }
@@ -210,6 +213,7 @@ class SmenaViewController: UIViewController {
         if filteredArraySmena.count > 0 {
             let zakaz = Zakaz()
             zakaz.dateZakaz = Date()
+            zakaz.clearDateZakaz = Variables.sharedVariables.reomveTimeFrom(date: Date())
             zakaz.idAccount = Variables.sharedVariables.idAccount
             zakaz.idSmena = filteredArraySmena.first!.id
             zakaz.summaZakaz = summa
@@ -244,6 +248,7 @@ class SmenaViewController: UIViewController {
             
             let zakaz = Zakaz()
             zakaz.dateZakaz = Date()
+            zakaz.clearDateZakaz = Variables.sharedVariables.reomveTimeFrom(date: Date())
             zakaz.idAccount = Variables.sharedVariables.idAccount
             zakaz.idSmena = filteredArraySmena.first!.id
             zakaz.summaZakaz = summa
@@ -276,6 +281,7 @@ class SmenaViewController: UIViewController {
             
             let zakaz = Zakaz()
             zakaz.dateZakaz = Date()
+            zakaz.clearDateZakaz = Variables.sharedVariables.reomveTimeFrom(date: Date())
             zakaz.idAccount = Variables.sharedVariables.idAccount
             zakaz.idSmena = filteredArraySmena.first!.id
             zakaz.summaZakaz = summa
@@ -296,6 +302,7 @@ class SmenaViewController: UIViewController {
         if filteredArraySmena.count > 0 {
             let zakaz = Zakaz()
             zakaz.dateZakaz = Date()
+            zakaz.clearDateZakaz = Variables.sharedVariables.reomveTimeFrom(date: Date())
             zakaz.idAccount = Variables.sharedVariables.idAccount
             zakaz.idSmena = filteredArraySmena.first!.id
             zakaz.summaZakaz = summa

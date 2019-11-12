@@ -391,6 +391,9 @@
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="Задать период" image="calendar" catalog="system" id="jBP-7Q-4DA">
                             <color key="tintColor" red="0.99953407049999998" green="0.98835557699999999" blue="0.47265523669999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <connections>
+                                <action selector="changePeriodBtnAction:" destination="arC-VR-heY" id="v5l-dw-t48"/>
+                            </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
@@ -1168,6 +1171,6 @@
         <image name="speedometer" catalog="system" width="64" height="60"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="84o-7q-3LK"/>
+        <segue reference="tn6-pm-PEd"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -26,6 +26,7 @@ class Zakaz: Object {
     @objc dynamic var summaZakaz: Double = 0.0
     @objc dynamic var idAccount = ""
     @objc dynamic var dateZakaz = Date()
+    @objc dynamic var clearDateZakaz = Variables.sharedVariables.reomveTimeFrom(date: Date())
     @objc dynamic var idSmena = ""
     
     override static func primaryKey() -> String? {
@@ -52,6 +53,7 @@ class Rashod: Object {
     @objc dynamic var summRashod: Double = 0.0
     @objc dynamic var idAccount = ""
     @objc dynamic var dateRashod = Date()
+    @objc dynamic var clearDateRashod = Variables.sharedVariables.reomveTimeFrom(date: Date())
     
     override static func primaryKey() -> String? {
         return "id"
