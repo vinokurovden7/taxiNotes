@@ -39,6 +39,7 @@ class SmenaViewController: UIViewController {
     @IBOutlet weak var zakazSumm: UILabel!
     @IBOutlet weak var beznalZakazLabel: UILabel!
     @IBOutlet weak var beznalZakazSumm: UILabel!
+    
     @IBOutlet weak var scoreAccountLabel: UILabel!
     @IBOutlet weak var smenaPeriodLabel: UILabel!
     @IBOutlet weak var beznalLabel: UILabel!

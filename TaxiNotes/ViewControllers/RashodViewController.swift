@@ -17,26 +17,33 @@ class RashodViewController: UIViewController {
 
     @IBOutlet weak var addRashodBtnItem: UIBarButtonItem!
     @IBOutlet weak var logoutBtn: UIBarButtonItem!
+    @IBOutlet weak var addFuelRashodBtnItem: UIBarButtonItem!
     @IBOutlet weak var myTableViewRashod: UITableView!
     
     var datePicker:UIDatePicker = UIDatePicker()
+    var pickerView = UIPickerView()
     private var arrayBarButtons: [UIBarButtonItem] = []
+    var pickOption = ["Бензин", "Дизель", "Газ"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         arrayBarButtons.append(addRashodBtnItem)
         arrayBarButtons.append(logoutBtn)
+        arrayBarButtons.append(addFuelRashodBtnItem)
         Variables.sharedVariables.changeThemeViewController(viewController: self, arrayBarButtons: arrayBarButtons)
         //Настройка компонента DatePicker
         datePicker.datePickerMode = .dateAndTime
-        //datePicker.date = NSDate() as Date
         datePicker.addTarget(self, action: #selector(RashodViewController.dateChanged(datePicker:)), for: .valueChanged)
+        //Настройка компонента Picker
+        pickerView.delegate = self
         
         arrayRashod = realm.objects(Rashod.self).filter("idAccount == %@",Variables.sharedVariables.idAccount).sorted(byKeyPath: "dateRashod")
         navigationItem.title = Variables.sharedVariables.currentAccountName
         
     }
     
+    //Изменение темы
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
 
@@ -47,26 +54,31 @@ class RashodViewController: UIViewController {
         self.myTableViewRashod.reloadData()
     }
 
+    //Обрабочик кнопки добавления расхода
     @IBAction func addRashodBtnAction(_ sender: UIBarButtonItem) {
-        alertAddRashod(editMode: false, indexPath: nil)
+        alertAddRashod(editMode: false, indexPath: nil, nameRashod: nil)
     }
     
     //Диалогове окно добавления расхода
-    func alertAddRashod(editMode: Bool, indexPath: IndexPath?){
+    func alertAddRashod(editMode: Bool, indexPath: IndexPath?, nameRashod: String?){
         //Показать алерт добавления новой учетной записи
         let alertTitle = editMode == false ? "Добавление записи" : "Редактирование записи"
         let alert = UIAlertController(title: alertTitle, message: nil, preferredStyle: .alert)
-        
         //Настройка строки для ввода наименования расхода
         alert.addTextField(configurationHandler: { textField1 in
-            textField1.placeholder = "Название расхода"
-            textField1.textAlignment = .center
-            textField1.keyboardType = .default
-            textField1.borderStyle = UITextField.BorderStyle.roundedRect
             textField1.clearButtonMode = .whileEditing
             textField1.autocapitalizationType = .sentences
-            if indexPath != nil{
-              textField1.text = arrayRashod[indexPath!.row].nameRashod
+            textField1.keyboardType = .default
+            textField1.placeholder = "Название расхода"
+            textField1.textAlignment = .center
+            textField1.borderStyle = UITextField.BorderStyle.roundedRect
+            if indexPath != nil {
+                textField1.text = arrayRashod[indexPath!.row].nameRashod
+            } else if nameRashod != nil{
+                textField1.inputView = self.pickerView
+                self.pickerView.selectRow(0, inComponent: 0, animated: true)
+                textField1.text = self.pickOption[self.pickerView.selectedRow(inComponent: 0)]
+                globalAlert = alert
             }
             textField1.font = UIFont.boldSystemFont(ofSize: 17.0)
         })
@@ -80,6 +92,11 @@ class RashodViewController: UIViewController {
             textField2.clearButtonMode = .whileEditing
             if indexPath != nil {
                 textField2.text = String(arrayRashod[indexPath!.row].summRashod)
+            }
+            if nameRashod != nil{
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                    textField2.becomeFirstResponder()
+                }
             }
             textField2.font = UIFont.boldSystemFont(ofSize: 17.0)
         })
@@ -159,7 +176,7 @@ class RashodViewController: UIViewController {
         editRadiusAlert.addAction(UIAlertAction(title: firstBtnTitle, style: styleFirstBtn, handler: {action in
             
             if !isRemove {
-                self.alertAddRashod(editMode: editMode ?? false, indexPath: indexPath)
+                self.alertAddRashod(editMode: editMode ?? false, indexPath: indexPath, nameRashod: nil)
             }
             else {
                 guard let indexPath = indexPath else {return}
@@ -171,7 +188,7 @@ class RashodViewController: UIViewController {
         self.present(editRadiusAlert, animated: true, completion: nil)
     }
   
-    
+    //Настройка свайпов по ячейке
     func tableView(_ tableView: UITableView, editActionsOptionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> SwipeOptions {
         var options = SwipeOptions()
         options.expansionStyle = .none
@@ -179,12 +196,13 @@ class RashodViewController: UIViewController {
         return options
     }
     
+    //Свайпы по ячейке
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> [SwipeAction]? {
         
         if orientation == .right {
         
             let editRashod = SwipeAction(style: .destructive, title: "Редатировать", handler: {(action, indexPath) -> Void in
-                self.alertAddRashod(editMode: true, indexPath: indexPath)
+                self.alertAddRashod(editMode: true, indexPath: indexPath, nameRashod: nil)
             })
             editRashod.hidesWhenSelected = true
             editRashod.backgroundColor = UIColor.init(red: 10/255, green: 91/255, blue: 255/255, alpha: 255/255)
@@ -221,9 +239,34 @@ class RashodViewController: UIViewController {
             return [cloneRashod]
         }
     }
+    
+    //Обработчик кнопки добавления расхода
+    @IBAction func fuelAddRashod(_ sender: UIBarButtonItem) {
+        alertAddRashod(editMode: false, indexPath: nil, nameRashod: "Топливо")
+    }
+    
+    //Изменение значения picker
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        if ((globalAlert?.textFields![0].isEditing)!){
+            globalAlert?.textFields![0].text = pickOption[row]
+        }
+    }
+    
 }
 
-extension RashodViewController: UITableViewDelegate, UITableViewDataSource, SwipeTableViewCellDelegate {
+extension RashodViewController: UITableViewDelegate, UITableViewDataSource, SwipeTableViewCellDelegate, UIPickerViewDelegate, UIPickerViewDataSource {
+    
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return pickOption.count
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return pickOption[row]
+    }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return arrayRashod.count
@@ -252,7 +295,7 @@ extension RashodViewController: UITableViewDelegate, UITableViewDataSource, Swip
             }
             
             let editAction = UIAction(title: "Редактировать", image: UIImage(systemName: "square.and.pencil"), identifier: nil) { action in
-                self.alertAddRashod(editMode: true, indexPath: indexPath)
+                self.alertAddRashod(editMode: true, indexPath: indexPath, nameRashod: nil)
             }
         
             let cloneRashod = UIAction(title: "Создать копию", image: UIImage(systemName: "doc.on.doc"), identifier: nil) { action in
