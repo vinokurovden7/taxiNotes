@@ -7,8 +7,9 @@
 //
 
 import UIKit
+import SwipeCellKit
 
-class zakazReportCell: UITableViewCell {
+class zakazReportCell: SwipeTableViewCell {
 
     @IBOutlet weak var dateZakazLabel: UILabel!
     @IBOutlet weak var nameZakazLabel: UILabel!

@@ -8,6 +8,7 @@
 
 import UIKit
 import RealmSwift
+import SwipeCellKit
 
 private var arrayRashod: Results<Rashod>!
 private var filteredArrayRashod: Results<Rashod>!
@@ -18,6 +19,7 @@ private var filteredArraySmena: Results<Smena>!
 private var globalAlert: UIAlertController?
 
 class ReportViewController: UIViewController {
+    
     
     private var beginDateReport: Date?
     private var endDateReport: Date?
@@ -37,6 +39,8 @@ class ReportViewController: UIViewController {
     private var beznalCount = 0
     
     var datePicker:UIDatePicker = UIDatePicker()
+    var zakazDatePicker:UIDatePicker = UIDatePicker()
+    var zakazPickerView = UIPickerView()
     var periodPickerView = UIPickerView()
     var smenaPickerView = UIPickerView()
     
@@ -60,6 +64,7 @@ class ReportViewController: UIViewController {
     @IBOutlet weak var logoutBtn: UIBarButtonItem!
     
     var pickOption = ["День", "Неделя", "Месяц", "Год", "Период", "Смена"]
+    var typeZakazPickerOption = ["Безнал","Заказ","Заказ %","С колёс"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -83,9 +88,12 @@ class ReportViewController: UIViewController {
         //Настройка компонента DatePicker
         datePicker.datePickerMode = .date
         datePicker.addTarget(self, action: #selector(ReportViewController.dateChanged(datePicker:)), for: .valueChanged)
+        zakazDatePicker.datePickerMode = .dateAndTime
+        zakazDatePicker.addTarget(self, action: #selector(ReportViewController.zakazDateChanged(datePicker:)), for: .valueChanged)
         //Настройка компонента Picker
         periodPickerView.delegate = self
         smenaPickerView.delegate = self
+        zakazPickerView.delegate = self
         
         updateStatistic()
         
@@ -224,7 +232,7 @@ class ReportViewController: UIViewController {
                 textField2.font = UIFont.boldSystemFont(ofSize: 13.0)
                 textField2.inputView = self.smenaPickerView
                 let dateFormatter = DateFormatter()
-                dateFormatter.dateFormat = "dd.MM.yy hh:mm"
+                dateFormatter.dateFormat = "dd.MM.yy HH:mm"
                 textField2.text = "\(dateFormatter.string(from: arraySmena[self.smenaPickerView.selectedRow(inComponent: 0)].startDateSmena)) - \(dateFormatter.string(from: arraySmena[self.smenaPickerView.selectedRow(inComponent: 0)].endDateSmena ?? Date()))"
             })
         default:
@@ -233,6 +241,7 @@ class ReportViewController: UIViewController {
         
         //Обработчик кнопки добавления записи
         alert.addAction(UIAlertAction(title: "Задать период", style: .default, handler: { action in
+            self.dateSetter()
             self.updateStatistic()
         }))
         
@@ -241,43 +250,50 @@ class ReportViewController: UIViewController {
         self.present(alert, animated: true)
     }
     
+    //Обработчик события изменения даты в DateTimePicker
+    @objc func zakazDateChanged(datePicker: UIDatePicker){
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "dd.MM.yyyy HH:mm"
+        //Если в режиме редактирования второе поле (конечная дата)
+        if ((globalAlert?.textFields![2].isEditing)!){
+            globalAlert?.textFields![2].text = dateFormatter.string(from: datePicker.date)
+            beginDateReport = datePicker.date
+        }
+    }
+    
     //Обработчик события изменения даты в DatePicker
     @objc func dateChanged(datePicker: UIDatePicker){
-        
+        dateSetter()
+    }
+    
+    func dateSetter(){
         switch typeReport {
         case 0:
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "dd.MM.yyyy"
             //Если в режиме редактирования второе поле (конечная дата)
-            if ((globalAlert?.textFields![1].isEditing)!){
-                globalAlert?.textFields![1].text = dateFormatter.string(from: datePicker.date)
-                beginDateReport = datePicker.date
-            }
+            globalAlert?.textFields![1].text = dateFormatter.string(from: datePicker.date)
+            beginDateReport = datePicker.date
         case 1:
             let week = NSCalendar.current.component(.weekOfYear, from: datePicker.date)
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "dd.MM.yyyy"
             //Если в режиме редактирования второе поле (конечная дата)
-            if ((globalAlert?.textFields![1].isEditing)!){
-                globalAlert?.textFields![1].text = dateFormatter.string(from: datePicker.date)
-                beginDateReport = datePicker.date.startOfWeek(weekday: week)
-                endDateReport = datePicker.date.endOfWeek(weekday: week)
-            }
+            globalAlert?.textFields![1].text = dateFormatter.string(from: datePicker.date)
+            beginDateReport = datePicker.date.startOfWeek(weekday: week)
+            endDateReport = datePicker.date.endOfWeek(weekday: week)
         case 2:
             let dateFormatter = DateFormatter()
             //Если в режиме редактирования второе поле (конечная дата)
-            if ((globalAlert?.textFields![1].isEditing)!){
-                dateFormatter.dateFormat = "MM.yyyy"
-                globalAlert?.textFields![1].text = dateFormatter.string(from: datePicker.date)
-                let dateString = "01.\(dateFormatter.string(from: datePicker.date))"
-                dateFormatter.dateFormat = "dd.MM.yyyy"
-                beginDateReport = dateFormatter.date(from: dateString)!.startOfMonth()
-                endDateReport = dateFormatter.date(from: dateString)!.endOfMonth()
-            }
+            dateFormatter.dateFormat = "MM.yyyy"
+            globalAlert?.textFields![1].text = dateFormatter.string(from: datePicker.date)
+            let dateString = "01.\(dateFormatter.string(from: datePicker.date))"
+            dateFormatter.dateFormat = "dd.MM.yyyy"
+            beginDateReport = dateFormatter.date(from: dateString)!.startOfMonth()
+            endDateReport = dateFormatter.date(from: dateString)!.endOfMonth()
         case 3:
         let dateFormatter = DateFormatter()
         //Если в режиме редактирования второе поле (конечная дата)
-        if ((globalAlert?.textFields![1].isEditing)!){
             dateFormatter.dateFormat = "yyyy"
             globalAlert?.textFields![1].text = dateFormatter.string(from: datePicker.date)
             let begDateString = "01.01.\(dateFormatter.string(from: datePicker.date))"
@@ -285,7 +301,6 @@ class ReportViewController: UIViewController {
             dateFormatter.dateFormat = "dd.MM.yyyy"
             beginDateReport = dateFormatter.date(from: begDateString)!
             endDateReport = dateFormatter.date(from: endDateString)!
-        }
         case 4:
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "dd.MM.yyyy"
@@ -316,10 +331,12 @@ class ReportViewController: UIViewController {
         case smenaPickerView:
             if ((globalAlert?.textFields![1].isEditing)!){
                 let dateFormatter = DateFormatter()
-                dateFormatter.dateFormat = "dd.MM.yy hh:mm"
+                dateFormatter.dateFormat = "dd.MM.yy HH:mm"
                 globalAlert?.textFields![1].text = "\(dateFormatter.string(from: arraySmena[self.smenaPickerView.selectedRow(inComponent: 0)].startDateSmena)) - \(dateFormatter.string(from: arraySmena[self.smenaPickerView.selectedRow(inComponent: 0)].endDateSmena ?? Date()))"
                 filteredArraySmena = arraySmena.filter("id = %@",arraySmena[self.smenaPickerView.selectedRow(inComponent: 0)].id)
             }
+        case zakazPickerView:
+            globalAlert?.textFields![0].text = typeZakazPickerOption[pickerView.selectedRow(inComponent: 0)]
         default:
             return
         }
@@ -642,7 +659,7 @@ class ReportViewController: UIViewController {
             guard let idSmena = filteredArraySmena.first?.id else {return}
             dateFormatter.dateFormat = "dd.MM.yyyy"
             periodReportLabel.text = "Смена \(dateFormatter.string(from: filteredArraySmena.first!.startDateSmena)) - \(dateFormatter.string(from: filteredArraySmena.first!.endDateSmena!))"
-            dateFormatter.dateFormat = "hh:mm"
+            dateFormatter.dateFormat = "HH:mm"
             timePeriodLabel.text = "\(dateFormatter.string(from: filteredArraySmena.first!.startDateSmena)) - \(dateFormatter.string(from: filteredArraySmena.first!.endDateSmena!))"
             
             //Запрос на получение общей суммы
@@ -695,10 +712,181 @@ class ReportViewController: UIViewController {
         beznalZakazSumm.text = "\(beznalSumm) ₽"
         
     }
+    
+    //Настройка свайпов по ячейке
+    func tableView(_ tableView: UITableView, editActionsOptionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> SwipeOptions {
+        var options = SwipeOptions()
+        options.expansionStyle = .none
+        options.transitionStyle = .border
+        return options
+    }
+    
+    //Свайпы по ячейке
+    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> [SwipeAction]? {
+        
+        if orientation == .right && tableView == zakazTableView {
+        
+            let editRashod = SwipeAction(style: .destructive, title: "Редатировать", handler: {(action, indexPath) -> Void in
+                self.alertAddRashod(editMode: true, indexPath: indexPath, nameRashod: nil)
+            })
+            editRashod.hidesWhenSelected = true
+            editRashod.backgroundColor = UIColor.init(red: 10/255, green: 91/255, blue: 255/255, alpha: 255/255)
+            editRashod.image = UIImage(systemName: "square.and.pencil")
+            editRashod.textColor = UIColor.white
+            editRashod.font = UIFont.boldSystemFont(ofSize: 10.0)
+
+            let deleteRashod = SwipeAction(style: .destructive, title: "Удалить", handler: {(action, indexPath) -> Void in
+                self.addAlertOk(title: "Подтверждение удаления", message: "Вы действительно хотите удалить запись '\(self.typeZakazPickerOption[ filteredArrayZakaz[indexPath.row].typeZakaz])'?", isRemove: true, indexPath: indexPath, editMode: false)
+            })
+            deleteRashod.hidesWhenSelected = true
+            deleteRashod.backgroundColor = UIColor.init(red: 252/255, green: 30/255, blue: 28/255, alpha: 255/255)
+            deleteRashod.textColor = UIColor.white
+            deleteRashod.font = UIFont.boldSystemFont(ofSize: 10.0)
+            deleteRashod.image = UIImage(systemName: "trash")
+            
+            return [deleteRashod, editRashod]
+        } else {
+            return nil
+        }
+    }
+    
+    //Диалогове окно добавления расхода
+    func alertAddRashod(editMode: Bool, indexPath: IndexPath?, nameRashod: String?){
+        //Показать алерт добавления новой учетной записи
+        let alertTitle = editMode == false ? "Добавление записи" : "Редактирование записи"
+        let alert = UIAlertController(title: alertTitle, message: nil, preferredStyle: .alert)
+        //Настройка строки для ввода наименования расхода
+        alert.addTextField(configurationHandler: { textField1 in
+            textField1.clearButtonMode = .never
+            textField1.autocapitalizationType = .sentences
+            textField1.inputView = self.zakazPickerView
+            textField1.placeholder = "Название заказа"
+            textField1.textAlignment = .center
+            textField1.borderStyle = UITextField.BorderStyle.roundedRect
+            if indexPath != nil {
+                switch filteredArrayZakaz[indexPath!.row].typeZakaz {
+                case 0:
+                    textField1.text = "Безнал"
+                case 1:
+                    textField1.text = "Заказ"
+                case 2:
+                    textField1.text = "Заказ %"
+                case 3:
+                    textField1.text = "С колёс"
+                default:
+                    textField1.text = "Заказ"
+                }
+            } else if nameRashod != nil{
+                textField1.inputView = self.zakazPickerView
+                self.zakazPickerView.selectRow(0, inComponent: 0, animated: true)
+                textField1.text = self.pickOption[self.zakazPickerView.selectedRow(inComponent: 0)]
+                globalAlert = alert
+            }
+            textField1.font = UIFont.boldSystemFont(ofSize: 17.0)
+        })
+        
+        //Настройка строки для ввода суммы расхода
+        alert.addTextField(configurationHandler: { textField2 in
+            textField2.placeholder = "Сумма"
+            textField2.textAlignment = .center
+            textField2.borderStyle = UITextField.BorderStyle.roundedRect
+            textField2.keyboardType = .decimalPad
+            textField2.clearButtonMode = .never
+            if indexPath != nil {
+                textField2.text = String(filteredArrayZakaz[indexPath!.row].summaZakaz)
+            }
+            if nameRashod != nil{
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                    textField2.becomeFirstResponder()
+                }
+            }
+            textField2.font = UIFont.boldSystemFont(ofSize: 17.0)
+        })
+        
+        if editMode {
+            //Настройка строки для редактирования даты записи расхода
+            alert.addTextField(configurationHandler: { textField3 in
+                textField3.placeholder = "Дата"
+                textField3.textAlignment = .center
+                textField3.borderStyle = UITextField.BorderStyle.roundedRect
+                textField3.font = UIFont.boldSystemFont(ofSize: 17.0)
+                textField3.inputView = self.zakazDatePicker
+                textField3.clearButtonMode = .never
+                if indexPath != nil {
+                    let dateFormatter = DateFormatter()
+                    dateFormatter.dateFormat = "dd.MM.yyyy HH:mm"
+                    textField3.text = dateFormatter.string(from: filteredArrayZakaz[indexPath!.row].dateZakaz)
+                    self.zakazDatePicker.setDate(filteredArrayZakaz[indexPath!.row].dateZakaz, animated: true)
+                    self.zakazPickerView.selectRow(filteredArrayZakaz[indexPath!.row].typeZakaz, inComponent: 0, animated: true)
+                }
+            })
+        }
+        
+        //Обработчик кнопки добавления записи
+        let buttonTitle = editMode == false ? "Добавить запись" : "Сохранить изменения"
+        alert.addAction(UIAlertAction(title: buttonTitle, style: .default, handler: { action in
+            
+            //Если первое поле ввода (Наименование учетной записи) не пустое
+            let score: String = ((alert.textFields?[1].text!)?.replacingOccurrences(of: ",", with: "."))!
+            if !(alert.textFields?[0].text?.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)! {
+                
+                let zakaz = Zakaz()
+                zakaz.typeZakaz = self.zakazPickerView.selectedRow(inComponent: 0)
+                zakaz.summaZakaz = Double(score) ?? 0.0
+                zakaz.idAccount = Variables.sharedVariables.idAccount
+                if editMode {
+                    zakaz.id = filteredArrayZakaz[(indexPath?.row)!].id
+                    if !(alert.textFields?[2].text?.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)! {
+                        zakaz.dateZakaz = self.zakazDatePicker.date
+                        zakaz.clearDateZakaz = Variables.sharedVariables.reomveTimeFrom(date: self.zakazDatePicker.date)
+                    } else {
+                        zakaz.dateZakaz = filteredArrayZakaz[(indexPath?.row)!].dateZakaz
+                        zakaz.clearDateZakaz = Variables.sharedVariables.reomveTimeFrom(date: filteredArrayZakaz[(indexPath?.row)!].dateZakaz)
+                    }
+                }
+                StorageManager.saveZakaz(zakaz)
+                self.updateStatistic()
+                
+            } else {
+                self.addAlertOk(title: "Уведомление", message: "Заполните название расхода", isRemove: false, indexPath: indexPath, editMode: editMode)
+            }
+            
+        }))
+        
+        alert.addAction(UIAlertAction(title: "Отмена", style: .destructive, handler: nil))
+        globalAlert = alert
+        self.present(alert, animated: true)
+    }
+    
+    //Создание уведомления
+    func addAlertOk(title: String, message: String, isRemove: Bool, indexPath: IndexPath?, editMode: Bool?){
+        let editRadiusAlert = UIAlertController(title: title, message: message, preferredStyle: UIAlertController.Style.alert)
+        var firstBtnTitle = "Ок"
+        var styleFirstBtn: UIAlertAction.Style = .cancel
+        if isRemove {
+            editRadiusAlert.addAction(UIAlertAction(title: "Отменить", style: .cancel, handler: nil))
+            firstBtnTitle = "Удалить"
+            styleFirstBtn = .destructive
+        }
+        editRadiusAlert.addAction(UIAlertAction(title: firstBtnTitle, style: styleFirstBtn, handler: {action in
+            
+            if !isRemove {
+                self.alertAddRashod(editMode: editMode ?? false, indexPath: indexPath, nameRashod: nil)
+            }
+            else {
+                guard let indexPath = indexPath else {return}
+                StorageManager.deleteZakaz(id: filteredArrayZakaz[indexPath.row].id)
+                self.zakazTableView.deleteRows(at: [indexPath], with: .middle)
+                self.updateStatistic()
+            }
+        }))
+        
+        self.present(editRadiusAlert, animated: true, completion: nil)
+    }
 
 }
 
-extension ReportViewController: UITableViewDelegate, UITableViewDataSource, UIPickerViewDelegate, UIPickerViewDataSource {
+extension ReportViewController: UITableViewDelegate, UITableViewDataSource, UIPickerViewDelegate, UIPickerViewDataSource, SwipeTableViewCellDelegate {
     
     func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView {
         var pickerLabel: UILabel? = (view as? UILabel)
@@ -711,11 +899,18 @@ extension ReportViewController: UITableViewDelegate, UITableViewDataSource, UIPi
             }
             let dateFormatter = DateFormatter()
             if UIDevice.modelName == "iPhone SE" || UIDevice.modelName == "iPhone 6" || UIDevice.modelName == "iPhone 6S" || UIDevice.modelName == "iPhone 7" || UIDevice.modelName == "iPhone 8" || UIDevice.modelName == "iPhone X" || UIDevice.modelName == "iPhone 11" {
-                dateFormatter.dateFormat = "(EE) dd.MM.yy hh:mm"
+                dateFormatter.dateFormat = "(EE) dd.MM.yy HH:mm"
             } else {
-                dateFormatter.dateFormat = "(EEEE) dd.MM.yy hh:mm"
+                dateFormatter.dateFormat = "(EEEE) dd.MM.yy HH:mm"
             }
             pickerLabel?.text = "\(dateFormatter.string(from: arraySmena[row].startDateSmena)) - \(dateFormatter.string(from: arraySmena[row].endDateSmena ?? Date()))"
+        case zakazPickerView:
+            if pickerLabel == nil {
+                pickerLabel = UILabel()
+                pickerLabel?.font = UIFont(name: "Arial Rounded MT Bold", size: 25.0)
+                pickerLabel?.textAlignment = .center
+            }
+            pickerLabel?.text = typeZakazPickerOption[row]
         default:
             if pickerLabel == nil {
                 pickerLabel = UILabel()
@@ -737,6 +932,8 @@ extension ReportViewController: UITableViewDelegate, UITableViewDataSource, UIPi
         switch pickerView {
         case smenaPickerView:
             return arraySmena.count
+        case zakazPickerView:
+            return typeZakazPickerOption.count
         default:
             return pickOption.count
         }
@@ -756,12 +953,13 @@ extension ReportViewController: UITableViewDelegate, UITableViewDataSource, UIPi
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "dd.MM.yyyy hh:mm"
+        dateFormatter.dateFormat = "dd.MM.yyyy HH:mm"
         
         switch tableView {
         case zakazTableView:
             let cell = tableView.dequeueReusableCell(withIdentifier: "zakazTableCell") as! zakazReportCell
             cell.dateZakazLabel.text = dateFormatter.string(from: filteredArrayZakaz[indexPath.row].dateZakaz)
+            cell.delegate = self
             switch filteredArrayZakaz[indexPath.row].typeZakaz {
             case 0:
                 cell.nameZakazLabel.text = "Безнал"
@@ -787,6 +985,22 @@ extension ReportViewController: UITableViewDelegate, UITableViewDataSource, UIPi
             return cell
         }
         
+    }
+    
+    func tableView(_ tableView: UITableView, contextMenuConfigurationForRowAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
+       let configuration = UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { actions -> UIMenu? in
+            
+            let deleteAction = UIAction(title: "Удалить", image: UIImage(systemName: "trash"), identifier: nil, attributes: .destructive) { action in
+                self.addAlertOk(title: "Подтверждение удаления", message: "Вы действительно хотите удалить запись '\(self.typeZakazPickerOption[ filteredArrayZakaz[indexPath.row].typeZakaz])'?", isRemove: true, indexPath: indexPath, editMode: false)
+            }
+            
+            let editAction = UIAction(title: "Редактировать", image: UIImage(systemName: "square.and.pencil"), identifier: nil) { action in
+                self.alertAddRashod(editMode: true, indexPath: indexPath, nameRashod: nil)
+            }
+        
+            return UIMenu(__title: "", image: nil, identifier: nil, children:[editAction,deleteAction])
+        }
+        return configuration
     }
     
     

@@ -105,8 +105,8 @@ class SettingsViewController: UIViewController {
         localSetting.enabledButtonPercentZakaz = zakazPercentSwitch.isOn
         localSetting.id = settingsArray.first!.id
         localSetting.idAccount = Variables.sharedVariables.idAccount
-        localSetting.percentZakaz = Int(percentSpisan.text ?? "0")!
-        localSetting.summZakaz = Double(summSpisan.text ?? "0.0")!
+        localSetting.percentZakaz = Int(percentSpisan.text ?? "0") ?? 0
+        localSetting.summZakaz = Double(summSpisan.text ?? "0.0") ?? 0.0
         StorageManager.saveSettings(localSetting)
     }
     

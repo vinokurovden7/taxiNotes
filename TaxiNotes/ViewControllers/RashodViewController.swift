@@ -112,7 +112,7 @@ class RashodViewController: UIViewController {
                 textField3.clearButtonMode = .whileEditing
                 if indexPath != nil {
                     let dateFormatter = DateFormatter()
-                    dateFormatter.dateFormat = "dd.MM.yyyy hh:mm"
+                    dateFormatter.dateFormat = "dd.MM.yyyy HH:mm"
                     textField3.text = dateFormatter.string(from: arrayRashod[indexPath!.row].dateRashod)
                     self.datePicker.setDate(arrayRashod[indexPath!.row].dateRashod, animated: true)
                 }
@@ -158,7 +158,7 @@ class RashodViewController: UIViewController {
     //Обработчик события изменения даты в DatePicker
     @objc func dateChanged(datePicker: UIDatePicker){
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "dd.MM.yyyy hh:mm"
+        dateFormatter.dateFormat = "dd.MM.yyyy HH:mm"
         //Если в режиме редактирования второе поле (конечная дата)
         if ((globalAlert?.textFields![2].isEditing)!){
             globalAlert?.textFields![2].text = dateFormatter.string(from: datePicker.date)
@@ -281,7 +281,7 @@ extension RashodViewController: UITableViewDelegate, UITableViewDataSource, Swip
         cell.delegate = self
         
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "dd.MM.yyyy hh:mm"
+        dateFormatter.dateFormat = "dd.MM.yyyy HH:mm"
         
         cell.dateRashodLabel.text = dateFormatter.string(from: arrayRashod[indexPath.row].dateRashod)
         cell.nameRashodLabel.text = arrayRashod[indexPath.row].nameRashod

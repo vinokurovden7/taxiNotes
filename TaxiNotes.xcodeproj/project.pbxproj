@@ -24,10 +24,16 @@
 		927CBBA12366FD8B00305F76 /* AccountCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 927CBBA02366FD8B00305F76 /* AccountCollectionCell.swift */; };
 		927CBBE123670C8B00305F76 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 927CBBE023670C8B00305F76 /* MainViewController.swift */; };
 		927CBBE323670CF000305F76 /* GlobalVariables.swift in Sources */ = {isa = PBXBuildFile; fileRef = 927CBBE223670CF000305F76 /* GlobalVariables.swift */; };
+		928BE51023853BE200687092 /* SmenaViewModeType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 928BE50F23853BE200687092 /* SmenaViewModeType.swift */; };
+		928BE51223853EA000687092 /* SmenaViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 928BE51123853EA000687092 /* SmenaViewModel.swift */; };
 		92AB92AA2379E22B00F29A31 /* zakazReportCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92AB92A92379E22B00F29A31 /* zakazReportCell.swift */; };
 		92AB92AC2379E25A00F29A31 /* rashodReportCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92AB92AB2379E25A00F29A31 /* rashodReportCell.swift */; };
 		92AF0963236D7FE0003B99D8 /* SmenaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92AF0962236D7FE0003B99D8 /* SmenaViewController.swift */; };
 		92B9E22E2367F92700F4462F /* DBModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92B9E22D2367F92700F4462F /* DBModel.swift */; };
+		92D69F322385118400239DF8 /* AccountViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92D69F312385118400239DF8 /* AccountViewModel.swift */; };
+		92D69F35238512AE00239DF8 /* AccountCollectionViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92D69F34238512AE00239DF8 /* AccountCollectionViewModelType.swift */; };
+		92D69F37238512FD00239DF8 /* AccountCollectionViewCellViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92D69F36238512FD00239DF8 /* AccountCollectionViewCellViewModelType.swift */; };
+		92D69F392385143700239DF8 /* AccountCollectionCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92D69F382385143700239DF8 /* AccountCollectionCellViewModel.swift */; };
 		A2F3B6C023D17F2583D84464 /* Pods_TaxiNotesTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E470828B95B0667D7764E6F /* Pods_TaxiNotesTests.framework */; };
 		FF24DAAC85856C06DE029BB6 /* Pods_TaxiNotes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16F745238F968AC5EC76E35D /* Pods_TaxiNotes.framework */; };
 /* End PBXBuildFile section */
@@ -80,12 +86,18 @@
 		927CBBA02366FD8B00305F76 /* AccountCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountCollectionCell.swift; sourceTree = "<group>"; };
 		927CBBE023670C8B00305F76 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		927CBBE223670CF000305F76 /* GlobalVariables.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalVariables.swift; sourceTree = "<group>"; };
+		928BE50F23853BE200687092 /* SmenaViewModeType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmenaViewModeType.swift; sourceTree = "<group>"; };
+		928BE51123853EA000687092 /* SmenaViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmenaViewModel.swift; sourceTree = "<group>"; };
 		92AB92A92379E22B00F29A31 /* zakazReportCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = zakazReportCell.swift; sourceTree = "<group>"; };
 		92AB92AB2379E25A00F29A31 /* rashodReportCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = rashodReportCell.swift; sourceTree = "<group>"; };
 		92AF0962236D7FE0003B99D8 /* SmenaViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmenaViewController.swift; sourceTree = "<group>"; };
 		92B9E22D2367F92700F4462F /* DBModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBModel.swift; sourceTree = "<group>"; };
 		92D2A9C2237009E80035CB1E /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Main.strings; sourceTree = "<group>"; };
 		92D2A9C3237009E80035CB1E /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
+		92D69F312385118400239DF8 /* AccountViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountViewModel.swift; sourceTree = "<group>"; };
+		92D69F34238512AE00239DF8 /* AccountCollectionViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountCollectionViewModelType.swift; sourceTree = "<group>"; };
+		92D69F36238512FD00239DF8 /* AccountCollectionViewCellViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountCollectionViewCellViewModelType.swift; sourceTree = "<group>"; };
+		92D69F382385143700239DF8 /* AccountCollectionCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountCollectionCellViewModel.swift; sourceTree = "<group>"; };
 		C30B6677E28FDAC5F9BEF1EA /* Pods-TaxiNotes-TaxiNotesUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TaxiNotes-TaxiNotesUITests.release.xcconfig"; path = "Target Support Files/Pods-TaxiNotes-TaxiNotesUITests/Pods-TaxiNotes-TaxiNotesUITests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -130,11 +142,11 @@
 		922D7E29236F58510091B2AE /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				927CBB9E2366FD4300305F76 /* AccountCollectionController.swift */,
 				92AF0962236D7FE0003B99D8 /* SmenaViewController.swift */,
 				925C712E236F4C3600D82923 /* RashodViewController.swift */,
 				925C7130236F4C6C00D82923 /* ReportViewController.swift */,
 				925C7132236F4D4800D82923 /* SettingsViewController.swift */,
-				927CBB9E2366FD4300305F76 /* AccountCollectionController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -175,6 +187,8 @@
 		927CBB6D2366FCE400305F76 /* TaxiNotes */ = {
 			isa = PBXGroup;
 			children = (
+				92D69F332385127800239DF8 /* Protocols */,
+				92D69F2E2385112B00239DF8 /* ViewModel */,
 				922D7E29236F58510091B2AE /* ViewControllers */,
 				9262FDCF23681E26008D5D40 /* SceneDelegate.swift */,
 				927CBBE223670CF000305F76 /* GlobalVariables.swift */,
@@ -207,6 +221,58 @@
 				927CBB922366FCE700305F76 /* Info.plist */,
 			);
 			path = TaxiNotesUITests;
+			sourceTree = "<group>";
+		};
+		928BE50B23853AEF00687092 /* AccountView */ = {
+			isa = PBXGroup;
+			children = (
+				92D69F312385118400239DF8 /* AccountViewModel.swift */,
+				92D69F382385143700239DF8 /* AccountCollectionCellViewModel.swift */,
+			);
+			path = AccountView;
+			sourceTree = "<group>";
+		};
+		928BE50C23853AFC00687092 /* SmenaView */ = {
+			isa = PBXGroup;
+			children = (
+				928BE51123853EA000687092 /* SmenaViewModel.swift */,
+			);
+			path = SmenaView;
+			sourceTree = "<group>";
+		};
+		928BE50D23853B8900687092 /* SmenaViewProtocols */ = {
+			isa = PBXGroup;
+			children = (
+				928BE50F23853BE200687092 /* SmenaViewModeType.swift */,
+			);
+			path = SmenaViewProtocols;
+			sourceTree = "<group>";
+		};
+		928BE50E23853B9C00687092 /* AccountViewProtocol */ = {
+			isa = PBXGroup;
+			children = (
+				92D69F34238512AE00239DF8 /* AccountCollectionViewModelType.swift */,
+				92D69F36238512FD00239DF8 /* AccountCollectionViewCellViewModelType.swift */,
+			);
+			path = AccountViewProtocol;
+			sourceTree = "<group>";
+		};
+		92D69F2E2385112B00239DF8 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				928BE50C23853AFC00687092 /* SmenaView */,
+				928BE50B23853AEF00687092 /* AccountView */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		92D69F332385127800239DF8 /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				928BE50D23853B8900687092 /* SmenaViewProtocols */,
+				928BE50E23853B9C00687092 /* AccountViewProtocol */,
+			);
+			path = Protocols;
 			sourceTree = "<group>";
 		};
 		C3A8D4D4036AB7652561FB71 /* Pods */ = {
@@ -463,8 +529,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				927CBBE323670CF000305F76 /* GlobalVariables.swift in Sources */,
+				92D69F392385143700239DF8 /* AccountCollectionCellViewModel.swift in Sources */,
 				92AB92AA2379E22B00F29A31 /* zakazReportCell.swift in Sources */,
 				925C712F236F4C3600D82923 /* RashodViewController.swift in Sources */,
+				928BE51023853BE200687092 /* SmenaViewModeType.swift in Sources */,
+				92D69F37238512FD00239DF8 /* AccountCollectionViewCellViewModelType.swift in Sources */,
 				92AB92AC2379E25A00F29A31 /* rashodReportCell.swift in Sources */,
 				92B9E22E2367F92700F4462F /* DBModel.swift in Sources */,
 				9254046E236F5A8A00E183E3 /* RashodViewCell.swift in Sources */,
@@ -472,10 +541,13 @@
 				925C7131236F4C6C00D82923 /* ReportViewController.swift in Sources */,
 				9262FDCE2367FC85008D5D40 /* StorageManager.swift in Sources */,
 				92AF0963236D7FE0003B99D8 /* SmenaViewController.swift in Sources */,
+				92D69F322385118400239DF8 /* AccountViewModel.swift in Sources */,
 				927CBB9F2366FD4300305F76 /* AccountCollectionController.swift in Sources */,
 				927CBBA12366FD8B00305F76 /* AccountCollectionCell.swift in Sources */,
 				927CBBE123670C8B00305F76 /* MainViewController.swift in Sources */,
+				92D69F35238512AE00239DF8 /* AccountCollectionViewModelType.swift in Sources */,
 				9262FDD023681E26008D5D40 /* SceneDelegate.swift in Sources */,
+				928BE51223853EA000687092 /* SmenaViewModel.swift in Sources */,
 				925C7133236F4D4800D82923 /* SettingsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

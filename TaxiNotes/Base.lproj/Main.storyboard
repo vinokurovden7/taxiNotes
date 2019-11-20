@@ -86,7 +86,13 @@
                         </connections>
                     </collectionView>
                     <navigationItem key="navigationItem" title="Учетные записи" leftItemsSupplementBackButton="YES" id="9N7-DI-l3e">
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="jbZ-7F-K7v">
+                        <barButtonItem key="leftBarButtonItem" title="Item" image="xmark.circle.fill" catalog="system" id="ths-UY-TfD">
+                            <color key="tintColor" red="0.99981981519999996" green="0.98039871450000005" blue="0.54592013360000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <connections>
+                                <action selector="closeAllOpenSmenaBtnAction:" destination="X9u-He-ILh" id="1kS-eI-ASI"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" image="person.crop.circle.fill.badge.plus" catalog="system" id="jbZ-7F-K7v">
                             <color key="tintColor" red="0.99953407049999998" green="0.98835557699999999" blue="0.47265523669999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <connections>
                                 <action selector="addAccountAction:" destination="X9u-He-ILh" id="I1M-gq-O0v"/>
@@ -95,6 +101,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="addAccountBtn" destination="jbZ-7F-K7v" id="yUv-4q-epy"/>
+                        <outlet property="closeAllOpenSmenaBtn" destination="ths-UY-TfD" id="egW-1D-M3i"/>
                         <outlet property="myCollectionView" destination="xd9-LN-ESG" id="LgS-jT-Rbe"/>
                         <segue destination="CLX-0G-JkN" kind="presentation" identifier="mainScreen" modalPresentationStyle="fullScreen" modalTransitionStyle="flipHorizontal" id="d9q-id-GUC"/>
                     </connections>
@@ -435,16 +442,16 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="djD-f7-sIz">
-                                        <rect key="frame" x="0.0" y="39" width="203.5" height="62"/>
+                                        <rect key="frame" x="0.0" y="39" width="237.5" height="62"/>
                                         <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Сумма списания с заказа" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="PNV-Te-1Hz">
-                                                <rect key="frame" x="0.0" y="0.0" width="203.5" height="20"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Стоимость списания с заказа" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="PNV-Te-1Hz">
+                                                <rect key="frame" x="0.0" y="0.0" width="237.5" height="20"/>
                                                 <fontDescription key="fontDescription" name="ArialRoundedMTBold" family="Arial Rounded MT Bold" pointSize="17"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Сумма списания, ₽" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ITt-37-kJg">
-                                                <rect key="frame" x="0.0" y="28" width="152.5" height="34"/>
+                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Стоимость заказа, ₽" textAlignment="natural" clearsOnBeginEditing="YES" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ITt-37-kJg">
+                                                <rect key="frame" x="0.0" y="28" width="164" height="34"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="150" id="60a-Wc-nFh"/>
                                                 </constraints>
@@ -454,15 +461,15 @@
                                         </subviews>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="Lcx-J3-Afc">
-                                        <rect key="frame" x="0.0" y="112" width="219" height="62"/>
+                                        <rect key="frame" x="0.0" y="112" width="269.5" height="62"/>
                                         <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Процент списания с заказа" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="Lg0-vG-ENs">
-                                                <rect key="frame" x="0.0" y="0.0" width="219" height="20"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Стоимость списания с заказа в %" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="Lg0-vG-ENs">
+                                                <rect key="frame" x="0.0" y="0.0" width="269.5" height="20"/>
                                                 <fontDescription key="fontDescription" name="ArialRoundedMTBold" family="Arial Rounded MT Bold" pointSize="17"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Процент списания" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Pwf-Hy-xVr">
+                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="% от заказа" textAlignment="natural" clearsOnBeginEditing="YES" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Pwf-Hy-xVr">
                                                 <rect key="frame" x="0.0" y="28" width="150" height="34"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="150" id="eQe-0j-GEw"/>
@@ -650,13 +657,13 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="поле ввода стоимости поездки" textAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="XOb-8f-Ovb">
-                                <rect key="frame" x="16" y="144.5" width="288" height="34"/>
-                                <fontDescription key="fontDescription" name="ArialRoundedMTBold" family="Arial Rounded MT Bold" pointSize="20"/>
-                                <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="поле ввода стоимости поездки" textAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="XOb-8f-Ovb">
+                                <rect key="frame" x="16" y="144.5" width="288" height="43"/>
+                                <fontDescription key="fontDescription" name="ArialRoundedMTBold" family="Arial Rounded MT Bold" pointSize="30"/>
+                                <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
                             </textField>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="twQ-Ys-Ves">
-                                <rect key="frame" x="8" y="193.5" width="304" height="83"/>
+                                <rect key="frame" x="8" y="202.5" width="304" height="83"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="d6W-KB-cn5">
                                         <rect key="frame" x="0.0" y="0.0" width="304" height="63"/>
@@ -756,7 +763,7 @@
                                 </connections>
                             </button>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="bFq-nT-lJm">
-                                <rect key="frame" x="16" y="301.5" width="288" height="139"/>
+                                <rect key="frame" x="16" y="310.5" width="288" height="139"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" alignment="center" spacing="37" translatesAutoresizingMaskIntoConstraints="NO" id="i2t-ky-iTG">
                                         <rect key="frame" x="0.0" y="0.0" width="288" height="23.5"/>
@@ -1164,13 +1171,15 @@
         <image name="creditcard.fill" catalog="system" width="64" height="44"/>
         <image name="gear" catalog="system" width="64" height="58"/>
         <image name="percent" catalog="system" width="64" height="58"/>
+        <image name="person.crop.circle.fill.badge.plus" catalog="system" width="64" height="50"/>
         <image name="person.crop.square.fill" catalog="system" width="64" height="56"/>
         <image name="play.fill" catalog="system" width="58" height="64"/>
         <image name="plus.circle.fill" catalog="system" width="64" height="60"/>
         <image name="smallcircle.circle.fill" catalog="system" width="64" height="60"/>
         <image name="speedometer" catalog="system" width="64" height="60"/>
+        <image name="xmark.circle.fill" catalog="system" width="64" height="60"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="tn6-pm-PEd"/>
+        <segue reference="3nl-pi-oPe"/>
     </inferredMetricsTieBreakers>
 </document>

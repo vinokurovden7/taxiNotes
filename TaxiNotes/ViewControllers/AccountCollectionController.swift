@@ -13,20 +13,37 @@ let reuseIdentifier = "AccountNameCell"
 private var accountArray: Results<Accounts>!
 private var filteredArray: Results<Accounts>!
 private var arraySmena: Results<Smena>!
+private var openArraySmena: Results<Smena>!
 
 
 class AccountCollectionController: UICollectionViewController{
     @IBOutlet var myCollectionView: UICollectionView!
     @IBOutlet weak var addAccountBtn: UIBarButtonItem!
+    @IBOutlet weak var closeAllOpenSmenaBtn: UIBarButtonItem!
+    
+    private var viewModel: AccountCollectionViewViewModelType?
     
     private var yellowColor = UIColor(displayP3Red: 255/255, green: 250/255, blue: 139/255, alpha: 255/255)
     private var arrayBarButtons: [UIBarButtonItem] = []
     
     override func viewDidLoad() {
-        super.viewDidLoad()        
+        super.viewDidLoad()
+        
+        viewModel = AccountViewModel()
+        
         arrayBarButtons.append(addAccountBtn)
+        arrayBarButtons.append(closeAllOpenSmenaBtn)
         accountArray = realm.objects(Accounts.self).sorted(byKeyPath: "nameAccount")
         Variables.sharedVariables.changeThemeCollectionViewControlle(viewController: self, arrayBarButtons: arrayBarButtons)
+        
+        openArraySmena = realm.objects(Smena.self).filter("endDateSmena == nil")
+        
+        if openArraySmena.count <= 0 {
+            closeAllOpenSmenaBtn.isEnabled = false
+        } else {
+            closeAllOpenSmenaBtn.isEnabled = true
+        }
+        
     }
     
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
@@ -39,117 +56,62 @@ class AccountCollectionController: UICollectionViewController{
     override func viewWillAppear(_ animated: Bool) {
         myCollectionView.reloadData()
         Variables.sharedVariables.changeThemeCollectionViewControlle(viewController: self, arrayBarButtons: arrayBarButtons)
-    }
-    
-    //Нажатие на ячейку
-    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        Variables.sharedVariables.currentAccountName = accountArray[indexPath.row].nameAccount
-        Variables.sharedVariables.scoreAccount = Double(accountArray[indexPath.row].scoreAccount)
-        Variables.sharedVariables.idAccount = accountArray[indexPath.row].id
-        DispatchQueue.main.async(){
-            self.performSegue(withIdentifier: "mainScreen", sender: self)
+        
+        openArraySmena = realm.objects(Smena.self).filter("endDateSmena == nil")
+        
+        if openArraySmena.count <= 0 {
+            closeAllOpenSmenaBtn.isEnabled = false
+        } else {
+            closeAllOpenSmenaBtn.isEnabled = true
         }
     }
+    
     @IBAction func addAccountAction(_ sender: UIBarButtonItem) {
-        alertAddAccount(editMode: false, indexPath: nil)
-    }
-    
-    func alertAddAccount(editMode: Bool, indexPath: IndexPath?){
-        //Показать алерт добавления новой учетной записи
-        let alertTitle = editMode == false ? "Добавление учетной записи" : "Редактирование учетной записи"
-        let alert = UIAlertController(title: alertTitle, message: nil, preferredStyle: .alert)
-        
-        //Настройка строки для ввода наименования учетной записи
-        alert.addTextField(configurationHandler: { textField1 in
-            textField1.placeholder = "Название"
-            textField1.textAlignment = .center
-            textField1.borderStyle = UITextField.BorderStyle.roundedRect
-            textField1.keyboardType = .default
-            textField1.clearButtonMode = .whileEditing
-            textField1.autocapitalizationType = .sentences
-            if indexPath != nil{
-              textField1.text = accountArray[indexPath!.row].nameAccount
-            }
-            textField1.font = UIFont.boldSystemFont(ofSize: 17.0)
-        })
-        
-        //Настройка строки для ввода счета учетной записи
-        alert.addTextField(configurationHandler: { textField2 in
-            textField2.placeholder = "Балланс"
-            textField2.textAlignment = .center
-            textField2.borderStyle = UITextField.BorderStyle.roundedRect
-            textField2.keyboardType = .decimalPad
-            textField2.clearButtonMode = .whileEditing
-            if indexPath != nil {
-                textField2.text = String(accountArray[indexPath!.row].scoreAccount)
-            }
-            textField2.font = UIFont.boldSystemFont(ofSize: 17.0)
-        })
-        
-        //Обработчик кнопки добавления записи
-        let buttonTitle = editMode == false ? "Добавить учетную запись" : "Сохранить изменения"
-        alert.addAction(UIAlertAction(title: buttonTitle, style: .default, handler: { action in
-            
-            //Если первое поле ввода (Наименование учетной записи) не пустое
-            let score: String = ((alert.textFields?[1].text!)?.replacingOccurrences(of: ",", with: "."))!
-            if !(alert.textFields?[0].text?.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)! {
-                filteredArray = accountArray.filter("nameAccount ==[c] %@",alert.textFields?[0].text ?? "")
-                if filteredArray.count > 0 && !editMode {
-                    self.addInformationAlert(title: "Уведомление", message: "Такая учетная запись уже существует")
-                } else {
-                    let account = Accounts()
-                    account.nameAccount = (alert.textFields?[0].text)!
-                    account.scoreAccount = Double(score) ?? 0.0
-                    if editMode { account.id = accountArray[(indexPath?.row)!].id}
-                    StorageManager.saveAccount(account)
-                    self.myCollectionView.reloadData()
-                    
-                    let settings = Settings()
-                    filteredArray = accountArray.filter("nameAccount ==[c] %@",alert.textFields?[0].text ?? "")
-                    settings.idAccount = filteredArray.first!.id
-                    StorageManager.saveSettings(settings)
-                }
-            } else {
-              self.addAlertOk(title: "Уведомление", message: "Заполните название учетной записи", isRemove: false, indexPath: indexPath, editMode: editMode)
-            }
-            
-        }))
-        
-        alert.addAction(UIAlertAction(title: "Отмена", style: .destructive, handler: nil))
-        
-        self.present(alert, animated: true)
-    }
-    
-    //Создание уведомления
-    func addAlertOk(title: String, message: String, isRemove: Bool, indexPath: IndexPath?, editMode: Bool?){
-        let editRadiusAlert = UIAlertController(title: title, message: message, preferredStyle: UIAlertController.Style.alert)
-        var firstBtnTitle = "Ок"
-        var styleFirstBtn: UIAlertAction.Style = .cancel
-        if isRemove {
-            editRadiusAlert.addAction(UIAlertAction(title: "Отменить", style: .cancel, handler: nil))
-            firstBtnTitle = "Удалить"
-            styleFirstBtn = .destructive
-        }
-        editRadiusAlert.addAction(UIAlertAction(title: firstBtnTitle, style: styleFirstBtn, handler: {action in
-            
-            if !isRemove {
-                self.alertAddAccount(editMode: editMode ?? false, indexPath: indexPath)
+        self.present((viewModel?.addAlertAccount(editMode: false, indexPath: nil, completion: { error in
+            if error == 2 {
+                self.addInformationAlert(title: "Уведомление", message: "Заполните название учетной записи", editMode: true, indexPath: self.viewModel?.getIndexPathSelectedRow())
+            } else if error == 0 {
+                self.addInformationAlert(title: "Уведомление", message: "Такая учетная запись уже существует", editMode: false, indexPath: nil)
+            } else if error == 3 {
+                self.addInformationAlert(title: "Уведомление", message: "Заполните название учетной записи", editMode: false, indexPath: nil)
             }
             else {
-                guard let indexPath = indexPath else {return}
-                StorageManager.removeAccount(id: accountArray[indexPath.row].id)
-                self.myCollectionView.deleteItems(at: [indexPath])
+                self.myCollectionView.reloadData()
             }
-        }))
+        }))!, animated: true)
+    }
+    
+    @IBAction func closeAllOpenSmenaBtnAction(_ sender: UIBarButtonItem) {
         
-        self.present(editRadiusAlert, animated: true, completion: nil)
+        viewModel?.closeAllOpenSmena()
+        myCollectionView.reloadData()
+        
+        openArraySmena = realm.objects(Smena.self).filter("endDateSmena == nil")
+        
+        if openArraySmena.count <= 0 {
+            closeAllOpenSmenaBtn.isEnabled = false
+        } else {
+            closeAllOpenSmenaBtn.isEnabled = true
+        }
     }
     
     //Создание уведомления
-    func addInformationAlert(title: String, message: String){
-        let editRadiusAlert = UIAlertController(title: title, message: message, preferredStyle: UIAlertController.Style.alert)
-        editRadiusAlert.addAction(UIAlertAction(title: "Ок", style: UIAlertAction.Style.cancel, handler: nil))
-        self.present(editRadiusAlert, animated: true, completion: nil)
+    func addInformationAlert(title: String, message: String, editMode: Bool, indexPath: IndexPath?){
+        let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertController.Style.alert)
+        alert.addAction(UIAlertAction(title: "Ок", style: UIAlertAction.Style.cancel, handler: { action in
+            self.present((self.viewModel?.addAlertAccount(editMode: editMode, indexPath: indexPath, completion: { error in
+                if error == 2 {
+                    self.addInformationAlert(title: "Уведомление", message: "Заполните название учетной записи", editMode: editMode, indexPath: indexPath)
+                } else if error == 0 {
+                    self.addInformationAlert(title: "Уведомление", message: "Такая учетная запись уже существует", editMode: false, indexPath: nil)
+                } else if error == 3 {
+                    self.addInformationAlert(title: "Уведомление", message: "Заполните название учетной записи", editMode: false, indexPath: nil)
+                } else {
+                    self.myCollectionView.reloadData()
+                }
+            }))!, animated: true, completion: nil)
+        }))
+        self.present(alert, animated: true, completion: nil)
     }
     
     //Нажите на любое пустое место на экране
@@ -161,37 +123,25 @@ class AccountCollectionController: UICollectionViewController{
 
 extension AccountCollectionController {
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return accountArray.count
+        guard let viewModel = viewModel else {return 0}
+        return viewModel.numberOfRows()
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! AccountCollectionCell
-        cell.nameAccountLabel.text = accountArray[indexPath.row].nameAccount
-        cell.scoreAccountLabel.text = "Балланс: \(String(accountArray[indexPath.row].scoreAccount)) ₽"
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as? AccountCollectionCell
+        
+        guard let tableViewCell = cell, let viewModel = viewModel else { return UICollectionViewCell() }
+        
+        let cellViewModel = viewModel.cellViewModel(forIndexPath: indexPath)
+        tableViewCell.viewModel = cellViewModel
+
         arraySmena = realm.objects(Smena.self).filter("endDateSmena == nil and idAccount == %@",accountArray[indexPath.row].id)
         if arraySmena.count > 0 {
-            cell.startSmenaIndicatior.isHidden = false
+            cell!.startSmenaIndicatior.isHidden = false
         } else {
-            cell.startSmenaIndicatior.isHidden = true
+            cell!.startSmenaIndicatior.isHidden = true
         }
-        
-        switch traitCollection.userInterfaceStyle {
-            case .light, .unspecified:
-                cell.contentView.backgroundColor = .black
-                cell.nameAccountLabel.textColor = yellowColor
-                cell.startSmenaIndicatior.tintColor = yellowColor
-                cell.scoreAccountLabel.textColor = .white
-            break
-            case .dark:
-                cell.contentView.backgroundColor = yellowColor
-                cell.nameAccountLabel.textColor = .black
-                cell.startSmenaIndicatior.tintColor = .black
-                cell.scoreAccountLabel.textColor = .gray
-                break
-        @unknown default:
-            fatalError()
-        }
-        return cell
+        return cell!
     }
     
     override func collectionView(_ collectionView: UICollectionView, contextMenuConfigurationForItemAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
@@ -199,15 +149,42 @@ extension AccountCollectionController {
         let configuration = UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { actions -> UIMenu? in
             
             let deleteAction = UIAction(title: "Удалить", image: UIImage(systemName: "trash"), identifier: nil, attributes: .destructive) { action in
-                self.addAlertOk(title: "Подтверждение удаления", message: "Вы действительно хотите удалить учетную запись '\(accountArray[indexPath.row].nameAccount)'?", isRemove: true, indexPath: indexPath, editMode: false)
+                self.present((self.viewModel?.addDeleteAccountAlert(indexPath: indexPath, completion: {
+                    self.myCollectionView.deleteItems(at: [indexPath])
+                }))!, animated: true, completion: nil)
             }
             
             let editAction = UIAction(title: "Редактировать", image: UIImage(systemName: "square.and.pencil"), identifier: nil) { action in
-                self.alertAddAccount(editMode: true, indexPath: indexPath)
+                self.present((self.viewModel?.addAlertAccount(editMode: true, indexPath: indexPath, completion: { error in
+                    if error == 2 {
+                        self.addInformationAlert(title: "Уведомление", message: "Заполните название учетной записи", editMode: true, indexPath: indexPath)
+                    } else if error == 0 {
+                        self.addInformationAlert(title: "Уведомление", message: "Такая учетная запись уже существует", editMode: false, indexPath: nil)
+                    } else if error == 3 {
+                        self.addInformationAlert(title: "Уведомление", message: "Заполните название учетной записи", editMode: false, indexPath: nil)
+                    } else {
+                        self.myCollectionView.reloadData()
+                    }
+                }))!, animated: true)
             }
+            
             return UIMenu(__title: "", image: nil, identifier: nil, children:[editAction,deleteAction])
         }
         return configuration
+    }
+    
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        guard let viewModel = viewModel else {return}
+        viewModel.selectRow(atIndexPath: indexPath)
+        
+        Variables.sharedVariables.currentAccountName = accountArray[indexPath.row].nameAccount
+        Variables.sharedVariables.scoreAccount = Double(accountArray[indexPath.row].scoreAccount)
+        Variables.sharedVariables.idAccount = accountArray[indexPath.row].id
+        
+        DispatchQueue.main.async(){
+            self.performSegue(withIdentifier: "mainScreen", sender: self)
+        }
     }
     
 }

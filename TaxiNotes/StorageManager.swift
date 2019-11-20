@@ -33,7 +33,7 @@ class StorageManager {
     //Работа с заказами
     static func saveZakaz(_ zakaz: Zakaz){
         try! realm.write {
-            realm.add(zakaz)
+            realm.add(zakaz, update: true)
         }
     }
     

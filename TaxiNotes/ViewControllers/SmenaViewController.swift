@@ -9,7 +9,6 @@
 import UIKit
 import RealmSwift
 
-private var arraySmena: Results<Smena>!
 private var filteredArraySmena: Results<Smena>!
 private var arrayZakaz: Results<Zakaz>!
 private var filteredArrayZakaz: Results<Zakaz>!
@@ -17,6 +16,8 @@ private var settingsArray: Results<Settings>!
 
 class SmenaViewController: UIViewController {
 
+    private var viewModel: SmenaViewModeType?
+    
     private var arrayBarButtons: [UIBarButtonItem] = []
     
     //Buttons
@@ -51,16 +52,19 @@ class SmenaViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        viewModel = SmenaViewModel()
+        
         arrayBarButtons.append(startStopSmenaBtn)
         arrayBarButtons.append(logountBtn)
+        
         Variables.sharedVariables.changeThemeViewController(viewController: self, arrayBarButtons: arrayBarButtons)
-        arraySmena = realm.objects(Smena.self)
-        arrayZakaz = realm.objects(Zakaz.self)
+        
         scoreAccountLabel.text = "На счету: \(Variables.sharedVariables.scoreAccount) ₽"
         
         navigationItem.title = Variables.sharedVariables.currentAccountName
         
-        filteredArraySmena = arraySmena.filter("endDateSmena == nil and idAccount == %@",Variables.sharedVariables.idAccount)
+        arrayZakaz = realm.objects(Zakaz.self)
+        filteredArraySmena = realm.objects(Smena.self).filter("endDateSmena == nil and idAccount == %@",Variables.sharedVariables.idAccount)
         settingsArray = realm.objects(Settings.self).filter("idAccount == %@",Variables.sharedVariables.idAccount)
         
         showHideButtons()
@@ -93,25 +97,39 @@ class SmenaViewController: UIViewController {
     //Кнопка поездки с колес
     @IBAction func wheelBtnAction(_ sender: UIButton) {
         if (summaTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines).count)! > 0 {
-            wheel(summa: Double(summaTextField.text ?? "0")!)
+            viewModel!.wheel(summa: Double(summaTextField.text ?? "0") ?? 0.0)
+            summaTextField.text = ""
+            self.view.endEditing(true)
+            updateStatistic()
         }
     }
     //Кнопка поездки по-заказу с процентом
     @IBAction func percentBtnAction(_ sender: UIButton) {
         if (summaTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines).count)! > 0 {
-            percentZakaz(summa: Double(summaTextField.text ?? "0")!)
+            viewModel!.percentZakaz(summa: Double(summaTextField.text ?? "0") ?? 0.0)
+            scoreAccountLabel.text = "На счету: \(Variables.sharedVariables.scoreAccount) ₽"
+            summaTextField.text = ""
+            self.view.endEditing(true)
+            updateStatistic()
         }
     }
     //Кнопка поездки по-заказу без процента
     @IBAction func zakazBtnAction(_ sender: UIButton) {
         if (summaTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines).count)! > 0 {
-            zakaz(summa: Double(summaTextField.text ?? "0")!)
+            viewModel!.zakaz(summa: Double(summaTextField.text ?? "0") ?? 0.0)
+            scoreAccountLabel.text = "На счету: \(Variables.sharedVariables.scoreAccount) ₽"
+            summaTextField.text = ""
+            self.view.endEditing(true)
+            updateStatistic()
         }
     }
     //Кнопка поездки по-безналу
     @IBAction func beznalBtnAction(_ sender: UIButton) {
         if (summaTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines).count)! > 0 {
-            beznal(summa: Double(summaTextField.text ?? "0")!)
+            viewModel!.beznal(summa: Double(summaTextField.text ?? "0") ?? 0.0)
+            summaTextField.text = ""
+            self.view.endEditing(true)
+            updateStatistic()
         }
     }
     //Кнопка пополнения счета
@@ -120,15 +138,10 @@ class SmenaViewController: UIViewController {
     }
     //Кнопка начала и окончания смены
     @IBAction func startStopSmenaBtnAction(_ sender: UIBarButtonItem) {
+        
         if !Variables.sharedVariables.startedSmena {
             startStopSmenaBtn.image = UIImage(systemName: "stop.fill")
-            let smena = Smena()
-            smena.idAccount = Variables.sharedVariables.idAccount
             let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "dd.MM.yyyy hh:mm"
-            smena.startDateSmena = dateFormatter.date(from: dateFormatter.string(from: Date()))!
-            smena.endDateSmena = nil
-            StorageManager.saveSmena(smena)
             dateFormatter.dateFormat = "dd.MM.yyyy"
             let todaysDate = dateFormatter.string(from: Date())
             smenaPeriodLabel.text = "Смена \(todaysDate) - "
@@ -145,27 +158,18 @@ class SmenaViewController: UIViewController {
             
             beznalZakazLabel.text = "С безнала (0):"
             beznalZakazSumm.text = "0.0 ₽"
+            viewModel?.startStopSmena()
             
         } else {
-            filteredArraySmena = arraySmena.filter("endDateSmena == nil and idAccount == %@",Variables.sharedVariables.idAccount)
-            
+            filteredArraySmena = realm.objects(Smena.self).filter("endDateSmena == nil and idAccount == %@",Variables.sharedVariables.idAccount)
             if filteredArraySmena.count > 0 {
-                let smena = Smena()
-                smena.idAccount = Variables.sharedVariables.idAccount
-                smena.startDateSmena = filteredArraySmena.first!.startDateSmena
                 let dateFormatter = DateFormatter()
-                dateFormatter.dateFormat = "dd.MM.yyyy hh:mm"
-                smena.endDateSmena = dateFormatter.date(from: dateFormatter.string(from: Date()))!
-                smena.id = filteredArraySmena.first!.id
-                let idSmena = filteredArraySmena.first!.id
-                StorageManager.saveSmena(smena)
-                
-                filteredArraySmena = arraySmena.filter("id == %@",idSmena)
-                
                 dateFormatter.dateFormat = "dd.MM.yyyy"
-                smenaPeriodLabel.text = "Смена \(dateFormatter.string(from:filteredArraySmena.first!.startDateSmena)) - \(dateFormatter.string(from: filteredArraySmena.first!.endDateSmena!))"
+                let todaysDate = dateFormatter.string(from: Date())
+                smenaPeriodLabel.text = "Смена \(dateFormatter.string(from:filteredArraySmena.first!.startDateSmena)) - \(todaysDate)"
+                viewModel?.startStopSmena()
+                startStopSmenaBtn.image = UIImage(systemName: "play.fill")
             }
-            startStopSmenaBtn.image = UIImage(systemName: "play.fill")
         }
         Variables.sharedVariables.startedSmena = !Variables.sharedVariables.startedSmena
     }
@@ -204,208 +208,31 @@ class SmenaViewController: UIViewController {
         }
     }
     
-    //Функция поездки с колес
-    private func wheel(summa: Double){
-        summaTextField.text = ""
-        self.view.endEditing(true)
-        
-        filteredArraySmena = arraySmena.filter("endDateSmena == nil and idAccount == %@",Variables.sharedVariables.idAccount)
-        if filteredArraySmena.count > 0 {
-            let zakaz = Zakaz()
-            zakaz.dateZakaz = Date()
-            zakaz.clearDateZakaz = Variables.sharedVariables.reomveTimeFrom(date: Date())
-            zakaz.idAccount = Variables.sharedVariables.idAccount
-            zakaz.idSmena = filteredArraySmena.first!.id
-            zakaz.summaZakaz = summa
-            zakaz.typeZakaz = 3
-            
-            StorageManager.saveZakaz(zakaz)
-            updateStatistic()
-        }
-        
-    }
-    
-    //Функция поездки по-заказу с процентом
-    private func percentZakaz(summa: Double){
-        summaTextField.text = ""
-        self.view.endEditing(true)
-        
-        filteredArraySmena = arraySmena.filter("endDateSmena == nil and idAccount == %@",Variables.sharedVariables.idAccount)
-        if filteredArraySmena.count > 0 {
-            
-            let currentScore = Variables.sharedVariables.scoreAccount
-            let settingsScore = settingsArray.first!.percentZakaz
-            let itog = String(format: "%.2f", currentScore - (summa/100 * Double(settingsScore)))
-            Variables.sharedVariables.scoreAccount = Double(itog)!
-            
-            let account = Accounts()
-            account.nameAccount = Variables.sharedVariables.currentAccountName
-            account.scoreAccount = Double(itog)!
-            account.id = Variables.sharedVariables.idAccount
-            StorageManager.saveAccount(account)
-            
-            scoreAccountLabel.text = "На счету: \(Variables.sharedVariables.scoreAccount) ₽"
-            
-            let zakaz = Zakaz()
-            zakaz.dateZakaz = Date()
-            zakaz.clearDateZakaz = Variables.sharedVariables.reomveTimeFrom(date: Date())
-            zakaz.idAccount = Variables.sharedVariables.idAccount
-            zakaz.idSmena = filteredArraySmena.first!.id
-            zakaz.summaZakaz = summa
-            zakaz.typeZakaz = 2
-            
-            StorageManager.saveZakaz(zakaz)
-            updateStatistic()
-        }
-        
-    }
-    //Функция поездки по-заказу без процента
-    private func zakaz(summa: Double){
-        summaTextField.text = ""
-        self.view.endEditing(true)
-        
-        filteredArraySmena = arraySmena.filter("endDateSmena == nil and idAccount == %@",Variables.sharedVariables.idAccount)
-        if filteredArraySmena.count > 0 {
-            
-            let currentScore = Variables.sharedVariables.scoreAccount
-            let settingsScore = settingsArray.first!.summZakaz
-            Variables.sharedVariables.scoreAccount = currentScore - settingsScore
-            
-            let account = Accounts()
-            account.nameAccount = Variables.sharedVariables.currentAccountName
-            account.scoreAccount = currentScore - settingsScore
-            account.id = Variables.sharedVariables.idAccount
-            StorageManager.saveAccount(account)
-            
-            scoreAccountLabel.text = "На счету: \(Variables.sharedVariables.scoreAccount) ₽"
-            
-            let zakaz = Zakaz()
-            zakaz.dateZakaz = Date()
-            zakaz.clearDateZakaz = Variables.sharedVariables.reomveTimeFrom(date: Date())
-            zakaz.idAccount = Variables.sharedVariables.idAccount
-            zakaz.idSmena = filteredArraySmena.first!.id
-            zakaz.summaZakaz = summa
-            zakaz.typeZakaz = 1
-            
-            StorageManager.saveZakaz(zakaz)
-            
-            updateStatistic()
-        }
-        
-    }
-    //Функция поездки по-безналу
-    private func beznal(summa: Double){
-        summaTextField.text = ""
-        self.view.endEditing(true)
-        
-        filteredArraySmena = arraySmena.filter("endDateSmena == nil and idAccount == %@",Variables.sharedVariables.idAccount)
-        if filteredArraySmena.count > 0 {
-            let zakaz = Zakaz()
-            zakaz.dateZakaz = Date()
-            zakaz.clearDateZakaz = Variables.sharedVariables.reomveTimeFrom(date: Date())
-            zakaz.idAccount = Variables.sharedVariables.idAccount
-            zakaz.idSmena = filteredArraySmena.first!.id
-            zakaz.summaZakaz = summa
-            zakaz.typeZakaz = 0
-            
-            StorageManager.saveZakaz(zakaz)
-            updateStatistic()
-        }
-    }
-    
     //Функция пополнения счета
     func alertAddScoreAccount(){
-        //Показать алерт добавления новой учетной записи
-        let alert = UIAlertController(title: "Пополнение балланса", message: nil, preferredStyle: .alert)
-        
-        //Настройка строки для ввода наименования учетной записи
-        alert.addTextField(configurationHandler: { textField1 in
-            textField1.placeholder = "Сумма пополнения"
-            textField1.textAlignment = .center
-            textField1.keyboardType = .numberPad
-            textField1.clearButtonMode = .whileEditing
-            textField1.autocapitalizationType = .sentences
-            textField1.font = UIFont.boldSystemFont(ofSize: 17.0)
-        })
-        
-        //Обработчик кнопки добавления записи
-        alert.addAction(UIAlertAction(title: "Пополнить", style: .default, handler: { action in
-            
-            //Если первое поле ввода (Наименование учетной записи) не пустое
-            if !(alert.textFields?[0].text?.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)! {
-                let currentScore = Variables.sharedVariables.scoreAccount
-                let score: Double = Double((alert.textFields![0].text!))!
-                let account = Accounts()
-                account.nameAccount = Variables.sharedVariables.currentAccountName
-                account.scoreAccount = currentScore + score
-                account.id = Variables.sharedVariables.idAccount
-                StorageManager.saveAccount(account)
-                Variables.sharedVariables.scoreAccount = currentScore + score
-                
-                let rashod = Rashod()
-                rashod.idAccount = Variables.sharedVariables.idAccount
-                rashod.summRashod = score
-                rashod.nameRashod = "Пополнение счета"
-                StorageManager.saveRashod(rashod)
-                self.scoreAccountLabel.text = "На счету: \(Variables.sharedVariables.scoreAccount) ₽"
-            } else {
-              self.addInformationAlert(title: "Уведомление", message: "Укажите сумму пополнения")
-            }
-            
-        }))
-        
-        alert.addAction(UIAlertAction(title: "Отмена", style: .destructive, handler: nil))
-        
-        self.present(alert, animated: true)
+        self.present((viewModel?.alertAddScoreAccount())!, animated: true)
+        self.scoreAccountLabel.text = "На счету: \(Variables.sharedVariables.scoreAccount) ₽"
     }
     
     //Создание уведомления
     func addInformationAlert(title: String, message: String){
-        let editRadiusAlert = UIAlertController(title: title, message: message, preferredStyle: UIAlertController.Style.alert)
-        editRadiusAlert.addAction(UIAlertAction(title: "Ок", style: UIAlertAction.Style.cancel, handler: {action in
-            self.alertAddScoreAccount()
-        }))
-        self.present(editRadiusAlert, animated: true, completion: nil)
+        self.present((viewModel?.addInformationAlert(title: title, message: message))!, animated: true, completion: nil)
     }
     
     //Обновление статистики
     func updateStatistic(){
-        //Запрос на поиск id открытой смены
-        filteredArraySmena = arraySmena.filter("endDateSmena == nil and idAccount == %@",Variables.sharedVariables.idAccount)
-        guard let idSmena = filteredArraySmena.first?.id else {return}
-        
-        //Запрос на получение общей суммы
-        filteredArrayZakaz = arrayZakaz.filter("idSmena == %@",idSmena)
-        guard let totalSumm: Double = filteredArrayZakaz?.sum(ofProperty: "summaZakaz") else {return}
-        guard let totalCount = filteredArrayZakaz?.count else {return}
-        
-        //Запрос на получение суммы с колёс
-        filteredArrayZakaz = arrayZakaz.filter("idSmena == %@ and typeZakaz == %@",idSmena,3)
-        guard let wheelSumm: Double = filteredArrayZakaz?.sum(ofProperty: "summaZakaz") else {return}
-        guard let wheelCount = filteredArrayZakaz?.count else {return}
-        
-        //Запрос на получение суммы с заказов
-        filteredArrayZakaz = arrayZakaz.filter("idSmena == %@ and (typeZakaz == %@ or typeZakaz == %@)",idSmena,2,1)
-        guard let zakazSumma: Double = filteredArrayZakaz?.sum(ofProperty: "summaZakaz") else {return}
-        guard let zakazCount = filteredArrayZakaz?.count else {return}
-        
-        //Запрос на получение суммы с заказа с безнала
-        filteredArrayZakaz = arrayZakaz.filter("idSmena == %@ and typeZakaz == %@",idSmena,0)
-        guard let beznalSumm: Double = filteredArrayZakaz?.sum(ofProperty: "summaZakaz") else {return}
-        guard let beznalCount = filteredArrayZakaz?.count else {return}
-        
         //Заполнение полей
-        totalZakazLabel.text = "Итого (\(totalCount)):"
-        totalZakazSumm.text = "\(totalSumm) ₽"
+        totalZakazLabel.text = "Итого (\(viewModel?.getTotalSummCount().count ?? 0)):"
+        totalZakazSumm.text = "\(viewModel?.getTotalSummCount().summ ?? 0.0) ₽"
         
-        wheelZakazLabel.text = "С колёс (\(wheelCount)):"
-        wheelZakazSumm.text = "\(wheelSumm) ₽"
+        wheelZakazLabel.text = "С колёс (\(viewModel?.getWheelSummCount().count ?? 0)):"
+        wheelZakazSumm.text = "\(viewModel?.getWheelSummCount().summ ?? 0.0) ₽"
         
-        zakazLabel.text = "С заказов (\(zakazCount)):"
-        zakazSumm.text = "\(zakazSumma) ₽"
+        zakazLabel.text = "С заказов (\(viewModel?.getZakazSummCount().count ?? 0)):"
+        zakazSumm.text = "\(viewModel?.getZakazSummCount().summ ?? 0.0) ₽"
         
-        beznalZakazLabel.text = "С безнала (\(beznalCount)):"
-        beznalZakazSumm.text = "\(beznalSumm) ₽"
+        beznalZakazLabel.text = "С безнала (\(viewModel?.getBeznalSummCount().count ?? 0)):"
+        beznalZakazSumm.text = "\(viewModel?.getBeznalSummCount().summ ?? 0.0) ₽"
     }
     
     //Нажите на любое пустое место на экране
