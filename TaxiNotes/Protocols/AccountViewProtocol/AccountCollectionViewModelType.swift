@@ -25,4 +25,6 @@ protocol AccountCollectionViewViewModelType {
     func addAlertAccount(editMode: Bool, indexPath: IndexPath?, completion: @escaping (Int)->()) -> UIAlertController
     
     func addDeleteAccountAlert(indexPath: IndexPath, completion: @escaping ()->()) -> UIAlertController
+    
+    func addInformationAlert(title: String, message: String, complection: @escaping ()->()) -> UIAlertController
 }

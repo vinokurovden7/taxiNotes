@@ -134,7 +134,9 @@ class SmenaViewController: UIViewController {
     }
     //Кнопка пополнения счета
     @IBAction func addMoneyScoreBtnAction(_ sender: UIButton) {
-        alertAddScoreAccount()
+        self.present((viewModel?.alertAddScoreAccount(completion: {
+                self.scoreAccountLabel.text = "На счету: \(Variables.sharedVariables.scoreAccount) ₽"
+        }))!, animated: true)
     }
     //Кнопка начала и окончания смены
     @IBAction func startStopSmenaBtnAction(_ sender: UIBarButtonItem) {
@@ -206,12 +208,6 @@ class SmenaViewController: UIViewController {
             percentBtn.isHidden = true
             percentZakazLabel.isHidden = true
         }
-    }
-    
-    //Функция пополнения счета
-    func alertAddScoreAccount(){
-        self.present((viewModel?.alertAddScoreAccount())!, animated: true)
-        self.scoreAccountLabel.text = "На счету: \(Variables.sharedVariables.scoreAccount) ₽"
     }
     
     //Создание уведомления

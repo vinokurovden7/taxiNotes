@@ -151,4 +151,12 @@ class AccountViewModel: AccountCollectionViewViewModelType {
         return alert
     }
     
+    func addInformationAlert(title: String, message: String, complection: @escaping ()->()) -> UIAlertController {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertController.Style.alert)
+        alert.addAction(UIAlertAction(title: "Ок", style: UIAlertAction.Style.cancel, handler: {action in
+            complection()
+        }))
+        return alert
+    }
+    
 }

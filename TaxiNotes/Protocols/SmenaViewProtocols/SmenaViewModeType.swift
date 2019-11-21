@@ -15,7 +15,7 @@ protocol SmenaViewModeType {
     func percentZakaz(summa: Double)
     func zakaz(summa: Double)
     func beznal(summa: Double)
-    func alertAddScoreAccount() -> UIAlertController
+    func alertAddScoreAccount(completion: @escaping ()->()) -> UIAlertController
     func addInformationAlert(title: String, message: String) -> UIAlertController
     func getIdSmena() -> String
     func getTotalSummCount() -> (summ:Double, count:Int)

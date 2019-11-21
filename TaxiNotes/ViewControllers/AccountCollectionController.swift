@@ -68,16 +68,7 @@ class AccountCollectionController: UICollectionViewController{
     
     @IBAction func addAccountAction(_ sender: UIBarButtonItem) {
         self.present((viewModel?.addAlertAccount(editMode: false, indexPath: nil, completion: { error in
-            if error == 2 {
-                self.addInformationAlert(title: "Уведомление", message: "Заполните название учетной записи", editMode: true, indexPath: self.viewModel?.getIndexPathSelectedRow())
-            } else if error == 0 {
-                self.addInformationAlert(title: "Уведомление", message: "Такая учетная запись уже существует", editMode: false, indexPath: nil)
-            } else if error == 3 {
-                self.addInformationAlert(title: "Уведомление", message: "Заполните название учетной записи", editMode: false, indexPath: nil)
-            }
-            else {
-                self.myCollectionView.reloadData()
-            }
+            self.errorCase(error: error, indexPath: nil)
         }))!, animated: true)
     }
     
@@ -95,32 +86,41 @@ class AccountCollectionController: UICollectionViewController{
         }
     }
     
-    //Создание уведомления
-    func addInformationAlert(title: String, message: String, editMode: Bool, indexPath: IndexPath?){
-        let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertController.Style.alert)
-        alert.addAction(UIAlertAction(title: "Ок", style: UIAlertAction.Style.cancel, handler: { action in
-            self.present((self.viewModel?.addAlertAccount(editMode: editMode, indexPath: indexPath, completion: { error in
-                if error == 2 {
-                    self.addInformationAlert(title: "Уведомление", message: "Заполните название учетной записи", editMode: editMode, indexPath: indexPath)
-                } else if error == 0 {
-                    self.addInformationAlert(title: "Уведомление", message: "Такая учетная запись уже существует", editMode: false, indexPath: nil)
-                } else if error == 3 {
-                    self.addInformationAlert(title: "Уведомление", message: "Заполните название учетной записи", editMode: false, indexPath: nil)
-                } else {
-                    self.myCollectionView.reloadData()
-                }
-            }))!, animated: true, completion: nil)
-        }))
-        self.present(alert, animated: true, completion: nil)
-    }
-    
     //Нажите на любое пустое место на экране
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
     }
     
+    func errorCase(error: Int, indexPath: IndexPath?){
+        switch error {
+        case 0:
+            self.present((self.viewModel?.addInformationAlert(title: "Уведомление", message: "Такая учетная запись уже существует", complection: {
+                self.present((self.viewModel?.addAlertAccount(editMode: true, indexPath: indexPath, completion: { error in
+                    self.errorCase(error: error, indexPath: indexPath)
+                }))!, animated: true, completion: nil)
+            }))!, animated: true, completion: nil)
+        case 1:
+            self.myCollectionView.reloadData()
+        case 2:
+            self.present((self.viewModel?.addInformationAlert(title: "Уведомление", message: "Заполните название учетной записи", complection: {
+                self.present((self.viewModel?.addAlertAccount(editMode: true, indexPath: indexPath, completion: { error in
+                    self.errorCase(error: error, indexPath: indexPath)
+                }))!, animated: true, completion: nil)
+            }))!, animated: true, completion: nil)
+        case 3:
+            self.present((self.viewModel?.addInformationAlert(title: "Уведомление", message: "Заполните название учетной записи", complection: {
+                self.present((self.viewModel?.addAlertAccount(editMode: false, indexPath: indexPath, completion: { error in
+                    self.errorCase(error: error, indexPath: indexPath)
+                }))!, animated: true, completion: nil)
+            }))!, animated: true, completion: nil)
+        default:
+            break
+        }
+    }
+    
 }
 
+//Расширение для работы с CollectionView
 extension AccountCollectionController {
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         guard let viewModel = viewModel else {return 0}
@@ -156,15 +156,7 @@ extension AccountCollectionController {
             
             let editAction = UIAction(title: "Редактировать", image: UIImage(systemName: "square.and.pencil"), identifier: nil) { action in
                 self.present((self.viewModel?.addAlertAccount(editMode: true, indexPath: indexPath, completion: { error in
-                    if error == 2 {
-                        self.addInformationAlert(title: "Уведомление", message: "Заполните название учетной записи", editMode: true, indexPath: indexPath)
-                    } else if error == 0 {
-                        self.addInformationAlert(title: "Уведомление", message: "Такая учетная запись уже существует", editMode: false, indexPath: nil)
-                    } else if error == 3 {
-                        self.addInformationAlert(title: "Уведомление", message: "Заполните название учетной записи", editMode: false, indexPath: nil)
-                    } else {
-                        self.myCollectionView.reloadData()
-                    }
+                    self.errorCase(error: error, indexPath: indexPath)
                 }))!, animated: true)
             }
             

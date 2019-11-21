@@ -133,7 +133,7 @@ class SmenaViewModel: SmenaViewModeType {
         }
     }
     
-    func alertAddScoreAccount() -> UIAlertController {
+    func alertAddScoreAccount(completion: @escaping () -> ()) -> UIAlertController {
         //Показать алерт добавления новой учетной записи
         let alert = UIAlertController(title: "Пополнение балланса", message: nil, preferredStyle: .alert)
         
@@ -166,12 +166,12 @@ class SmenaViewModel: SmenaViewModeType {
                 rashod.summRashod = score
                 rashod.nameRashod = "Пополнение счета"
                 StorageManager.saveRashod(rashod)
+                completion()
             }
             
         }))
         
         alert.addAction(UIAlertAction(title: "Отмена", style: .destructive, handler: nil))
-        
         
         return alert
     }
