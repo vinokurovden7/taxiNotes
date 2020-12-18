@@ -13,14 +13,14 @@ class RashodCellViewModel: RashodViewCellViewModelType {
     private var rashod: Rashod
     var dateRashodLabel: String {
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "dd.MM.yyyy"
+        dateFormatter.dateFormat = "dd.MM.yyyy HH:mm"
         return dateFormatter.string(from: rashod.dateRashod)
     }
     var nameRashodLabel: String {
         return rashod.nameRashod
     }
     var summRashodLabel: String {
-        return String(rashod.summRashod)
+        return String(format: "%.2f", rashod.summRashod)
     }
     init(rashod: Rashod) {
         self.rashod = rashod

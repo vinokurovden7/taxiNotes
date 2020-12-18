@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import RealmSwift
 
 protocol SmenaViewModeType {
     
@@ -22,5 +23,7 @@ protocol SmenaViewModeType {
     func getWheelSummCount() -> (summ:Double, count:Int)
     func getZakazSummCount() -> (summ:Double, count:Int)
     func getBeznalSummCount() -> (summ:Double, count:Int)
+    func getFilteredArraySmena() -> Results<Smena>!
+    func getSettingsArray() -> Results<Settings>!
     
 }

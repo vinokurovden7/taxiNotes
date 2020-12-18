@@ -8,12 +8,19 @@
 
 /* Begin PBXBuildFile section */
 		0BE43DF4971D2AD91E33772A /* Pods_TaxiNotes_TaxiNotesUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 42AA8069638142A572953C2A /* Pods_TaxiNotes_TaxiNotesUITests.framework */; };
+		9220101F238683A7003CFC37 /* ReportViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9220101E238683A7003CFC37 /* ReportViewModelType.swift */; };
+		9220102123868553003CFC37 /* ReportZakazCellViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9220102023868553003CFC37 /* ReportZakazCellViewModelType.swift */; };
+		92201023238685A7003CFC37 /* ReportRashodCellViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92201022238685A7003CFC37 /* ReportRashodCellViewModelType.swift */; };
+		92201025238692D2003CFC37 /* ReportViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92201024238692D2003CFC37 /* ReportViewModel.swift */; };
+		92201027238692EB003CFC37 /* ReportZakazCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92201026238692EB003CFC37 /* ReportZakazCellViewModel.swift */; };
+		9220102B2386930B003CFC37 /* ReportRashodCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9220102A2386930B003CFC37 /* ReportRashodCellViewModel.swift */; };
 		9254046E236F5A8A00E183E3 /* RashodViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9254046D236F5A8A00E183E3 /* RashodViewCell.swift */; };
 		925C712F236F4C3600D82923 /* RashodViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 925C712E236F4C3600D82923 /* RashodViewController.swift */; };
 		925C7131236F4C6C00D82923 /* ReportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 925C7130236F4C6C00D82923 /* ReportViewController.swift */; };
 		925C7133236F4D4800D82923 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 925C7132236F4D4800D82923 /* SettingsViewController.swift */; };
 		9262FDCE2367FC85008D5D40 /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9262FDCD2367FC85008D5D40 /* StorageManager.swift */; };
 		9262FDD023681E26008D5D40 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9262FDCF23681E26008D5D40 /* SceneDelegate.swift */; };
+		9274FF8F238D682C0057B038 /* HelpScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9274FF8E238D682C0057B038 /* HelpScreenViewController.swift */; };
 		927CBB6F2366FCE400305F76 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 927CBB6E2366FCE400305F76 /* AppDelegate.swift */; };
 		927CBB762366FCE400305F76 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 927CBB742366FCE400305F76 /* Main.storyboard */; };
 		927CBB782366FCE600305F76 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 927CBB772366FCE600305F76 /* Assets.xcassets */; };
@@ -23,12 +30,15 @@
 		927CBB9F2366FD4300305F76 /* AccountCollectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 927CBB9E2366FD4300305F76 /* AccountCollectionController.swift */; };
 		927CBBA12366FD8B00305F76 /* AccountCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 927CBBA02366FD8B00305F76 /* AccountCollectionCell.swift */; };
 		927CBBE323670CF000305F76 /* GlobalVariables.swift in Sources */ = {isa = PBXBuildFile; fileRef = 927CBBE223670CF000305F76 /* GlobalVariables.swift */; };
+		9286DFBA2387DAFA000530EF /* SettingsViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9286DFB92387DAFA000530EF /* SettingsViewModelType.swift */; };
+		9286DFBC2387DB0A000530EF /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9286DFBB2387DB0A000530EF /* SettingsViewModel.swift */; };
 		928BE51023853BE200687092 /* SmenaViewModeType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 928BE50F23853BE200687092 /* SmenaViewModeType.swift */; };
 		928BE51223853EA000687092 /* SmenaViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 928BE51123853EA000687092 /* SmenaViewModel.swift */; };
 		928BE5152385AF7300687092 /* RashodViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 928BE5142385AF7300687092 /* RashodViewModelType.swift */; };
 		928BE5182385AF8C00687092 /* RashodViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 928BE5172385AF8C00687092 /* RashodViewModel.swift */; };
 		928BE51A2385B7DC00687092 /* RashodViewCellViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 928BE5192385B7DC00687092 /* RashodViewCellViewModelType.swift */; };
 		928BE51C2385BA6D00687092 /* RashodCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 928BE51B2385BA6D00687092 /* RashodCellViewModel.swift */; };
+		92A8C3C72387BA6700004E82 /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92A8C3C62387BA6700004E82 /* Extension.swift */; };
 		92AB92AA2379E22B00F29A31 /* zakazReportCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92AB92A92379E22B00F29A31 /* zakazReportCell.swift */; };
 		92AB92AC2379E25A00F29A31 /* rashodReportCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92AB92AB2379E25A00F29A31 /* rashodReportCell.swift */; };
 		92AF0963236D7FE0003B99D8 /* SmenaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92AF0962236D7FE0003B99D8 /* SmenaViewController.swift */; };
@@ -37,6 +47,8 @@
 		92D69F35238512AE00239DF8 /* AccountCollectionViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92D69F34238512AE00239DF8 /* AccountCollectionViewModelType.swift */; };
 		92D69F37238512FD00239DF8 /* AccountCollectionViewCellViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92D69F36238512FD00239DF8 /* AccountCollectionViewCellViewModelType.swift */; };
 		92D69F392385143700239DF8 /* AccountCollectionCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92D69F382385143700239DF8 /* AccountCollectionCellViewModel.swift */; };
+		92E4D0202387ECC7008F03A9 /* PageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92E4D01E2387ECC7008F03A9 /* PageViewController.swift */; };
+		92E4D0212387ECC7008F03A9 /* ContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92E4D01F2387ECC7008F03A9 /* ContentViewController.swift */; };
 		A2F3B6C023D17F2583D84464 /* Pods_TaxiNotesTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E470828B95B0667D7764E6F /* Pods_TaxiNotesTests.framework */; };
 		FF24DAAC85856C06DE029BB6 /* Pods_TaxiNotes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16F745238F968AC5EC76E35D /* Pods_TaxiNotes.framework */; };
 /* End PBXBuildFile section */
@@ -67,13 +79,20 @@
 		64530FCBA477165C5683930B /* Pods-TaxiNotes-TaxiNotesUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TaxiNotes-TaxiNotesUITests.debug.xcconfig"; path = "Target Support Files/Pods-TaxiNotes-TaxiNotesUITests/Pods-TaxiNotes-TaxiNotesUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		7E470828B95B0667D7764E6F /* Pods_TaxiNotesTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TaxiNotesTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		876A7AF13DE23BC1501EDC9E /* Pods-TaxiNotes.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TaxiNotes.release.xcconfig"; path = "Target Support Files/Pods-TaxiNotes/Pods-TaxiNotes.release.xcconfig"; sourceTree = "<group>"; };
+		9220101E238683A7003CFC37 /* ReportViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportViewModelType.swift; sourceTree = "<group>"; };
+		9220102023868553003CFC37 /* ReportZakazCellViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportZakazCellViewModelType.swift; sourceTree = "<group>"; };
+		92201022238685A7003CFC37 /* ReportRashodCellViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportRashodCellViewModelType.swift; sourceTree = "<group>"; };
+		92201024238692D2003CFC37 /* ReportViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportViewModel.swift; sourceTree = "<group>"; };
+		92201026238692EB003CFC37 /* ReportZakazCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportZakazCellViewModel.swift; sourceTree = "<group>"; };
+		9220102A2386930B003CFC37 /* ReportRashodCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportRashodCellViewModel.swift; sourceTree = "<group>"; };
 		9254046D236F5A8A00E183E3 /* RashodViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RashodViewCell.swift; sourceTree = "<group>"; };
 		925C712E236F4C3600D82923 /* RashodViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RashodViewController.swift; sourceTree = "<group>"; };
 		925C7130236F4C6C00D82923 /* ReportViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportViewController.swift; sourceTree = "<group>"; };
 		925C7132236F4D4800D82923 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		9262FDCD2367FC85008D5D40 /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
 		9262FDCF23681E26008D5D40 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SceneDelegate.swift; path = /Users/denis/Projects_iOS/TaxiNotes/TaxiNotes/SceneDelegate.swift; sourceTree = "<absolute>"; };
-		927CBB6B2366FCE400305F76 /* TaxiNotes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TaxiNotes.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		9274FF8E238D682C0057B038 /* HelpScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpScreenViewController.swift; sourceTree = "<group>"; };
+		927CBB6B2366FCE400305F76 /* Блокнот таксиста.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Блокнот таксиста.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		927CBB6E2366FCE400305F76 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		927CBB752366FCE400305F76 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		927CBB772366FCE600305F76 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -88,12 +107,15 @@
 		927CBB9E2366FD4300305F76 /* AccountCollectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountCollectionController.swift; sourceTree = "<group>"; };
 		927CBBA02366FD8B00305F76 /* AccountCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountCollectionCell.swift; sourceTree = "<group>"; };
 		927CBBE223670CF000305F76 /* GlobalVariables.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalVariables.swift; sourceTree = "<group>"; };
+		9286DFB92387DAFA000530EF /* SettingsViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModelType.swift; sourceTree = "<group>"; };
+		9286DFBB2387DB0A000530EF /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
 		928BE50F23853BE200687092 /* SmenaViewModeType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmenaViewModeType.swift; sourceTree = "<group>"; };
 		928BE51123853EA000687092 /* SmenaViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmenaViewModel.swift; sourceTree = "<group>"; };
 		928BE5142385AF7300687092 /* RashodViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RashodViewModelType.swift; sourceTree = "<group>"; };
 		928BE5172385AF8C00687092 /* RashodViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RashodViewModel.swift; sourceTree = "<group>"; };
 		928BE5192385B7DC00687092 /* RashodViewCellViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RashodViewCellViewModelType.swift; sourceTree = "<group>"; };
 		928BE51B2385BA6D00687092 /* RashodCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RashodCellViewModel.swift; sourceTree = "<group>"; };
+		92A8C3C62387BA6700004E82 /* Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
 		92AB92A92379E22B00F29A31 /* zakazReportCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = zakazReportCell.swift; sourceTree = "<group>"; };
 		92AB92AB2379E25A00F29A31 /* rashodReportCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = rashodReportCell.swift; sourceTree = "<group>"; };
 		92AF0962236D7FE0003B99D8 /* SmenaViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmenaViewController.swift; sourceTree = "<group>"; };
@@ -104,6 +126,8 @@
 		92D69F34238512AE00239DF8 /* AccountCollectionViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountCollectionViewModelType.swift; sourceTree = "<group>"; };
 		92D69F36238512FD00239DF8 /* AccountCollectionViewCellViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountCollectionViewCellViewModelType.swift; sourceTree = "<group>"; };
 		92D69F382385143700239DF8 /* AccountCollectionCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountCollectionCellViewModel.swift; sourceTree = "<group>"; };
+		92E4D01E2387ECC7008F03A9 /* PageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PageViewController.swift; sourceTree = "<group>"; };
+		92E4D01F2387ECC7008F03A9 /* ContentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ContentViewController.swift; path = ../ViewModel/ContentView/ContentViewController.swift; sourceTree = "<group>"; };
 		C30B6677E28FDAC5F9BEF1EA /* Pods-TaxiNotes-TaxiNotesUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TaxiNotes-TaxiNotesUITests.release.xcconfig"; path = "Target Support Files/Pods-TaxiNotes-TaxiNotesUITests/Pods-TaxiNotes-TaxiNotesUITests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -145,6 +169,78 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		9220101523866C89003CFC37 /* Realm */ = {
+			isa = PBXGroup;
+			children = (
+				9262FDCD2367FC85008D5D40 /* StorageManager.swift */,
+				92B9E22D2367F92700F4462F /* DBModel.swift */,
+			);
+			path = Realm;
+			sourceTree = "<group>";
+		};
+		9220101623866C9A003CFC37 /* DefaultClasses */ = {
+			isa = PBXGroup;
+			children = (
+				9262FDCF23681E26008D5D40 /* SceneDelegate.swift */,
+				927CBB6E2366FCE400305F76 /* AppDelegate.swift */,
+			);
+			path = DefaultClasses;
+			sourceTree = "<group>";
+		};
+		9220101723866CC7003CFC37 /* Global */ = {
+			isa = PBXGroup;
+			children = (
+				927CBBE223670CF000305F76 /* GlobalVariables.swift */,
+				92A8C3C62387BA6700004E82 /* Extension.swift */,
+			);
+			path = Global;
+			sourceTree = "<group>";
+		};
+		9220101823866D14003CFC37 /* AccountView */ = {
+			isa = PBXGroup;
+			children = (
+				927CBBA02366FD8B00305F76 /* AccountCollectionCell.swift */,
+			);
+			path = AccountView;
+			sourceTree = "<group>";
+		};
+		9220101923866D2A003CFC37 /* RashodView */ = {
+			isa = PBXGroup;
+			children = (
+				9254046D236F5A8A00E183E3 /* RashodViewCell.swift */,
+			);
+			path = RashodView;
+			sourceTree = "<group>";
+		};
+		9220101A23866D34003CFC37 /* ReportView */ = {
+			isa = PBXGroup;
+			children = (
+				92AB92A92379E22B00F29A31 /* zakazReportCell.swift */,
+				92AB92AB2379E25A00F29A31 /* rashodReportCell.swift */,
+			);
+			path = ReportView;
+			sourceTree = "<group>";
+		};
+		9220101B2386812D003CFC37 /* ReportViewProtocols */ = {
+			isa = PBXGroup;
+			children = (
+				9220101E238683A7003CFC37 /* ReportViewModelType.swift */,
+				9220102023868553003CFC37 /* ReportZakazCellViewModelType.swift */,
+				92201022238685A7003CFC37 /* ReportRashodCellViewModelType.swift */,
+			);
+			path = ReportViewProtocols;
+			sourceTree = "<group>";
+		};
+		9220101D23868247003CFC37 /* ReportView */ = {
+			isa = PBXGroup;
+			children = (
+				92201024238692D2003CFC37 /* ReportViewModel.swift */,
+				92201026238692EB003CFC37 /* ReportZakazCellViewModel.swift */,
+				9220102A2386930B003CFC37 /* ReportRashodCellViewModel.swift */,
+			);
+			path = ReportView;
+			sourceTree = "<group>";
+		};
 		922D7E29236F58510091B2AE /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
@@ -153,6 +249,9 @@
 				925C712E236F4C3600D82923 /* RashodViewController.swift */,
 				925C7130236F4C6C00D82923 /* ReportViewController.swift */,
 				925C7132236F4D4800D82923 /* SettingsViewController.swift */,
+				92E4D01E2387ECC7008F03A9 /* PageViewController.swift */,
+				92E4D01F2387ECC7008F03A9 /* ContentViewController.swift */,
+				9274FF8E238D682C0057B038 /* HelpScreenViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -160,10 +259,9 @@
 		922D7E2A236F591B0091B2AE /* CustomCell */ = {
 			isa = PBXGroup;
 			children = (
-				927CBBA02366FD8B00305F76 /* AccountCollectionCell.swift */,
-				9254046D236F5A8A00E183E3 /* RashodViewCell.swift */,
-				92AB92A92379E22B00F29A31 /* zakazReportCell.swift */,
-				92AB92AB2379E25A00F29A31 /* rashodReportCell.swift */,
+				9220101823866D14003CFC37 /* AccountView */,
+				9220101923866D2A003CFC37 /* RashodView */,
+				9220101A23866D34003CFC37 /* ReportView */,
 			);
 			path = CustomCell;
 			sourceTree = "<group>";
@@ -183,7 +281,7 @@
 		927CBB6C2366FCE400305F76 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				927CBB6B2366FCE400305F76 /* TaxiNotes.app */,
+				927CBB6B2366FCE400305F76 /* Блокнот таксиста.app */,
 				927CBB812366FCE700305F76 /* TaxiNotesTests.xctest */,
 				927CBB8C2366FCE700305F76 /* TaxiNotesUITests.xctest */,
 			);
@@ -196,11 +294,9 @@
 				92D69F332385127800239DF8 /* Protocols */,
 				92D69F2E2385112B00239DF8 /* ViewModel */,
 				922D7E29236F58510091B2AE /* ViewControllers */,
-				9262FDCF23681E26008D5D40 /* SceneDelegate.swift */,
-				927CBBE223670CF000305F76 /* GlobalVariables.swift */,
-				9262FDCD2367FC85008D5D40 /* StorageManager.swift */,
-				92B9E22D2367F92700F4462F /* DBModel.swift */,
-				927CBB6E2366FCE400305F76 /* AppDelegate.swift */,
+				9220101723866CC7003CFC37 /* Global */,
+				9220101523866C89003CFC37 /* Realm */,
+				9220101623866C9A003CFC37 /* DefaultClasses */,
 				922D7E2A236F591B0091B2AE /* CustomCell */,
 				927CBB742366FCE400305F76 /* Main.storyboard */,
 				927CBB772366FCE600305F76 /* Assets.xcassets */,
@@ -226,6 +322,22 @@
 				927CBB922366FCE700305F76 /* Info.plist */,
 			);
 			path = TaxiNotesUITests;
+			sourceTree = "<group>";
+		};
+		9286DFB72387D51C000530EF /* SettingsProtocols */ = {
+			isa = PBXGroup;
+			children = (
+				9286DFB92387DAFA000530EF /* SettingsViewModelType.swift */,
+			);
+			path = SettingsProtocols;
+			sourceTree = "<group>";
+		};
+		9286DFB82387D528000530EF /* SettingsView */ = {
+			isa = PBXGroup;
+			children = (
+				9286DFBB2387DB0A000530EF /* SettingsViewModel.swift */,
+			);
+			path = SettingsView;
 			sourceTree = "<group>";
 		};
 		928BE50B23853AEF00687092 /* AccountView */ = {
@@ -283,6 +395,8 @@
 		92D69F2E2385112B00239DF8 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				9286DFB82387D528000530EF /* SettingsView */,
+				9220101D23868247003CFC37 /* ReportView */,
 				928BE5162385AF7A00687092 /* RashodView */,
 				928BE50C23853AFC00687092 /* SmenaView */,
 				928BE50B23853AEF00687092 /* AccountView */,
@@ -293,6 +407,8 @@
 		92D69F332385127800239DF8 /* Protocols */ = {
 			isa = PBXGroup;
 			children = (
+				9286DFB72387D51C000530EF /* SettingsProtocols */,
+				9220101B2386812D003CFC37 /* ReportViewProtocols */,
 				928BE5132385AF5900687092 /* RashodViewProtocols */,
 				928BE50D23853B8900687092 /* SmenaViewProtocols */,
 				928BE50E23853B9C00687092 /* AccountViewProtocol */,
@@ -332,7 +448,7 @@
 			);
 			name = TaxiNotes;
 			productName = TaxiNotes;
-			productReference = 927CBB6B2366FCE400305F76 /* TaxiNotes.app */;
+			productReference = 927CBB6B2366FCE400305F76 /* Блокнот таксиста.app */;
 			productType = "com.apple.product-type.application";
 		};
 		927CBB802366FCE700305F76 /* TaxiNotesTests */ = {
@@ -560,22 +676,34 @@
 				925C712F236F4C3600D82923 /* RashodViewController.swift in Sources */,
 				928BE51023853BE200687092 /* SmenaViewModeType.swift in Sources */,
 				92D69F37238512FD00239DF8 /* AccountCollectionViewCellViewModelType.swift in Sources */,
+				92A8C3C72387BA6700004E82 /* Extension.swift in Sources */,
+				9286DFBC2387DB0A000530EF /* SettingsViewModel.swift in Sources */,
 				92AB92AC2379E25A00F29A31 /* rashodReportCell.swift in Sources */,
+				92201023238685A7003CFC37 /* ReportRashodCellViewModelType.swift in Sources */,
 				92B9E22E2367F92700F4462F /* DBModel.swift in Sources */,
 				928BE51C2385BA6D00687092 /* RashodCellViewModel.swift in Sources */,
 				9254046E236F5A8A00E183E3 /* RashodViewCell.swift in Sources */,
+				92201025238692D2003CFC37 /* ReportViewModel.swift in Sources */,
+				9220102B2386930B003CFC37 /* ReportRashodCellViewModel.swift in Sources */,
 				928BE51A2385B7DC00687092 /* RashodViewCellViewModelType.swift in Sources */,
 				927CBB6F2366FCE400305F76 /* AppDelegate.swift in Sources */,
 				925C7131236F4C6C00D82923 /* ReportViewController.swift in Sources */,
 				9262FDCE2367FC85008D5D40 /* StorageManager.swift in Sources */,
+				92E4D0212387ECC7008F03A9 /* ContentViewController.swift in Sources */,
 				92AF0963236D7FE0003B99D8 /* SmenaViewController.swift in Sources */,
 				92D69F322385118400239DF8 /* AccountViewModel.swift in Sources */,
+				9286DFBA2387DAFA000530EF /* SettingsViewModelType.swift in Sources */,
+				92201027238692EB003CFC37 /* ReportZakazCellViewModel.swift in Sources */,
 				927CBB9F2366FD4300305F76 /* AccountCollectionController.swift in Sources */,
+				92E4D0202387ECC7008F03A9 /* PageViewController.swift in Sources */,
 				927CBBA12366FD8B00305F76 /* AccountCollectionCell.swift in Sources */,
 				928BE5182385AF8C00687092 /* RashodViewModel.swift in Sources */,
+				9274FF8F238D682C0057B038 /* HelpScreenViewController.swift in Sources */,
+				9220102123868553003CFC37 /* ReportZakazCellViewModelType.swift in Sources */,
 				92D69F35238512AE00239DF8 /* AccountCollectionViewModelType.swift in Sources */,
 				9262FDD023681E26008D5D40 /* SceneDelegate.swift in Sources */,
 				928BE51223853EA000687092 /* SmenaViewModel.swift in Sources */,
+				9220101F238683A7003CFC37 /* ReportViewModelType.swift in Sources */,
 				925C7133236F4D4800D82923 /* SettingsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -754,6 +882,7 @@
 			baseConfigurationReference = 3BE2B2DF7E90764F1D331A6F /* Pods-TaxiNotes.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = AWN3QD4X7Y;
 				INFOPLIST_FILE = TaxiNotes/Info.plist;
@@ -762,7 +891,8 @@
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = denis.TaxiNotes;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "Блокнот таксиста";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -773,6 +903,7 @@
 			baseConfigurationReference = 876A7AF13DE23BC1501EDC9E /* Pods-TaxiNotes.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = AWN3QD4X7Y;
 				INFOPLIST_FILE = TaxiNotes/Info.plist;
@@ -781,7 +912,8 @@
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = denis.TaxiNotes;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "Блокнот таксиста";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

@@ -13,17 +13,19 @@ var accountViewController = AccountCollectionController()
 
 class AccountViewModel: AccountCollectionViewViewModelType {
      
-    private var accountArray: Results<Accounts>!
+    //MARK: Private properties:
+    private var accountArray = realm.objects(Accounts.self).sorted(byKeyPath: "nameAccount")
     private var filteredArray: Results<Accounts>!
     private var arraySmena: Results<Smena>!
-    private var openArraySmena: Results<Smena>!
+    private var openArraySmena = realm.objects(Smena.self).filter("endDateSmena == nil")
     private var selectedIndexPath: IndexPath?
     
+    //MARK: View controller func:
     //Функция получения количества строк
     func numberOfRows() -> Int {
         //let realm = try! Realm()
         accountArray = realm.objects(Accounts.self).sorted(byKeyPath: "nameAccount")
-        return accountArray?.count ?? 0
+        return accountArray.count
     }
     
     //Функция получения ячейки
@@ -46,20 +48,23 @@ class AccountViewModel: AccountCollectionViewViewModelType {
     //Функция получения количества записей
     func getCountAccount() -> Int {
         accountArray = realm.objects(Accounts.self).sorted(byKeyPath: "nameAccount")
-        return accountArray?.count ?? 0
+        return accountArray.count
     }
     
     func closeAllOpenSmena() {
-        openArraySmena = realm.objects(Smena.self).filter("endDateSmena == nil")
-        while 0 < openArraySmena.count {
-            let smena = Smena()
-            smena.idAccount = openArraySmena[0].idAccount
-            smena.startDateSmena = openArraySmena[0].startDateSmena
-            let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "dd.MM.yyyy HH:mm"
-            smena.endDateSmena = dateFormatter.date(from: dateFormatter.string(from: Date()))!
-            smena.id = openArraySmena[0].id
-            StorageManager.saveSmena(smena)
+        DispatchQueue.global(qos: .userInteractive).sync {
+            openArraySmena = realm.objects(Smena.self).filter("endDateSmena == nil")
+            while 0 < openArraySmena.count {
+                let smena = Smena()
+                smena.idAccount = openArraySmena[0].idAccount
+                smena.startDateSmena = openArraySmena[0].startDateSmena
+                let dateFormatter = DateFormatter()
+                dateFormatter.dateFormat = "dd.MM.yyyy HH:mm"
+                smena.endDateSmena = dateFormatter.date(from: dateFormatter.string(from: Date()))!
+                smena.id = openArraySmena[0].id
+                StorageManager.saveSmena(smena)
+            }
+            openArraySmena = realm.objects(Smena.self).filter("endDateSmena == nil")
         }
     }
     
@@ -91,7 +96,7 @@ class AccountViewModel: AccountCollectionViewViewModelType {
             textField2.keyboardType = .decimalPad
             textField2.clearButtonMode = .whileEditing
             if indexPath != nil {
-                textField2.text = String(self.accountArray[indexPath!.row].scoreAccount)
+                textField2.text = String(format: "%.2f", self.accountArray[indexPath!.row].scoreAccount)
             }
             textField2.font = UIFont.boldSystemFont(ofSize: 17.0)
         })
@@ -102,30 +107,31 @@ class AccountViewModel: AccountCollectionViewViewModelType {
             
             //Если первое поле ввода (Наименование учетной записи) не пустое
             let score: String = ((alert.textFields?[1].text!)?.replacingOccurrences(of: ",", with: "."))!
-            
-            if !(alert.textFields?[0].text?.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)! {
-                self.filteredArray = self.accountArray.filter("nameAccount ==[c] %@",alert.textFields?[0].text ?? "")
-                if self.filteredArray.count > 0 && !editMode {
-                    completion(0)
-                } else {
-                    let account = Accounts()
-                    account.nameAccount = (alert.textFields?[0].text)!
-                    account.scoreAccount = Double(score) ?? 0.0
-                    if editMode { account.id = self.accountArray[(indexPath?.row)!].id}
-                    StorageManager.saveAccount(account)
-                    
-                    
-                    let settings = Settings()
+            DispatchQueue.global(qos: .userInteractive).sync {
+                if !(alert.textFields?[0].text?.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)! {
                     self.filteredArray = self.accountArray.filter("nameAccount ==[c] %@",alert.textFields?[0].text ?? "")
-                    settings.idAccount = self.filteredArray.first!.id
-                    StorageManager.saveSettings(settings)
-                    completion(1)
+                    if self.filteredArray.count > 0 && !editMode {
+                        completion(0)
+                    } else {
+                        let account = Accounts()
+                        account.nameAccount = (alert.textFields?[0].text)!
+                        account.scoreAccount = Double(score) ?? 0.0
+                        if editMode { account.id = self.accountArray[(indexPath?.row)!].id}
+                        StorageManager.saveAccount(account)
+                        
+                        
+                        let settings = Settings()
+                        self.filteredArray = self.accountArray.filter("nameAccount ==[c] %@",alert.textFields?[0].text ?? "")
+                        settings.idAccount = self.filteredArray.first!.id
+                        StorageManager.saveSettings(settings)
+                        completion(1)
+                    }
+                } else if (alert.textFields?[0].text?.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)! && indexPath == nil {
+                    completion(3)
                 }
-            } else if (alert.textFields?[0].text?.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)! && indexPath == nil {
-                completion(3)
-            }
-            else {
-                completion(2)
+                else {
+                    completion(2)
+                }
             }
             
         }))
@@ -157,6 +163,22 @@ class AccountViewModel: AccountCollectionViewViewModelType {
             complection()
         }))
         return alert
+    }
+    
+    func gatAccountArray() -> Results<Accounts>! {
+        return accountArray
+    }
+    
+    func getArraySmena() -> Results<Smena>! {
+        return arraySmena
+    }
+    
+    func getOpenArraySmena() -> Results<Smena>! {
+        return openArraySmena
+    }
+    
+    func getOpenArraySmenaForIndexPath(indexPath: IndexPath) -> Results<Smena>! {
+        return realm.objects(Smena.self).filter("endDateSmena == nil and idAccount == %@",accountArray[indexPath.row].id)
     }
     
 }

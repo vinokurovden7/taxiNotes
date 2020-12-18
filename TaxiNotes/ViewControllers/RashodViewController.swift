@@ -7,25 +7,25 @@
 //
 
 import UIKit
-import RealmSwift
 import SwipeCellKit
-
-private var arrayRashod: Results<Rashod>!
 
 
 class RashodViewController: UIViewController {
     
     private var viewModel: RashodViewModelType?
 
+    //MARK: IBOutlets:
     @IBOutlet weak var addRashodBtnItem: UIBarButtonItem!
     @IBOutlet weak var logoutBtn: UIBarButtonItem!
     @IBOutlet weak var addFuelRashodBtnItem: UIBarButtonItem!
     @IBOutlet weak var myTableViewRashod: UITableView!
     
-    var datePicker:UIDatePicker = UIDatePicker()
-    var pickerView = UIPickerView()
+    //MARK: Private properties:
+    private var datePicker:UIDatePicker = UIDatePicker()
+    private var pickerView = UIPickerView()
     private var arrayBarButtons: [UIBarButtonItem] = []
     
+    //MARK: View controller func:
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -40,8 +40,6 @@ class RashodViewController: UIViewController {
         datePicker.addTarget(self, action: #selector(RashodViewController.dateChanged(datePicker:)), for: .valueChanged)
         //Настройка компонента Picker
         pickerView.delegate = self
-        
-        arrayRashod = realm.objects(Rashod.self).filter("idAccount == %@",Variables.sharedVariables.idAccount).sorted(byKeyPath: "dateRashod")
         navigationItem.title = Variables.sharedVariables.currentAccountName
         
     }
@@ -108,6 +106,10 @@ class RashodViewController: UIViewController {
 
 extension RashodViewController: UITableViewDelegate, UITableViewDataSource, SwipeTableViewCellDelegate {
 
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
+    
     //Настройка свайпов по ячейке
     func tableView(_ tableView: UITableView, editActionsOptionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> SwipeOptions {
         var options = SwipeOptions()
@@ -133,7 +135,6 @@ extension RashodViewController: UITableViewDelegate, UITableViewDataSource, Swip
             editRashod.font = UIFont.boldSystemFont(ofSize: 10.0)
 
             let deleteRashod = SwipeAction(style: .destructive, title: "Удалить", handler: {(action, indexPath) -> Void in
-
                 self.present((self.viewModel?.addDeleteRashodAlert(indexPath: indexPath, complection: {
                     self.myTableViewRashod.deleteRows(at: [indexPath], with: .middle)
                 }))!, animated: true, completion: nil)
@@ -163,22 +164,21 @@ extension RashodViewController: UITableViewDelegate, UITableViewDataSource, Swip
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return arrayRashod.count
+        guard let viewModel = viewModel else {return 0}
+        return viewModel.getCountRashod()
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "rashodCell") as! RashodViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "rashodCell") as? RashodViewCell
 
-        cell.delegate = self
+        cell!.delegate = self
+        
+        guard let tableViewCell = cell, let viewModel = viewModel else { return UITableViewCell() }
+               
+        let cellViewModel = viewModel.cellViewModel(forIndexPath: indexPath)
+        tableViewCell.viewModel = cellViewModel
 
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "dd.MM.yyyy HH:mm"
-
-        cell.dateRashodLabel.text = dateFormatter.string(from: arrayRashod[indexPath.row].dateRashod)
-        cell.nameRashodLabel.text = arrayRashod[indexPath.row].nameRashod
-        cell.summRashodLabel.text = "\(arrayRashod[indexPath.row].summRashod) ₽"
-
-        return cell
+        return tableViewCell
     }
 
     func tableView(_ tableView: UITableView, contextMenuConfigurationForRowAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {

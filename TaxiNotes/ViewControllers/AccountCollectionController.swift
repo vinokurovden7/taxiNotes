@@ -7,38 +7,36 @@
 //
 
 import UIKit
-import RealmSwift
 
 let reuseIdentifier = "AccountNameCell"
-private var accountArray: Results<Accounts>!
-private var filteredArray: Results<Accounts>!
-private var arraySmena: Results<Smena>!
-private var openArraySmena: Results<Smena>!
-
 
 class AccountCollectionController: UICollectionViewController{
+    
+    //MARK: IBOutlents:
     @IBOutlet var myCollectionView: UICollectionView!
     @IBOutlet weak var addAccountBtn: UIBarButtonItem!
     @IBOutlet weak var closeAllOpenSmenaBtn: UIBarButtonItem!
     
+    //MARK: Private properties:
     private var viewModel: AccountCollectionViewViewModelType?
-    
     private var yellowColor = UIColor(displayP3Red: 255/255, green: 250/255, blue: 139/255, alpha: 255/255)
     private var arrayBarButtons: [UIBarButtonItem] = []
     
+    //MARK: View controller func:
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        if Variables.sharedVariables.showPresentation {
+            startPresentation()
+        }
         
         viewModel = AccountViewModel()
         
         arrayBarButtons.append(addAccountBtn)
         arrayBarButtons.append(closeAllOpenSmenaBtn)
-        accountArray = realm.objects(Accounts.self).sorted(byKeyPath: "nameAccount")
         Variables.sharedVariables.changeThemeCollectionViewControlle(viewController: self, arrayBarButtons: arrayBarButtons)
         
-        openArraySmena = realm.objects(Smena.self).filter("endDateSmena == nil")
-        
-        if openArraySmena.count <= 0 {
+        if self.viewModel!.getOpenArraySmena().count <= 0 {
             closeAllOpenSmenaBtn.isEnabled = false
         } else {
             closeAllOpenSmenaBtn.isEnabled = true
@@ -57,9 +55,7 @@ class AccountCollectionController: UICollectionViewController{
         myCollectionView.reloadData()
         Variables.sharedVariables.changeThemeCollectionViewControlle(viewController: self, arrayBarButtons: arrayBarButtons)
         
-        openArraySmena = realm.objects(Smena.self).filter("endDateSmena == nil")
-        
-        if openArraySmena.count <= 0 {
+        if self.viewModel!.getOpenArraySmena().count <= 0 {
             closeAllOpenSmenaBtn.isEnabled = false
         } else {
             closeAllOpenSmenaBtn.isEnabled = true
@@ -77,9 +73,7 @@ class AccountCollectionController: UICollectionViewController{
         viewModel?.closeAllOpenSmena()
         myCollectionView.reloadData()
         
-        openArraySmena = realm.objects(Smena.self).filter("endDateSmena == nil")
-        
-        if openArraySmena.count <= 0 {
+        if self.viewModel!.getOpenArraySmena().count <= 0 {
             closeAllOpenSmenaBtn.isEnabled = false
         } else {
             closeAllOpenSmenaBtn.isEnabled = true
@@ -118,10 +112,23 @@ class AccountCollectionController: UICollectionViewController{
         }
     }
     
+    func startPresentation(){
+        let userDefaults = UserDefaults.standard
+        let presentationWasViewed = userDefaults.bool(forKey: "presentationWasViewed")
+        
+        if presentationWasViewed == false {
+            if let pageViewController = storyboard?.instantiateViewController(withIdentifier: "PageViewController") as? PageViewController {
+                present(pageViewController, animated: true, completion: nil)
+            }
+        }
+        Variables.sharedVariables.showPresentation = false
+    }
+    
 }
 
 //Расширение для работы с CollectionView
 extension AccountCollectionController {
+    
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         guard let viewModel = viewModel else {return 0}
         return viewModel.numberOfRows()
@@ -134,14 +141,15 @@ extension AccountCollectionController {
         
         let cellViewModel = viewModel.cellViewModel(forIndexPath: indexPath)
         tableViewCell.viewModel = cellViewModel
-
-        arraySmena = realm.objects(Smena.self).filter("endDateSmena == nil and idAccount == %@",accountArray[indexPath.row].id)
-        if arraySmena.count > 0 {
-            cell!.startSmenaIndicatior.isHidden = false
+        
+        let arraySmena = self.viewModel!.getOpenArraySmenaForIndexPath(indexPath: indexPath)
+        if arraySmena?.count ?? 0 > 0 {
+            tableViewCell.startSmenaIndicatior.isHidden = false
         } else {
-            cell!.startSmenaIndicatior.isHidden = true
+            tableViewCell.startSmenaIndicatior.isHidden = true
         }
-        return cell!
+
+        return tableViewCell
     }
     
     override func collectionView(_ collectionView: UICollectionView, contextMenuConfigurationForItemAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
@@ -151,6 +159,11 @@ extension AccountCollectionController {
             let deleteAction = UIAction(title: "Удалить", image: UIImage(systemName: "trash"), identifier: nil, attributes: .destructive) { action in
                 self.present((self.viewModel?.addDeleteAccountAlert(indexPath: indexPath, completion: {
                     self.myCollectionView.deleteItems(at: [indexPath])
+                    if self.viewModel!.getOpenArraySmena().count <= 0 {
+                        self.closeAllOpenSmenaBtn.isEnabled = false
+                    } else {
+                        self.closeAllOpenSmenaBtn.isEnabled = true
+                    }
                 }))!, animated: true, completion: nil)
             }
             
@@ -170,9 +183,9 @@ extension AccountCollectionController {
         guard let viewModel = viewModel else {return}
         viewModel.selectRow(atIndexPath: indexPath)
         
-        Variables.sharedVariables.currentAccountName = accountArray[indexPath.row].nameAccount
-        Variables.sharedVariables.scoreAccount = Double(accountArray[indexPath.row].scoreAccount)
-        Variables.sharedVariables.idAccount = accountArray[indexPath.row].id
+        Variables.sharedVariables.currentAccountName = self.viewModel!.gatAccountArray()[indexPath.row].nameAccount
+        Variables.sharedVariables.scoreAccount = Double(self.viewModel!.gatAccountArray()[indexPath.row].scoreAccount)
+        Variables.sharedVariables.idAccount = self.viewModel!.gatAccountArray()[indexPath.row].id
         
         DispatchQueue.main.async(){
             self.performSegue(withIdentifier: "mainScreen", sender: self)

@@ -7,49 +7,48 @@
 //
 
 import UIKit
-import RealmSwift
 
 class SettingsViewController: UIViewController {
     
-    private var settingsArray: Results<Settings>!
-    
     //BarItem
     @IBOutlet weak var logoutBtn: UIBarButtonItem!
-    
     //TextView
     @IBOutlet weak var summSpisan: UITextField!
     @IBOutlet weak var percentSpisan: UITextField!
-    
     //Swiches
     @IBOutlet weak var beznalSwitch: UISwitch!
     @IBOutlet weak var zakazSwitch: UISwitch!
     @IBOutlet weak var zakazPercentSwitch: UISwitch!
     @IBOutlet weak var wheelSwitch: UISwitch!
-    
+    @IBOutlet weak var beznalInDohod: UISwitch!
     //Segmented
     @IBOutlet weak var themeSwitch: UISegmentedControl!
     
     private var arrayBarButtons: [UIBarButtonItem] = []
+    private var viewModel: SettingsViewModelType?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        settingsArray = realm.objects(Settings.self).filter("idAccount == %@",Variables.sharedVariables.idAccount)
+        viewModel = SettingsViewModel()
         
         summSpisan.addTarget(self, action: #selector(saveSetting(_:)), for: .editingDidEnd)
         summSpisan.addTarget(self, action: #selector(replaseChar(_:)), for: .editingChanged)
         percentSpisan.addTarget(self, action: #selector(saveSetting(_:)), for: .editingDidEnd)
         
-        let summZakaz = settingsArray.first!.summZakaz
-        let percentZakaz = settingsArray.first!.percentZakaz
+        let summZakaz = self.viewModel!.getSettingsArray().first!.summZakaz
+        let percentZakaz = self.viewModel!.getSettingsArray().first!.percentZakaz
         
         summSpisan.text = "\(summZakaz)"
         percentSpisan.text = "\(percentZakaz)"
         
-        beznalSwitch.setOn(settingsArray.first!.enabledButtonBeznal, animated: true)
-        zakazSwitch.setOn(settingsArray.first!.enabledButtonZakaz, animated: true)
-        zakazPercentSwitch.setOn(settingsArray.first!.enabledButtonPercentZakaz, animated: true)
-        wheelSwitch.setOn(settingsArray.first!.enabledButtonWheel, animated: true)
+        DispatchQueue.main.async {
+            self.beznalSwitch.setOn(self.viewModel!.getSettingsArray().first!.enabledButtonBeznal, animated: true)
+            self.zakazSwitch.setOn(self.viewModel!.getSettingsArray().first!.enabledButtonZakaz, animated: true)
+            self.zakazPercentSwitch.setOn(self.viewModel!.getSettingsArray().first!.enabledButtonPercentZakaz, animated: true)
+            self.wheelSwitch.setOn(self.viewModel!.getSettingsArray().first!.enabledButtonWheel, animated: true)
+            self.beznalInDohod.setOn(self.viewModel!.getSettingsArray().first!.beznalInDohod, animated: true)
+        }
         
         arrayBarButtons.append(logoutBtn)
         Variables.sharedVariables.changeThemeViewController(viewController: self, arrayBarButtons: arrayBarButtons)
@@ -98,20 +97,17 @@ class SettingsViewController: UIViewController {
     }
     
     func saveSettings(){
-        let localSetting = Settings()
-        localSetting.enabledButtonBeznal = beznalSwitch.isOn
-        localSetting.enabledButtonWheel = wheelSwitch.isOn
-        localSetting.enabledButtonZakaz = zakazSwitch.isOn
-        localSetting.enabledButtonPercentZakaz = zakazPercentSwitch.isOn
-        localSetting.id = settingsArray.first!.id
-        localSetting.idAccount = Variables.sharedVariables.idAccount
-        localSetting.percentZakaz = Int(percentSpisan.text ?? "0") ?? 0
-        localSetting.summZakaz = Double(summSpisan.text ?? "0.0") ?? 0.0
-        StorageManager.saveSettings(localSetting)
+        self.viewModel?.saveSettings(beznalSwitch: beznalSwitch.isOn, wheelSwitch: wheelSwitch.isOn, zakazSwitch: zakazSwitch.isOn, zakazPercentSwitch: zakazPercentSwitch.isOn, percentSpisan: Int(percentSpisan.text ?? "0") ?? 0, summSpisan: Double(summSpisan.text ?? "0.0") ?? 0.0, beznalInDohod: beznalInDohod.isOn)
     }
     
     //Нажите на любое пустое место на экране
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
+    }
+    @IBAction func helpStoimZakaz(_ sender: UIButton) {
+        Variables.sharedVariables.typeBtn = 0
+    }
+    @IBAction func helpPercentZakaz(_ sender: UIButton) {
+        Variables.sharedVariables.typeBtn = 1
     }
 }

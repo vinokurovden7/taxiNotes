@@ -15,7 +15,7 @@ class AccountCollectionViewCellViewModel: AccountCollectionViewCellViewModelType
         return account.nameAccount
     }
     var scoreAccountLabel: Double {
-        return account.scoreAccount
+        return Double(String(format: "%.2f", account.scoreAccount))!
     }
     
     init(account: Accounts) {

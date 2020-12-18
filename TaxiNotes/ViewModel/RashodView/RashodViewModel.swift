@@ -13,15 +13,14 @@ var rashodVC: RashodViewController?
 
 class RashodViewModel: RashodViewModelType {
     
+    //MARK: Private properties:
     private var selectedIndexPath: IndexPath?
-    var pickOption = ["Бензин", "Дизель", "Газ"]
-    
+    private var pickOption = ["Бензин", "Дизель", "Газ"]
     private var globalAlert = UIAlertController()
+    private var rashodVC = RashodViewController()
+    private var arrayRashod = realm.objects(Rashod.self).filter("idAccount == %@",Variables.sharedVariables.idAccount).sorted(byKeyPath: "dateRashod")
     
-    var rashodVC = RashodViewController()
-    
-    var arrayRashod = realm.objects(Rashod.self).filter("idAccount == %@",Variables.sharedVariables.idAccount).sorted(byKeyPath: "dateRashod")
-    
+    //MARK: View Controller func:
     func alertAddRashod(editMode: Bool, indexPath: IndexPath?, nameRashod: String?, datePicker: UIDatePicker, pickerView: UIPickerView, complection: @escaping (Int) -> ()) -> UIAlertController {
         
         //Показать алерт добавления новой учетной записи
@@ -54,7 +53,7 @@ class RashodViewModel: RashodViewModelType {
             textField2.keyboardType = .decimalPad
             textField2.clearButtonMode = .whileEditing
             if indexPath != nil {
-                textField2.text = String(self.arrayRashod[indexPath!.row].summRashod)
+                textField2.text = String(format: "%.2f", self.arrayRashod[indexPath!.row].summRashod)
             }
             if nameRashod != nil{
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.03) {
@@ -88,28 +87,29 @@ class RashodViewModel: RashodViewModelType {
             
             //Если первое поле ввода (Наименование учетной записи) не пустое
             let score: String = ((alert.textFields?[1].text!)?.replacingOccurrences(of: ",", with: "."))!
-            if !(alert.textFields?[0].text?.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)! {
-                
-                let rashod = Rashod()
-                rashod.nameRashod = (alert.textFields?[0].text)!
-                rashod.summRashod = Double(score) ?? 0.0
-                rashod.idAccount = Variables.sharedVariables.idAccount
-                if editMode {
-                    rashod.id = self.arrayRashod[(indexPath?.row)!].id
-                    if !(alert.textFields?[2].text?.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)! {
-                        rashod.dateRashod = datePicker.date
-                        rashod.clearDateRashod = Variables.sharedVariables.reomveTimeFrom(date: datePicker.date)
-                    } else {
-                        rashod.dateRashod = self.arrayRashod[(indexPath?.row)!].dateRashod
-                        rashod.clearDateRashod = Variables.sharedVariables.reomveTimeFrom(date: self.arrayRashod[(indexPath?.row)!].dateRashod)
+            DispatchQueue.global(qos: .userInteractive).sync {
+                if !(alert.textFields?[0].text?.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)! {
+                    
+                    let rashod = Rashod()
+                    rashod.nameRashod = (alert.textFields?[0].text)!
+                    rashod.summRashod = Double(score) ?? 0.0
+                    rashod.idAccount = Variables.sharedVariables.idAccount
+                    if editMode {
+                        rashod.id = self.arrayRashod[(indexPath?.row)!].id
+                        if !(alert.textFields?[2].text?.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)! {
+                            rashod.dateRashod = datePicker.date
+                            rashod.clearDateRashod = Variables.sharedVariables.reomveTimeFrom(date: datePicker.date)
+                        } else {
+                            rashod.dateRashod = self.arrayRashod[(indexPath?.row)!].dateRashod
+                            rashod.clearDateRashod = Variables.sharedVariables.reomveTimeFrom(date: self.arrayRashod[(indexPath?.row)!].dateRashod)
+                        }
                     }
+                    StorageManager.saveRashod(rashod)
+                    complection(0)
+                } else {
+                    complection(1)
                 }
-                StorageManager.saveRashod(rashod)
-                complection(0)                
-            } else {
-                complection(1)
             }
-            
         }))
         
         alert.addAction(UIAlertAction(title: "Отмена", style: .destructive, handler: nil))
@@ -140,15 +140,17 @@ class RashodViewModel: RashodViewModelType {
     }
     
     func cloneRashod(indexPath: IndexPath, complection: @escaping () -> ()) {
-        arrayRashod = realm.objects(Rashod.self).filter("idAccount == %@",Variables.sharedVariables.idAccount).sorted(byKeyPath: "dateRashod")
-        let rashod = Rashod()
-        rashod.nameRashod = arrayRashod[indexPath.row].nameRashod
-        rashod.summRashod = arrayRashod[indexPath.row].summRashod
-        rashod.idAccount = arrayRashod[indexPath.row].idAccount
-        rashod.dateRashod = arrayRashod[indexPath.row].dateRashod
-        rashod.clearDateRashod = Variables.sharedVariables.reomveTimeFrom(date: arrayRashod[indexPath.row].dateRashod)
-        StorageManager.saveRashod(rashod)
-        complection()
+        DispatchQueue.global(qos: .userInitiated).sync {
+            arrayRashod = realm.objects(Rashod.self).filter("idAccount == %@",Variables.sharedVariables.idAccount).sorted(byKeyPath: "dateRashod")
+            let rashod = Rashod()
+            rashod.nameRashod = arrayRashod[indexPath.row].nameRashod
+            rashod.summRashod = arrayRashod[indexPath.row].summRashod
+            rashod.idAccount = arrayRashod[indexPath.row].idAccount
+            rashod.dateRashod = arrayRashod[indexPath.row].dateRashod
+            rashod.clearDateRashod = Variables.sharedVariables.reomveTimeFrom(date: arrayRashod[indexPath.row].dateRashod)
+            StorageManager.saveRashod(rashod)
+            complection()
+        }
     }
     
     func numberOfRows() -> Int {
